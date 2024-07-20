@@ -9,7 +9,7 @@ some topics that can help you to get started:
 ## Bugs and features
 
 Whether it's a bug report or feature request, you're welcome to raise an
-**[issue](https://github.com/marcelo-ochoa/daytona-docker-extension/issues)** using the respective
+**[issue](https://github.com/daytonaio/daytona-docker-extension/issues)** using the respective
 template.
 
 We aim to respond to your issues and questions soonest. If you wish to receive a
@@ -20,7 +20,7 @@ it.
 
 ## Environment setup
 
-- Fork [this](https://github.com/marcelo-ochoa/daytona-docker-extension.git) repository.
+- Fork [this](https://github.com/daytonaio/daytona-docker-extension.git) repository.
 - Clone your forked copy of the project to a local environment.
 - Always merge commits from the upstream repository to your master branch to keep it updated.
  use

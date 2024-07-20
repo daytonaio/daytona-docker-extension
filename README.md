@@ -86,4 +86,4 @@ Extension "Daytona client tool" uninstalled successfully
 
 ## Source Code
 
-As usual the code of this extension is at [GitHub](https://github.com/marcelo-ochoa/daytona-docker-extension), feel free to suggest changes and make contributions, note that I am a beginner developer of React and TypeScript so contributions to make this UI better are welcome.
+As usual the code of this extension is at [GitHub](https://github.com/daytonaio/daytona-docker-extension), feel free to suggest changes and make contributions, note that I am a beginner developer of React and TypeScript so contributions to make this UI better are welcome.
