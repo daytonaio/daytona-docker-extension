@@ -32,18 +32,18 @@ RUN apk update && apk add --no-cache curl openssh-client ncurses bash ttyd tini 
 
 LABEL org.opencontainers.image.title="Daytona client tool"
 LABEL org.opencontainers.image.description="Docker Extension for using an embedded version of Daytona client/server tools."
-LABEL org.opencontainers.image.vendor="Marcelo Ochoa"
+LABEL org.opencontainers.image.vendor="Daytona"
 LABEL com.docker.desktop.extension.api.version=">= 0.2.3"
 LABEL com.docker.extension.categories="database,utility-tools"
-LABEL com.docker.extension.screenshots="[{\"alt\":\"Sample usage using scott user\", \"url\":\"https://raw.githubusercontent.com/daytonaio/daytona-docker-extension/main/docs/images/screenshot2.png\"},\
-    {\"alt\":\"Some formating options\", \"url\":\"https://raw.githubusercontent.com/daytonaio/daytona-docker-extension/main/docs/images/screenshot3.png\"},\
-    {\"alt\":\"Explain Plan\", \"url\":\"https://raw.githubusercontent.com/daytonaio/daytona-docker-extension/main/docs/images/screenshot4.png\"}]"
-LABEL com.docker.extension.publisher-url="https://github.com/daytonaio/daytona-docker-extension"
-LABEL com.docker.extension.additional-urls="[{\"title\":\"Documentation\",\"url\":\"https://github.com/daytonaio/daytona-docker-extension/blob/main/README.md\"},\
-    {\"title\":\"License\",\"url\":\"https://github.com/daytonaio/daytona-docker-extension/blob/main/LICENSE\"}]"
+LABEL com.docker.extension.screenshots="[{\"alt\":\"Sample usage using scott user\", \"url\":\"https://raw.githubusercontent.com/marcelo-ochoa/daytona-docker-extension/main/docs/images/screenshot2.png\"},\
+    {\"alt\":\"Some formating options\", \"url\":\"https://raw.githubusercontent.com/marcelo-ochoa/daytona-docker-extension/main/docs/images/screenshot3.png\"},\
+    {\"alt\":\"Explain Plan\", \"url\":\"https://raw.githubusercontent.com/marcelo-ochoa/daytona-docker-extension/main/docs/images/screenshot4.png\"}]"
+LABEL com.docker.extension.publisher-url="https://github.com/marcelo-ochoa/daytona-docker-extension"
+LABEL com.docker.extension.additional-urls="[{\"title\":\"Documentation\",\"url\":\"https://github.com/marcelo-ochoa/daytona-docker-extension/blob/main/README.md\"},\
+    {\"title\":\"License\",\"url\":\"https://github.com/marcelo-ochoa/daytona-docker-extension/blob/main/LICENSE\"}]"
 LABEL com.docker.extension.detailed-description="Docker Extension for using Daytona client tool"
-LABEL com.docker.extension.changelog="See full <a href=\"https://github.com/daytonaio/daytona-docker-extension/blob/main/CHANGELOG.md\">change log</a>"
-LABEL com.docker.desktop.extension.icon="https://raw.githubusercontent.com/daytonaio/daytona-docker-extension/main/client/public/favicon.ico"
+LABEL com.docker.extension.changelog="See full <a href=\"https://github.com/marcelo-ochoa/daytona-docker-extension/blob/main/CHANGELOG.md\">change log</a>"
+LABEL com.docker.desktop.extension.icon="https://raw.githubusercontent.com/marcelo-ochoa/daytona-docker-extension/main/client/public/favicon.ico"
 LABEL com.docker.extension.detailed-description="Daytona is a self-hosted and secure open source development environment manager."
 COPY daytona.svg metadata.json docker-compose.yml /
 
