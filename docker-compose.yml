@@ -9,14 +9,12 @@ services:
       - 3987:3987
       - 57681:7681
     volumes:
-      - daytona_home:$HOME/daytona
-      - $HOME/daytona/.config/daytona/server/build:$HOME/daytona/.config/daytona/server/build:consistent
-      - $HOME/daytona/.config/daytona/server/registry:$HOME/daytona/.config/daytona/server/registry:consistent
-      - $HOME/daytona/.config/daytona/providers:$HOME/daytona/.config/daytona/providers:consistent
+      - $HOME/daytona:$HOME/daytona
+      - headscale:$HOME/daytona/.config/daytona/server/headscale
       - /var/run/docker.sock.raw:/var/run/docker.sock
     environment:
       - LOG_LEVEL=debug
       - HOME=$HOME/daytona
 
 volumes:
-  daytona_home:
+  headscale:
