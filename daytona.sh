@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the URL to check
-url="http://localhost:3986/health"
+url="http://backend:3986/health"
 
 # Set the maximum number of retries (optional, default 10)
 retries=${1:-10}

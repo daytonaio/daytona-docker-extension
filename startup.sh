@@ -1,6 +1,4 @@
 #!/bin/bash
-export TERM=ansi
-export PS1="\e[0;32m[\h \W]\$ \e[m "
 sed -i "s|/home/daytona:|$HOME:|g" /etc/passwd
 mkdir -p "$HOME/.ssh"
 chmod go-rwx "$HOME/.ssh"
@@ -14,4 +12,4 @@ echo "cd $HOME" >> $HOME/.bashrc
 echo "daytona whoami" >> $HOME/.bashrc
 chown -R 1000:1000 "$HOME"
 chown 1000 /var/run/docker.sock
-sudo -u daytona -i daytona serve > /tmp/serve.out 2> /tmp/serve.log &
+sudo -u daytona -i daytona serve > /tmp/serve.out 2> /tmp/serve.log

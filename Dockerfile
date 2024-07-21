@@ -25,10 +25,24 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 
 FROM alpine:3.15
 ARG DAYTONA_SERVER_VERSION
+ENV HOME=/home/daytona
+ENV TERM=ansi
+ENV PS1="\e[0;32m[\h \W]\$ \e[m "
 RUN apk update && apk add --no-cache curl openssh-client ncurses bash ttyd tini sudo bash-completion && \
     (curl -sf -L https://download.daytona.io/daytona/install.sh | bash) && \
-    echo "daytona:x:1000:1000:Daytona:/home/daytona:/bin/bash" >> /etc/passwd && \
-    echo "daytona:x:1000:" >> /etc/group
+    echo "daytona:x:1000:1000:Daytona:$HOME:/bin/bash" >> /etc/passwd && \
+    echo "daytona:x:1000:" >> /etc/group && \
+    mkdir $HOME && \
+    mkdir -p "$HOME/.ssh" && \
+    chmod go-rwx "$HOME/.ssh" && \
+    daytona autocomplete bash && \
+    echo "source /etc/profile.d/bash_completion.sh" > $HOME/.bashrc && \
+    echo "source $HOME/.daytona.completion_script.bash" >> $HOME/.bashrc && \
+    echo "export TERM=$TERM" >> $HOME/.bashrc && \
+    echo "export PS1=\"$PS1\"" >> $HOME/.bashrc && \
+    echo "cd $HOME" >> $HOME/.bashrc && \
+    echo "daytona whoami" >> $HOME/.bashrc  && \
+    chown -R 1000:1000 $HOME
 
 LABEL org.opencontainers.image.title="Daytona client tool"
 LABEL org.opencontainers.image.description="Docker Extension for using an embedded version of Daytona client/server tools."
@@ -50,5 +64,8 @@ COPY daytona.svg metadata.json docker-compose.yml /
 COPY --from=client-builder /app/client/dist /ui
 COPY --from=builder /backend/bin/service /
 COPY --chown=1000:1000 startup.sh daytona.sh /sbin/
+
+WORKDIR /home/daytona
+VOLUME [ "/home/daytona" ]
 
 ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/daytona-docker-extension.sock"]

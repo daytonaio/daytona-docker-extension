@@ -44,6 +44,25 @@ By clicking at Daytona icon the extension main window will display a progress ba
 
 ![Daytona CLI Welcome Page](docs/images/screenshot2.png?raw=true)
 
+## First login
+
+Daytona Server is running in a separate container from Docker Extension UI, you should have to setup a default profile to connect the backend, use:
+
+```bash
+$ docker exec -ti daytona_embedded_dd_vm cat $HOME/daytona/.config/daytona/config.json | jq .profiles -c
+[{"id":"default","name":"default","api":{"url":"http://localhost:3986","key":"OGI0MmQyODctODJiMS00Yzk3LTg3OWEtYTA1MDFiODhjZjY2"}}]
+```
+
+With above output using you Extension Pane put:
+
+```bash
+[daytona-docker-extension ~]$  daytona profile add -n default -a http://backend:3986 -k OGI0MmQyODctODJiMS00Yzk3LTg3OWEtYTA1MDFiODhjZjY2
+Profile default added and set as active
+Server URL: http://backend:3986
+```
+
+**Note** that We replaced locahost by backend and the key is extracted from output of the first command executed on backend container.
+
 ## Daytona Server logs
 
 Using CLI Pane is posible to see Daytona Serrver logs using:
@@ -80,6 +99,7 @@ To uninstall the extension just execute:
 ```bash
 $ docker extension uninstall daytonaio/daytona-docker-extension:0.22.1
 Extension "Daytona client tool" uninstalled successfully
+rm -rf  $HOME/daytona/
 ```
 
 ## Source Code
