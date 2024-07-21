@@ -2,6 +2,9 @@ version: "3"
 
 services:
   daytona-docker-extension:
+    environment:
+      - LOG_LEVEL=debug
+      - HOME=$HOME/daytona
     image: ${DESKTOP_PLUGIN_IMAGE}
     hostname: daytona-docker-extension
     ports:
@@ -12,9 +15,6 @@ services:
       - $HOME/daytona:$HOME/daytona
       - headscale:$HOME/daytona/.config/daytona/server/headscale
       - /var/run/docker.sock.raw:/var/run/docker.sock
-    environment:
-      - LOG_LEVEL=debug
-      - HOME=$HOME/daytona
 
 volumes:
   headscale:

@@ -11,9 +11,7 @@ Please execute using command line:
 
 ```bash
 rm -rf $HOME/daytona/
-mkdir -p $HOME/daytona/.config/daytona/server/build
-mkdir $HOME/daytona/.config/daytona/server/registry
-mkdir -p $HOME/daytona/.config/daytona/providers
+mkdir -p $HOME/daytona/
 chown -R "$UID:$GID" $HOME/daytona/
 ```
 
