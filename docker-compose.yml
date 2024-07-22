@@ -4,29 +4,17 @@ services:
   daytona-docker-extension:
     environment:
       - LOG_LEVEL=debug
-      - HOME=/home/daytona
+      - HOME=$HOME/daytona
     image: ${DESKTOP_PLUGIN_IMAGE}
     hostname: daytona-docker-extension
     ports:
-      - 57681:7681
-    volumes:
-      - daytona_home:/home/daytona
-
-  backend:
-    container_name: daytona_embedded_dd_vm
-    entrypoint: /sbin/startup.sh
-    environment:
-      - LOG_LEVEL=debug
-      - HOME=$HOME/daytona
-    image: ${DESKTOP_PLUGIN_IMAGE}
-    hostname: daytona-docker-backend
-    ports:
       - 3986:3986
       - 3987:3987
+      - 57681:7681
     volumes:
       - $HOME/daytona:$HOME/daytona
       - headscale:$HOME/daytona/.config/daytona/server/headscale
       - /var/run/docker.sock.raw:/var/run/docker.sock
+
 volumes:
   headscale:
-  daytona_home:

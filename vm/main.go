@@ -96,6 +96,7 @@ func (t Theme) String() string {
 
 type TTYD struct {
 	process *os.Process
+	serve *os.Process
 }
 
 func (t *TTYD) Start(theme Theme) error {
@@ -104,6 +105,16 @@ func (t *TTYD) Start(theme Theme) error {
 			log.Printf("failed to stop ttyd: %s\n", err)
 		}
 		globaltheme = theme
+	}
+	if !t.IsServed() {
+	
+		cmd := exec.Command("/sbin/startup.sh")
+		if err := cmd.Start(); err != nil {
+			return err
+		}
+	
+		t.serve = cmd.Process
+		log.Println("started daytona serve...")
 	}
 	if !t.IsStarted() {
 		args := []string{"-W", "-u", "1000", "-g", "1000", "-t", "titleFixed='daytona'"}
@@ -135,6 +146,16 @@ func (t *TTYD) Stop() error {
 	t.process.Wait()
     t.process = nil
 
+	if !t.IsServed() {
+		return nil
+	}
+
+	if err := t.serve.Kill(); err != nil {
+		log.Printf("failed to stop serve: %s\n", err)
+		return err
+	}
+	t.serve.Wait()
+    t.serve = nil
 	return nil
 }
 
@@ -142,12 +163,32 @@ func (t TTYD) IsStarted() bool {
 	return t.process != nil
 }
 
+func (t TTYD) IsServed() bool {
+	return t.serve != nil
+}
+
 func (t *TTYD) IsRunning() bool {
 	if !t.IsStarted() {
 		return false
 	}
 
-	url := "http://backend:3986/health" // "daytona" is the name of the service defined in docker-compose.yml
+	url := "http://localhost:3986/health" // "daytona" is the name of the service defined in docker-compose.yml
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return false
+
+	}
+
+	return resp.StatusCode == http.StatusOK
+}
+
+func (t *TTYD) IsDaemon() bool {
+	if !t.IsServed() {
+		return false
+	}
+
+	url := "http://localhost:3986/health" // "daytona" is the name of the service defined in docker-compose.yml
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Println(err)
