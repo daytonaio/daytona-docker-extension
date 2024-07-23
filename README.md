@@ -10,9 +10,9 @@ Also Docker Desktop needs access to the base directory, please check Settings->R
 Please execute using command line:
 
 ```bash
-rm -rf $HOME/daytona/
-mkdir -p $HOME/daytona/
-chown -R "$UID:$GID" $HOME/daytona/
+sudo rm -rf /Users/Shared/daytona
+sudo mkdir -p /Users/Shared/daytona
+sudo chown -R "$(id -u):$(id -g)" /Users/Shared/daytona
 ```
 
 ## Manual Installation
