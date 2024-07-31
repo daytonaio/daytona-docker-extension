@@ -28,7 +28,8 @@ ARG DAYTONA_SERVER_VERSION
 RUN apk update && apk add --no-cache curl openssh-client ncurses bash ttyd tini sudo bash-completion && \
     (curl -sf -L https://download.daytona.io/daytona/install.sh | bash) && \
     echo "daytona:x:1000:1000:Daytona:/home/daytona:/bin/bash" >> /etc/passwd && \
-    echo "daytona:x:1000:" >> /etc/group
+    echo "daytona:x:1000:" >> /etc/group && \
+    mkdir -p /home/daytona && chown 1000:1000 /home/daytona
 
 LABEL org.opencontainers.image.title="Daytona client tool"
 LABEL org.opencontainers.image.description="Docker Extension for using an embedded version of Daytona client/server tools."

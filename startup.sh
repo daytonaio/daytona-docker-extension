@@ -7,7 +7,7 @@ chmod go-rwx "$HOME/.ssh"
 daytona autocomplete bash
 echo "source /etc/profile.d/bash_completion.sh" > $HOME/.bashrc
 echo "source $HOME/.daytona.completion_script.bash" >> $HOME/.bashrc
-echo "export TERM=$TERM" >> $HOME/.bashrc
+echo "export TERM=$TERM" >> $HOME/.bashrsc
 echo "export PS1=\"$PS1\"" >> $HOME/.bashrc
 echo "/sbin/daytona.sh" >> $HOME/.bashrc
 echo "cd $HOME" >> $HOME/.bashrc
