@@ -20,17 +20,17 @@ sudo chown -R "$(id -u):$(id -g)" /Users/Shared/daytona
 Until this extension is ready at Docker Extension Hub you can install just by executing:
 
 ```bash
-$ docker extension install daytonaio/daytona-docker-extension:0.22.1
-```
-`Image not available locally, pulling daytonaio/daytona-docker-extension:0.22.1...
-Extracting metadata and files for the extension "daytonaio/daytona-docker-extension:0.22.1"
+$ docker extension install daytonaio/daytona-docker-extension:0.24.0
+Image not available locally, pulling daytonaio/daytona-docker-extension:0.24.0...
+Extracting metadata and files for the extension "daytonaio/daytona-docker-extension:0.24.0"
 Installing service in Desktop VM...
 Setting additional compose attributes
 Installing Desktop extension UI for tab "Daytona"...
 Extension UI tab "Daytona" added.
 Starting service in Desktop VM......
 Service in Desktop VM started
-Extension "Daytona client tool" installed successfully`
+Extension "Daytona client tool" installed successfully
+```
 
 
 **Note**: Docker Extension CLI is required to execute above command, follow the instructions at [Extension SDK (Beta) -> Prerequisites](https://docs.docker.com/desktop/extensions-sdk/#prerequisites) page for instructions on how to add it.
@@ -79,8 +79,9 @@ Just ignore it, first line says Daytona Server is up and running, but *daytona w
 To uninstall the extension just execute:
 
 ```bash
-$ docker extension uninstall daytonaio/daytona-docker-extension:0.22.1
+$ docker extension uninstall daytonaio/daytona-docker-extension:0.24.0
 Extension "Daytona client tool" uninstalled successfully
+sudo rm -rf /Users/Shared/daytona
 ```
 
 ## Source Code

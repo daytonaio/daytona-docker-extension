@@ -1,8 +1,8 @@
 all: clean extension install
 
 ORG=daytonaio
-VERSION=0.22
-MINOR=1
+VERSION=0.24
+MINOR=0
 IMAGE_NAME=$(ORG)/daytona-docker-extension
 DAYTONA_SERVER_VERSION=$(VERSION).${MINOR}
 TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(DAYTONA_SERVER_VERSION)
