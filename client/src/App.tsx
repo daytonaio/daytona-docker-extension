@@ -5,14 +5,9 @@ import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 const client = createDockerDesktopClient();
 
-function useDockerDesktopClient() {
-  return client;
-}
-
 export function App() {
   const [ready, setReady] = useState(false);
-  const [unavailable, setUnavailable] = useState(false);
-  const ddClient = useDockerDesktopClient();
+  const [unavailable, setUnavailable] = useState(false);  
   const theme = useTheme();
 
   useEffect(() => {
@@ -27,7 +22,7 @@ export function App() {
         cursor: theme.palette.docker.grey[800],
         selection: theme.palette.primary.light,
       };
-      await ddClient.extension.vm?.service?.post('/start', colors);
+      await client.extension.vm?.service?.post('/start', colors);
     };
 
     start().then(() => {
@@ -40,7 +35,7 @@ export function App() {
         }
 
         try {
-          const result = await ddClient.extension.vm?.service?.get('/ready');
+          const result = await client.extension.vm?.service?.get('/ready');
 
           if (Boolean(result)) {
             setReady(() => true);
@@ -53,7 +48,7 @@ export function App() {
       }, 1000);
     }).catch(error => {
       console.log('failed to start Daytona', error);
-      ddClient.desktopUI.toast.error(error);
+      client.desktopUI.toast.error(error);
       setUnavailable(true);
     })
 

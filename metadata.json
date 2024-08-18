@@ -7,7 +7,7 @@
   "ui": {
     "dashboard-tab": {
       "title": "Daytona",
-      "root": "/ui",
+      "root": "/client",
       "src": "index.html",
       "backend": {
         "socket": "daytona-docker-extension.sock"

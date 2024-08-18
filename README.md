@@ -87,3 +87,23 @@ sudo rm -rf /Users/Shared/daytona
 ## Source Code
 
 As usual the code of this extension is at [GitHub](https://github.com/daytonaio/daytona-docker-extension), feel free to suggest changes and make contributions, note that I am a beginner developer of React and TypeScript so contributions to make this UI better are welcome.
+
+## Frontend Development
+
+In terminal go inside /client folder and start development server 
+```
+yarn start
+```
+Inside docker desktop terminal run
+```
+docker extension dev ui-source <name-of-your-extensions> http://localhost:3000
+```
+where name of the extension could be daytonaio/daytona-docker-extension:0.24.0 depending on release tag
+
+to easier dubugging inside docker desktop run
+```
+docker extension dev debug <name-of-your-extensions>
+```
+
+After the development is done we need to rebuild and update extension
+https://docs.docker.com/extensions/extensions-sdk/build/frontend-extension-tutorial/#re-build-the-extension-and-update-it
