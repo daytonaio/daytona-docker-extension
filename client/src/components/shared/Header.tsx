@@ -1,21 +1,29 @@
-import { Stack, Typography, Box, Button } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { Stack, Typography, Box, Button, IconButton } from '@mui/material';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import { Link, useLocation, } from 'react-router-dom';
 
 const Header = () => {
-  let location = useLocation();
-
-  console.log(location, '-----');
+  const location = useLocation();
   
   return (
     <Stack 
+      width="100%"
       direction="row" 
       justifyContent="space-between"
       alignItems="center"
-      spacing={2}>
-        <Box>
-          <Typography variant="h1">Daytona</Typography>
+      spacing={2}
+      padding={2}>
+        <Box display="flex" alignItems="center" gap={2}>
+          {location.pathname === '/create' && (
+            <Link to="/">
+              <IconButton size="small">
+                <ChevronLeft fontSize='small' />
+              </IconButton>
+            </Link>          
+          )}
+          <Typography variant="h2">Daytona</Typography>
         </Box>
-        <Link to="/create"><Button variant="contained">Create</Button></Link>
+        <Link to="/create"><Button size="small" variant="contained">Create</Button></Link>
     </Stack>
   )
 }

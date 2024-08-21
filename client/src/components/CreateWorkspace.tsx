@@ -1,9 +1,13 @@
+import { Box } from "@mui/material"
+import Header from "./shared/Header"
+
 const CreateWorkspace = () => {
   
   return (
-    <div>
-      create workspace
-    </div>
+    <Box>
+      <Header />
+      create screen
+    </Box>
   )
 }
 

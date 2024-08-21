@@ -3,6 +3,21 @@ import { Box, Grid, LinearProgress, Typography, useTheme } from '@mui/material';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { Link } from 'react-router-dom';
 import StartScreen from './components/StartScreen';
+import {
+  createMemoryRouter,
+  RouterProvider,
+} from "react-router-dom";
+import CreateWorkspace from './components/CreateWorkspace';
+
+const router = createMemoryRouter([
+  {
+    path: "/",
+    element: <StartScreen />,
+  }, {
+    path: "/create",
+    element: <CreateWorkspace />
+  }
+]);
 
 
 const client = createDockerDesktopClient();
@@ -80,7 +95,7 @@ export function App() {
         </Grid>
       )}
       {ready && (
-        <StartScreen />
+        <RouterProvider router={router} />
       )}
     </>
   );
