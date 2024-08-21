@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, LinearProgress, Typography, useTheme } from '@mui/material';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
+import { Link } from 'react-router-dom';
+import StartScreen from './components/StartScreen';
 
 
 const client = createDockerDesktopClient();
@@ -78,9 +80,7 @@ export function App() {
         </Grid>
       )}
       {ready && (
-        <Box display="flex" flex={1} width="100%" height="100%">
-          <iframe src='http://localhost:57681/' width="100%" height="100%" />
-        </Box>
+        <StartScreen />
       )}
     </>
   );
