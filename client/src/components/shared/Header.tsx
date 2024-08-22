@@ -23,7 +23,9 @@ const Header = () => {
           )}
           <Typography variant="h2">Daytona</Typography>
         </Box>
-        <Link to="/create"><Button size="small" variant="contained">Create</Button></Link>
+        {location.pathname === '/' && (
+          <Link to="/create"><Button size="small" variant="contained">Create</Button></Link>
+        )}
     </Stack>
   )
 }
