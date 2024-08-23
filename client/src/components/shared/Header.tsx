@@ -1,6 +1,6 @@
 import { Stack, Typography, Box, Button, IconButton } from '@mui/material';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import { Link, useLocation, } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const location = useLocation();

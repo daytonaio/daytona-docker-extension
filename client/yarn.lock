@@ -7960,6 +7960,11 @@ react-frame-component@5.2.2:
   resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-5.2.2.tgz#588711562d07f37741798aa4844b88e637212d2b"
   integrity sha512-nqQaNUHUlLf3VFMWhFmURWaK2TS8RxZxptnU4JY4D2p059vIIJbdqyfJvwYoIHZoQ2h8Gm4mPfzfvcF57zOY7g==
 
+react-hook-form@^7.52.2:
+  version "7.52.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.52.2.tgz#ff40f4776250b86ddfcde6be68d34aa82b1c60fe"
+  integrity sha512-pqfPEbERnxxiNMPd0bzmt1tuaPcVccywFDpyk2uV5xCIBphHV5T8SVnX9/o3kplPE1zzKt77+YIoq+EMwJp56A==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
