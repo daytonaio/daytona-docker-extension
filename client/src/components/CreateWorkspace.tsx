@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Stepper, Step, StepLabel, Button, TextField, Typography } from "@mui/material"
+import { Box, Stepper, Step, StepLabel, Button, TextField, Typography, Select, MenuItem, FormControl, FormHelperText } from "@mui/material"
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
 
@@ -11,7 +11,7 @@ const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
 
-  const { control, handleSubmit, formState: { errors, isValid } } = useForm({
+  const { control, handleSubmit, formState: { isValid } } = useForm({
     defaultValues: {
       repo: '',
       editor: ''
@@ -20,6 +20,7 @@ const CreateWorkspace = () => {
 
   const onSubmit = (data: any) => {
     console.log('gggggg', data)
+
   }
 
   const handleNext = () => {
@@ -53,31 +54,54 @@ const CreateWorkspace = () => {
               );
             })}
           </Stepper>                    
-          <Box mt={6}>
+          <Box mt={6} px={8}>
           {activeStep === 0 && (
-            <>
-              <Box display={"flex"} flexDirection="column" gap={1}>
+            <Box display="flex" flexDirection="column" gap={2}>
+              <Box display="flex" flexDirection="column" gap={1}>
                 <Typography variant="body1">Choose source (Browse your repos, select a predefined sample, or find with URL)</Typography>
                 <Controller
                   name="repo"
                   control={control}  
                   rules={{ required: "This field is required" }}            
-                  render={({ field }) => <TextField error={!!errors.repo} helperText={errors.repo?.message} placeholder="https://..., git@..." fullWidth {...field} />}
+                  render={({ field, fieldState: { error } }) => {
+                    console.log('error', error);
+                    
+                    return (
+                      <TextField error={!!error} helperText={error?.message} placeholder="https://..., git@..." fullWidth {...field} />
+                    )
+                  }
+                  }                    
                 />
               </Box>
-              {/* <Controller
-                name="editor"
-                control={control}
-                render={({ field }) => <Select 
-                  {...field} 
-                  options={[
-                    { value: "chocolate", label: "Chocolate" },
-                    { value: "strawberry", label: "Strawberry" },
-                    { value: "vanilla", label: "Vanilla" }
-                  ]} 
-                />}
-              /> */}
-            </>
+              <Box display="flex" flexDirection="column" gap={1}>
+                <Typography variant="body1">Choose IDE</Typography>                  
+                <Controller
+                  name="editor"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field, fieldState: { error } }) => 
+                    <FormControl error={!!error}>
+                      <Select 
+                        {...field}                                           
+                      >
+                        <MenuItem value="editor1">VS Code</MenuItem>
+                        <MenuItem value="editor2">VS Code - Browser</MenuItem>
+                        <MenuItem value="editor3">Terminal SSH</MenuItem>
+                        <MenuItem value="editor4">CLion</MenuItem>
+                        <MenuItem value="editor5">GoLand</MenuItem>
+                        <MenuItem value="editor6">Intellij IDEA Ultimate</MenuItem>
+                        <MenuItem value="editor7">PHP Storm</MenuItem>
+                        <MenuItem value="editor8">PyCharm Professional</MenuItem>
+                        <MenuItem value="editor9">Rider</MenuItem>
+                        <MenuItem value="editor10">RubyMine</MenuItem>
+                        <MenuItem value="editor11">WebStorm</MenuItem>
+                      </Select>
+                      <FormHelperText>{error?.message}</FormHelperText>
+                    </FormControl>
+                  }
+                />
+              </Box>
+            </Box>
           )} 
 
           {activeStep === 1 && (
@@ -85,7 +109,7 @@ const CreateWorkspace = () => {
           )}
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>              
+          <Box display='flex' flexDirection='row' pt={2} px={8}>              
             <Box sx={{ flex: '1 1 auto' }} />            
             <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
