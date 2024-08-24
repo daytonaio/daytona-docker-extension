@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Stepper, Step, StepLabel, Button, TextField, Typography, Select, MenuItem, FormControl, FormHelperText } from "@mui/material"
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
 
 import Header from "./shared/Header"
+import { DockerClientContext } from "../contexts/DockerClientContext";
 
 const steps = ['Setup', 'Preparing', 'Ready'];
 
 const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
+  const client = useContext(DockerClientContext)
 
   const { control, handleSubmit, formState: { isValid } } = useForm({
     defaultValues: {
@@ -18,9 +20,13 @@ const CreateWorkspace = () => {
     }
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log('gggggg', data)
 
+    // todo: try calling daytona cli
+    await client?.docker.cli.exec("exec", [
+      "-d", "daytona",      
+    ]);
   }
 
   const handleNext = () => {

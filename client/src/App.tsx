@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Grid, LinearProgress, Typography, useTheme } from '@mui/material';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import CreateWorkspace from './components/CreateWorkspace';
+import { DockerClientContext } from './contexts/DockerClientContext';
 
 const router = createMemoryRouter([
   {
@@ -20,12 +21,11 @@ const router = createMemoryRouter([
 ]);
 
 
-const client = createDockerDesktopClient();
-
 export function App() {
   const [ready, setReady] = useState(false);
   const [unavailable, setUnavailable] = useState(false);  
   const theme = useTheme();
+  const client = useContext(DockerClientContext)
 
   useEffect(() => {
     let timer: number;
@@ -39,7 +39,7 @@ export function App() {
         cursor: theme.palette.docker.grey[800],
         selection: theme.palette.primary.light,
       };
-      await client.extension.vm?.service?.post('/start', colors);
+      await client?.extension.vm?.service?.post('/start', colors);
     };
 
     start().then(() => {
@@ -52,7 +52,7 @@ export function App() {
         }
 
         try {
-          const result = await client.extension.vm?.service?.get('/ready');
+          const result = await client?.extension.vm?.service?.get('/ready');
 
           if (Boolean(result)) {
             setReady(() => true);
@@ -65,7 +65,7 @@ export function App() {
       }, 1000);
     }).catch(error => {
       console.log('failed to start Daytona', error);
-      client.desktopUI.toast.error(error);
+      client?.desktopUI.toast.error(error);
       setUnavailable(true);
     })
 
