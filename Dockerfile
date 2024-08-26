@@ -48,8 +48,9 @@ LABEL com.docker.desktop.extension.icon="https://raw.githubusercontent.com/marce
 LABEL com.docker.extension.detailed-description="Daytona is a self-hosted and secure open source development environment manager."
 COPY daytona.svg metadata.json docker-compose.yml /
 
-COPY --from=client-builder /app/client/dist /ui
+COPY --from=client-builder /app/client/dist /client
 COPY --from=builder /backend/bin/service /
 COPY --chown=1000:1000 startup.sh daytona.sh /sbin/
 
+COPY --chmod=0755 daytona /darwin/daytona
 ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/daytona-docker-extension.sock"]

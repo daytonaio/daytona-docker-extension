@@ -20,13 +20,16 @@ const CreateWorkspace = () => {
     }
   });
 
-  const onSubmit = async (data: any) => {
-    console.log('gggggg', data)
+  const onSubmit = async (data: any) => { 
+    const result = client?.extension.host?.cli.exec("daytona", ["create", data.repo], {
+      stream: {
+        onOutput: (message: any) => console.log(message),
+      }
+    });
+    
 
-    // todo: try calling daytona cli
-    await client?.docker.cli.exec("exec", [
-      "-d", "daytona",      
-    ]);
+    console.log(result);
+    
   }
 
   const handleNext = () => {
