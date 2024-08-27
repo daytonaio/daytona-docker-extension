@@ -40,7 +40,7 @@ const CreateWorkspace = () => {
     await new Promise<void>((resolve, reject) => {
       const result = client?.extension.host?.cli.exec(
         'daytona',
-        ['create', data.repo],
+        ['create', data.repo, '-t', 'local'],
         {
           stream: {
             onOutput: (message: any) => console.log(message),
