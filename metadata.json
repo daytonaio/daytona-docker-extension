@@ -21,7 +21,17 @@
           {
             "path": "/darwin/daytona"
           }
-        ]        
+        ],
+        "linux": [
+          {
+            "path": "/linux/daytona"
+          }
+        ],
+        "windows": [
+          {
+            "path": "/windows/daytona.exe"
+          }
+        ]
       }
     ]
   }

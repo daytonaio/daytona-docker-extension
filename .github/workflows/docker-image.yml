@@ -28,4 +28,4 @@ jobs:
           push: true
           tags: daytonaio/daytona-docker-extension:0.29.1
           build-args: |
-            "DAYTONA_SERVER_VERSION=v0.29.1"
+            "DAYTONA_VERSION=v0.41.0"

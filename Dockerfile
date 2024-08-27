@@ -24,12 +24,19 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     go build -trimpath -ldflags="-s -w" -o bin/service
 
 FROM alpine:3.20
-ARG DAYTONA_SERVER_VERSION
+
+ARG DAYTONA_VERSION
 RUN apk update && apk add --no-cache curl openssh-client ncurses bash ttyd tini sudo bash-completion && \
     (curl -sf -L https://download.daytona.io/daytona/install.sh | bash) && \
     echo "daytona:x:1000:1000:Daytona:/home/daytona:/bin/bash" >> /etc/passwd && \
     echo "daytona:x:1000:" >> /etc/group && \
     mkdir -p /home/daytona && chown 1000:1000 /home/daytona
+
+
+ARG BASE_URL=${DAYTONA_DOWNLOAD_URL:-"https://download.daytona.io/daytona"}
+
+COPY install.sh /install.sh
+RUN chmod +x /install.sh && BASE_URL=${BASE_URL} DAYTONA_VERSION=${DAYTONA_VERSION} /install.sh && rm /install.sh
 
 LABEL org.opencontainers.image.title="Daytona client tool"
 LABEL org.opencontainers.image.description="Docker Extension for using an embedded version of Daytona client/server tools."
@@ -52,5 +59,4 @@ COPY --from=client-builder /app/client/dist /client
 COPY --from=builder /backend/bin/service /
 COPY --chown=1000:1000 startup.sh daytona.sh /sbin/
 
-COPY --chmod=0755 daytona /darwin/daytona
 ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/daytona-docker-extension.sock"]

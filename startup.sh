@@ -14,4 +14,4 @@ echo "cd $HOME" >> $HOME/.bashrc
 echo "daytona whoami" >> $HOME/.bashrc
 chown -R 1000:1000 "$HOME"
 chown 1000 /var/run/docker.sock
-sudo -u daytona -i daytona serve > /tmp/serve.out 2> /tmp/serve.log &
+# sudo -u daytona -i daytona serve > /tmp/serve.out 2> /tmp/serve.log &

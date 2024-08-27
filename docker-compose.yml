@@ -7,14 +7,14 @@ services:
       - HOME=/Users/Shared/daytona
     image: ${DESKTOP_PLUGIN_IMAGE}
     hostname: daytona-docker-extension
-    ports:
-      - 3986:3986
-      - 3987:3987
-      - 57681:7681
     volumes:
       - daytona:/Users/Shared/daytona
       - headscale:/Users/Shared/daytona/.config/daytona/server/headscale
       - /var/run/docker.sock.raw:/var/run/docker.sock
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    cap_add:
+      - SYS_TTY_CONFIG
 
 volumes:
   headscale:
