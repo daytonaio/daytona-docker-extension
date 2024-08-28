@@ -90,6 +90,11 @@ As usual the code of this extension is at [GitHub](https://github.com/daytonaio/
 
 ## Frontend Development
 
+build local image
+```
+docker build . -t <name-of-your-extensions> --build-arg DAYTONA_VERSION=v0.26.0 
+```
+
 In terminal go inside /client folder and start development server 
 ```
 yarn start
@@ -98,7 +103,6 @@ Inside docker desktop terminal run
 ```
 docker extension dev ui-source <name-of-your-extensions> http://localhost:3000
 ```
-where name of the extension could be daytonaio/daytona-docker-extension:0.24.0 depending on release tag
 
 to easier dubugging inside docker desktop run
 ```

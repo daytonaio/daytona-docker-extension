@@ -96,10 +96,7 @@ const CreateWorkspace = () => {
                     name="repo"
                     control={control}
                     rules={{ required: 'This field is required' }}
-                    render={({ field, fieldState: { error } }) => {
-                      console.log('error', error)
-
-                      return (
+                    render={({ field, fieldState: { error } }) => (
                         <TextField
                           error={!!error}
                           helperText={error?.message}
@@ -108,7 +105,7 @@ const CreateWorkspace = () => {
                           {...field}
                         />
                       )
-                    }}
+                    }
                   />
                 </Box>
                 <Box display="flex" flexDirection="column" gap={1}>
