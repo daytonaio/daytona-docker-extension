@@ -11,9 +11,11 @@ import {
   MenuItem,
   FormControl,
   FormHelperText,
+  CircularProgress
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
+import { useXTerm } from 'react-xtermjs'
 
 import Header from './shared/Header'
 import { DockerClientContext } from '../contexts/DockerClientContext'
@@ -24,6 +26,7 @@ const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0)
   const navigate = useNavigate()
   const client = useContext(DockerClientContext)
+  const { instance, ref } = useXTerm()
 
   const {
     control,
@@ -36,22 +39,25 @@ const CreateWorkspace = () => {
     },
   })
 
-  const onSubmit = async (data: any) => {
-    await new Promise<void>((resolve, reject) => {
-      const result = client?.extension.host?.cli.exec(
-        'daytona',
-        ['create', data.repo, '-t', 'local'],
-        {
-          stream: {
-            onOutput: (message: any) => console.log(message),
-            onClose: () => resolve(),
-            onError: (error: any) => reject(error),
+  const onSubmit = async (data: any) => {        
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const result = client?.extension.host?.cli.exec(
+          'daytona',
+          ['create', data.repo, '-t', 'local'],
+          {
+            stream: {
+              onOutput: (message: any) => instance?.writeln(message.stdout),
+              onClose: () => resolve(),
+              onError: (error: any) => reject(error),
+            },
           },
-        },
-      )
-
-      console.log(result)
-    })
+        )
+      })      
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    } catch (error) {
+      console.log(error, 'error');      
+    }
   }
 
   const handleNext = () => {
@@ -61,6 +67,10 @@ const CreateWorkspace = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       }
     }
+
+    if (activeStep === 1) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    }
   }
 
   useEffect(() => {
@@ -69,24 +79,35 @@ const CreateWorkspace = () => {
     }
   }, [activeStep])
 
+  const validateURL = (value: string) => {    
+    try {
+      new URL(value);
+      return true;
+    } catch (_) {
+      return "Please enter a valid URL";
+    }
+  };
+
   return (
     <Box>
       <Header />
-      <Box display="flex" flexDirection="column" alignItems="center" p={4}>
+      <Box display="flex" flexDirection="column" alignItems="center" py={4}>
         <Box width="100%">
-          <Stepper activeStep={activeStep}>
-            {steps.map((label, index) => {
-              const stepProps: { completed?: boolean } = {}
-              return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              )
-            })}
-          </Stepper>
+          <Box px={4}>
+            <Stepper activeStep={activeStep}>
+              {steps.map((label, index) => {
+                const stepProps: { completed?: boolean } = {}
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                )
+              })}
+            </Stepper>
+          </Box>
           <Box mt={6} px={8}>
             {activeStep === 0 && (
-              <Box display="flex" flexDirection="column" gap={2}>
+              <Box mt={2} display="flex" flexDirection="column" gap={2}>
                 <Box display="flex" flexDirection="column" gap={1}>
                   <Typography variant="body1">
                     Choose source (Browse your repos, select a predefined
@@ -95,7 +116,7 @@ const CreateWorkspace = () => {
                   <Controller
                     name="repo"
                     control={control}
-                    rules={{ required: 'This field is required' }}
+                    rules={{ required: 'This field is required', validate: validateURL }}
                     render={({ field, fieldState: { error } }) => (
                         <TextField
                           error={!!error}
@@ -140,20 +161,43 @@ const CreateWorkspace = () => {
                 </Box>
               </Box>
             )}
+            
+            <Box alignItems='center' display='flex' flexDirection='column' gap={2}>            
+              {
+                activeStep === 1 && (
+                  <>
+                    <CircularProgress />
+                    <Typography variant="h3">
+                      Setting up your workspace
+                    </Typography>
+                  </>
+                )
+              }
+              <Box ref={ref} width={'100%'} hidden={activeStep !== 1} />
+            </Box>
 
-            {activeStep === 1 && (
-              <Typography variant="body1" mb={1}>
-                Preparing workspace
-              </Typography>
+            {activeStep === 2 && (
+              <Box mt={2} px={8} alignItems='center' display='flex' flexDirection='column'>
+                <Typography variant="h3">
+                  You are all set
+                </Typography>
+                <Typography variant="body1">
+                  You can open your favorite IDE and start coding
+                </Typography>
+              </Box>
             )}
           </Box>
 
-          <Box display="flex" flexDirection="row" pt={2} px={8}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
+          {
+            activeStep === 0 && (
+              <Box display="flex" flexDirection="row" pt={2} px={8}>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button onClick={handleNext}>
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button>
+              </Box>
+            )
+          }
         </Box>
       </Box>
     </Box>
