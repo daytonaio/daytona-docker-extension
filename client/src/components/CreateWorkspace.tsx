@@ -27,6 +27,7 @@ const CreateWorkspace = () => {
   const navigate = useNavigate()
   const client = useContext(DockerClientContext)
   const { instance, ref } = useXTerm()
+  const [isError, setIsError] = useState(false)
 
   const {
     control,
@@ -47,7 +48,13 @@ const CreateWorkspace = () => {
           ['create', data.repo, '-t', 'local'],
           {
             stream: {
-              onOutput: (message: any) => instance?.writeln(message.stdout),
+              onOutput: (message: any) => {
+                try {                  
+                  instance?.writeln(message.stdout)
+                } catch (error) {                  
+                  reject(error)
+                }
+              },
               onClose: () => resolve(),
               onError: (error: any) => reject(error),
             },
@@ -56,7 +63,7 @@ const CreateWorkspace = () => {
       })      
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     } catch (error) {
-      console.log(error, 'error');      
+      setIsError(true)     
     }
   }
 
@@ -166,10 +173,16 @@ const CreateWorkspace = () => {
               {
                 activeStep === 1 && (
                   <>
-                    <CircularProgress />
-                    <Typography variant="h3">
-                      Setting up your workspace
-                    </Typography>
+                    {isError ? (
+                      <Typography variant="h3" color="error">Error while creating workspace</Typography>
+                    ) : (
+                      <>
+                        <CircularProgress />
+                        <Typography variant="h3">
+                          Setting up your workspace
+                        </Typography>
+                      </>
+                    )}
                   </>
                 )
               }
