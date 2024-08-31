@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, List, ListItem, ListItemText, Divider, Button } from '@mui/material'
 
 import Header from './shared/Header'
 import { ReactComponent as Logo } from '../assets/logo.svg'
@@ -34,6 +34,36 @@ const StartScreen = () => {
           click
         </Typography>
       </Box>
+
+      <List sx={{
+        width: '100%',
+        p: 4
+      }} aria-label="mailbox folders">
+        <ListItem divider>
+          <Box display={'flex'} alignItems="center" gap={2} justifyContent="space-between" width={'100%'}>
+            <Box display={'flex'} alignItems="center" gap={3}>
+              <ListItemText>
+                <Typography variant="subtitle2">Workspace name</Typography>  
+              </ListItemText>          
+              <ListItemText secondary="repo url" />          
+              <Typography color="success.main">Runing</Typography>                        
+            </Box>
+            <Button size="small" variant="contained">Open in VS code</Button>
+          </Box>
+        </ListItem>        
+        <ListItem divider>
+          <Box display={'flex'} alignItems="center" gap={2} justifyContent="space-between" width={'100%'}>
+            <Box display={'flex'} alignItems="center" gap={3}>
+              <ListItemText>
+                <Typography variant="subtitle2">Workspace name</Typography>  
+              </ListItemText>          
+              <ListItemText secondary="repo url" />          
+              <Typography color="error">Stopped</Typography>                        
+            </Box>
+            <Button size="small" variant="contained">Open in VS code</Button>
+          </Box>
+        </ListItem>        
+      </List>
     </Box>
   )
 }
