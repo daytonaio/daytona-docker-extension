@@ -18,7 +18,9 @@ const WorkspaceItem: FC<{workspace: Workspace}> = ({workspace}) => {
           <ListItemText secondary={workspace.projects[0].repository.url} />          
           <Typography color={isWorkspaceRunning(workspace) ? 'success.main' : 'error'}>{isWorkspaceRunning(workspace) ? 'Running' : 'Stopped'}</Typography>                        
         </Box>
-        <Button size="small" variant="contained">Open in VS code</Button>
+        <a href={`vscode://vscode-remote/ssh-remote+default+${workspace.id}+${workspace.name}`}>
+          <Button size="small" variant="contained">Open in VS code</Button>
+        </a>
       </Box>
     </ListItem>        
   )
