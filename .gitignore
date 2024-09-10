@@ -9,6 +9,7 @@ auth/.pwd
 
 # dependencies
 /node_modules
+/vm/bin/*
 
 # profiling files
 chrome-profiler-events*.json
