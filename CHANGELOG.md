@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.29.1
+
+- Release update.
+
 ## v0.25.1
 
 - Release update.

@@ -23,7 +23,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go build -trimpath -ldflags="-s -w" -o bin/service
 
-FROM alpine:3.15
+FROM alpine:3.20
 ARG DAYTONA_SERVER_VERSION
 RUN apk update && apk add --no-cache curl openssh-client ncurses bash ttyd tini sudo bash-completion && \
     (curl -sf -L https://download.daytona.io/daytona/install.sh | bash) && \
