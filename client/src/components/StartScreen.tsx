@@ -5,6 +5,7 @@ import Header from './shared/Header'
 import { ReactComponent as Logo } from '../assets/logo.svg'
 import { Workspace } from '../api-client'
 import { ApiClientContext } from '../contexts/ApiClientContext'
+import WorkspaceItem from './shared/WorkspaceItem'
 
 const mockedWorkspaces: any[] = [
   {
@@ -110,44 +111,29 @@ const StartScreen = () => {
       })
     }
   }, [apiClient])
-
-  const isWorkspaceRunning = (workspace: Workspace) => {
-    return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
-  }
   
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Header />
 
-      <Box display="flex" flexDirection="column" alignItems="center" pt={4}>
-        <Logo width={60} height={60} />
-        <Typography mt={4} variant="h6" textAlign={'center'}>
-          The Open Source Development Environment Manager <br />
-          Set up a development environment on any infrastructure, with a single
-          click
-        </Typography>
-      </Box>
-
-      {workspaces.length > 0 && (
-        <List sx={{
-          width: '100%',
-          p: 4
-        }} aria-label="mailbox folders">        
-          {workspaces.map((workspace: Workspace) => (
-            <ListItem key={workspace.id} divider>
-            <Box display={'flex'} alignItems="center" gap={2} justifyContent="space-between" width={'100%'}>
-              <Box display={'flex'} alignItems="center" gap={3}>
-                <ListItemText>
-                  <Typography variant="subtitle2">{workspace.name}</Typography>  
-                </ListItemText>          
-                <ListItemText secondary={workspace.projects[0].repository.url} />          
-                <Typography color={isWorkspaceRunning(workspace) ? 'success.main' : 'error'}>{isWorkspaceRunning(workspace) ? 'Running' : 'Stopped'}</Typography>                        
-              </Box>
-              <Button size="small" variant="contained">Open in VS code</Button>
-            </Box>
-          </ListItem>        
-          ))}
-        </List>
+      {workspaces.length > 0 ? (
+        <Box width='100%' p={4} mt={4}>
+          <Typography variant="h2" mb={2}>Workspaces</Typography>
+          <List aria-label="mailbox folders">        
+            {workspaces.map((workspace: Workspace) => (
+              <WorkspaceItem key={workspace.id} workspace={workspace} />
+            ))}
+          </List>
+        </Box>
+      ) : (
+        <Box display="flex" flexDirection="column" alignItems="center" pt={4}>
+          <Logo width={60} height={60} />
+          <Typography mt={4} variant="h6" textAlign={'center'}>
+            The Open Source Development Environment Manager <br />
+            Set up a development environment on any infrastructure, with a single
+            click
+          </Typography>
+        </Box>
       )
 
       }
