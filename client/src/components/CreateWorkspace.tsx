@@ -11,7 +11,7 @@ import {
   MenuItem,
   FormControl,
   FormHelperText,
-  CircularProgress
+  CircularProgress,
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
@@ -31,8 +31,10 @@ const CreateWorkspace = () => {
   const client = useContext(DockerClientContext)
   const { instance, ref } = useXTerm()
   const [isError, setIsError] = useState(false)
-  const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(null)
-  const [workspace, setWorkspace] = useState<any | null>(null)
+  const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(
+    null,
+  )
+  const [workspace, setWorkspace] = useState<Workspace | null>(null)
   const apiClient = useContext(ApiClientContext)
 
   const {
@@ -47,50 +49,19 @@ const CreateWorkspace = () => {
   })
 
   useEffect(() => {
-    if (createdWorkspaceId && activeStep === 2 && apiClient) {      
-      apiClient.getWorkspace(createdWorkspaceId).then((response: any) => {
-        setWorkspace(response.data)
-      }).catch((error: any) => {
-        console.log(error, '-------');        
-        setWorkspace({
-          "id": "bad0699f809c",
-          "name": "tpuljak",
-          "projects": [
-            {
-              "buildConfig": {},
-              "envVars": null,
-              "image": "daytonaio/workspace-project:latest",
-              "name": "tpuljak",
-              "repository": {
-                "branch": "main",
-                "cloneTarget": "branch",
-                "id": "tpuljak",
-                "name": "tpuljak",
-                "owner": "tpuljak",
-                "sha": "9331cd5642da2557220ebf10c9ff092d70bbb69c",
-                "source": "github.com",
-                "url": "https://github.com/tpuljak/tpuljak.git"
-              },
-              "state": {
-                "gitStatus": {
-                  "currentBranch": "main",
-                  "fileStatus": null
-                },
-                "updatedAt": "Sat, 31 Aug 2024 16:10:38 CEST",
-                "uptime": 3857
-              },
-              "target": "local",
-              "user": "daytona",
-              "workspaceId": "4dc34b469499"
-            }
-          ],
-          "target": "local"
+    if (createdWorkspaceId && activeStep === 2 && apiClient) {
+      apiClient
+        .getWorkspace(createdWorkspaceId)
+        .then((response: any) => {
+          setWorkspace(response.data)
         })
-      })
+        .catch((error: any) => {
+          console.log(error, '-------')
+        })
     }
   }, [createdWorkspaceId, activeStep, apiClient])
 
-  const onSubmit = async (data: any) => {        
+  const onSubmit = async (data: any) => {
     try {
       await new Promise<void>((resolve, reject) => {
         const result = client?.extension.host?.cli.exec(
@@ -98,16 +69,16 @@ const CreateWorkspace = () => {
           ['create', data.repo, '-t', 'local'],
           {
             stream: {
-              onOutput: (message: any) => {                                                
-                const workspaceIdRegex = /ID\s+([a-f0-9]+)/;
-                const match = message.stdout.match(workspaceIdRegex);
+              onOutput: (message: any) => {
+                const workspaceIdRegex = /ID\s+([a-f0-9]+)/
+                const match = message.stdout.match(workspaceIdRegex)
                 if (match) {
-                  const workspaceId = match[1];
+                  const workspaceId = match[1]
                   setCreatedWorkspaceId(workspaceId)
                 }
-                try {                  
-                  instance?.writeln(message.stdout)
-                } catch (error) {                  
+                try {
+                  instance?.write(message.stdout)
+                } catch (error) {
                   reject(error)
                 }
               },
@@ -116,10 +87,10 @@ const CreateWorkspace = () => {
             },
           },
         )
-      })      
+      })
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     } catch (error) {
-      setIsError(true)     
+      setIsError(true)
     }
   }
 
@@ -127,7 +98,7 @@ const CreateWorkspace = () => {
     if (activeStep === 0) {
       handleSubmit(onSubmit)()
       if (isValid) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)        
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
       }
     }
 
@@ -142,14 +113,14 @@ const CreateWorkspace = () => {
     }
   }, [activeStep])
 
-  const validateURL = (value: string) => {    
+  const validateURL = (value: string) => {
     try {
-      new URL(value);
-      return true;
+      new URL(value)
+      return true
     } catch (_) {
-      return "Please enter a valid URL";
+      return 'Please enter a valid URL'
     }
-  };
+  }
 
   return (
     <Box>
@@ -171,7 +142,9 @@ const CreateWorkspace = () => {
           <Box mt={8} px={8}>
             {activeStep === 0 && (
               <Box mt={2} display="flex" flexDirection="column" gap={2}>
-                <Typography variant="h2" textAlign='center' mb={2}>Create Workspace</Typography>
+                <Typography variant="h2" textAlign="center" mb={2}>
+                  Create Workspace
+                </Typography>
                 <Box display="flex" flexDirection="column" gap={1}>
                   <Typography variant="body1">
                     Choose source (Browse your repos, select a predefined
@@ -180,17 +153,19 @@ const CreateWorkspace = () => {
                   <Controller
                     name="repo"
                     control={control}
-                    rules={{ required: 'This field is required', validate: validateURL }}
+                    rules={{
+                      required: 'This field is required',
+                      validate: validateURL,
+                    }}
                     render={({ field, fieldState: { error } }) => (
-                        <TextField
-                          error={!!error}
-                          helperText={error?.message}
-                          placeholder="https://..., git@..."
-                          fullWidth
-                          {...field}
-                        />
-                      )
-                    }
+                      <TextField
+                        error={!!error}
+                        helperText={error?.message}
+                        placeholder="https://..., git@..."
+                        fullWidth
+                        {...field}
+                      />
+                    )}
                   />
                 </Box>
                 <Box display="flex" flexDirection="column" gap={1}>
@@ -225,33 +200,42 @@ const CreateWorkspace = () => {
                 </Box>
               </Box>
             )}
-            
-            <Box alignItems='center' display='flex' flexDirection='column' gap={2}>            
-              {
-                activeStep === 1 && (
-                  <>
-                    {isError ? (
-                      <Typography variant="h3" color="error">Error while creating workspace</Typography>
-                    ) : (
-                      <>
-                        <CircularProgress />
-                        <Typography variant="h3">
-                          Setting up your workspace
-                        </Typography>
-                      </>
-                    )}
-                  </>
-                )
-              }
+
+            <Box
+              alignItems="center"
+              display="flex"
+              flexDirection="column"
+              gap={2}
+            >
+              {activeStep === 1 && (
+                <>
+                  {isError ? (
+                    <Typography variant="h3" color="error">
+                      Error while creating workspace
+                    </Typography>
+                  ) : (
+                    <>
+                      <CircularProgress />
+                      <Typography variant="h3">
+                        Setting up your workspace
+                      </Typography>
+                    </>
+                  )}
+                </>
+              )}
               <Box ref={ref} width={'100%'} hidden={activeStep !== 1} />
             </Box>
 
             {activeStep === 2 && (
               <>
-                <Box mt={2} px={8} alignItems='center' display='flex' flexDirection='column'>
-                  <Typography variant="h3">
-                    You are all set
-                  </Typography>
+                <Box
+                  mt={2}
+                  px={8}
+                  alignItems="center"
+                  display="flex"
+                  flexDirection="column"
+                >
+                  <Typography variant="h3">You are all set</Typography>
                   <Typography variant="body1">
                     You can open your favorite IDE and start coding
                   </Typography>
@@ -265,16 +249,14 @@ const CreateWorkspace = () => {
             )}
           </Box>
 
-          {
-            activeStep === 0 && (
-              <Box display="flex" flexDirection="row" pt={2} px={8}>
-                <Box sx={{ flex: '1 1 auto' }} />
-                <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              </Box>
-            )
-          }
+          {activeStep === 0 && (
+            <Box display="flex" flexDirection="row" pt={2} px={8}>
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button onClick={handleNext}>
+                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

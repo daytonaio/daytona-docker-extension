@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
+    "postinstall": "is-ci || (cd .. && husky ./client/.husky)",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "format:write": "prettier --write src/**/*.{ts,tsx}",
@@ -30,6 +31,14 @@
   "devDependencies": {
     "@docker/extension-api-client-types": "^0.2.3",
     "@openapitools/openapi-generator-cli": "^2.13.4",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "husky": "^9.1.6",
+    "is-ci": "^3.0.1",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
   }
 }
