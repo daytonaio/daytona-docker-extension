@@ -7,43 +7,6 @@ import { Workspace } from '../api-client'
 import { ApiClientContext } from '../contexts/ApiClientContext'
 import WorkspaceItem from './shared/WorkspaceItem'
 
-const mockedWorkspaces: any[] = [
-  {
-    "id": "f385e6addb8c",
-    "name": "tpuljak",
-    "projects": [
-      {
-        "buildConfig": {},
-        "envVars": null,
-        "image": "daytonaio/workspace-project:latest",
-        "name": "tpuljak",
-        "repository": {
-          "branch": "main",
-          "cloneTarget": "branch",
-          "id": "tpuljak",
-          "name": "tpuljak",
-          "owner": "tpuljak",
-          "sha": "9331cd5642da2557220ebf10c9ff092d70bbb69c",
-          "source": "github.com",
-          "url": "https://github.com/tpuljak/tpuljak.git"
-        },
-        "state": {
-          "gitStatus": {
-            "currentBranch": "main",
-            "fileStatus": null
-          },
-          "updatedAt": "Sat, 31 Aug 2024 16:10:38 CEST",
-          "uptime": 3857
-        },
-        "target": "local",
-        "user": "daytona",
-        "workspaceId": "4dc34b469499"
-      }
-    ],
-    "target": "local"
-  },  
-];
-
 const StartScreen = () => {
   const apiClient = useContext(ApiClientContext)
   // todo: use Workspace type later
@@ -54,8 +17,7 @@ const StartScreen = () => {
       apiClient.listWorkspaces().then((response: any) => {
         setWorkspaces(response.data)
       }).catch((error: any) => {
-        console.log(error, '-------');
-        setWorkspaces(mockedWorkspaces)
+        console.log(error, '-------');        
       })
     }
   }, [apiClient])
@@ -82,9 +44,7 @@ const StartScreen = () => {
             click
           </Typography>
         </Box>
-      )
-
-      }
+      )}
     </Box>
   )
 }

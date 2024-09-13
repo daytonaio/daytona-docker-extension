@@ -27,7 +27,7 @@ const WorkspaceItem: FC<{workspace: Workspace}> = ({workspace}) => {
               onOutput: (message: any) => {                                                                 
                 
                 try {                                    
-                  setWorkspacePath(message.stdout.trim())               
+                  setWorkspacePath(message.stdout)               
                 } catch (error) {                  
                   reject(error)
                 }
@@ -55,7 +55,7 @@ const WorkspaceItem: FC<{workspace: Workspace}> = ({workspace}) => {
           <Typography color={isWorkspaceRunning(workspace) ? 'success.main' : 'error'}>{isWorkspaceRunning(workspace) ? 'Running' : 'Stopped'}</Typography>                        
         </Box>
         {workspacePath && (
-          <a href={`vscode://vscode-remote/ssh-remote+default-${workspace.id}-${workspace.name}${workspacePath}/${workspace.name}`}>
+          <a href={`vscode://vscode-remote/ssh-remote+default-${workspace.id}-${workspace.name}${workspacePath.trim()}/${workspace.name}`}>
             <Button size="small" variant="contained">Open in VS code</Button>
           </a>
         )
