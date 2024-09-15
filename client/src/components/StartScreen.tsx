@@ -3,7 +3,7 @@ import { Box, Typography, List } from '@mui/material'
 
 import Header from './shared/Header'
 import { ReactComponent as Logo } from '../assets/logo.svg'
-import { Workspace, WorkspaceDTO } from '../api-client'
+import { WorkspaceDTO } from '../api-client'
 import { ApiClientContext } from '../contexts/ApiClientContext'
 import WorkspaceItem from './shared/WorkspaceItem'
 import { AxiosResponse } from 'axios'
@@ -25,6 +25,20 @@ const StartScreen = () => {
     }
   }, [apiClient])
 
+  const handleDelete = (workspace: WorkspaceDTO) => {
+    if (apiClient) {
+      apiClient
+        .removeWorkspace(workspace.id, true)
+        .then((response: any) => {
+          console.log(response)
+          fetchWorkspaces()
+        })
+        .catch((error: any) => {
+          console.log(error)
+        })
+    }
+  }
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Header />
@@ -35,8 +49,12 @@ const StartScreen = () => {
             Workspaces
           </Typography>
           <List aria-label="mailbox folders">
-            {workspaces.map((workspace: Workspace) => (
-              <WorkspaceItem key={workspace.id} workspace={workspace} />
+            {workspaces.map((workspace: WorkspaceDTO) => (
+              <WorkspaceItem
+                key={workspace.id}
+                workspace={workspace}
+                onDelete={handleDelete}
+              />
             ))}
           </List>
         </Box>

@@ -16,12 +16,13 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useXTerm } from 'react-xtermjs'
+import { AxiosResponse } from 'axios'
 
 import Header from './shared/Header'
 import { DockerClientContext } from '../contexts/DockerClientContext'
 import { ApiClientContext } from '../contexts/ApiClientContext'
-import { Workspace } from '../api-client'
 import WorkspaceItem from './shared/WorkspaceItem'
+import { WorkspaceDTO } from '../api-client'
 
 const steps = ['Setup', 'Preparing', 'Ready']
 
@@ -34,7 +35,7 @@ const CreateWorkspace = () => {
   const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(
     null,
   )
-  const [workspace, setWorkspace] = useState<Workspace | null>(null)
+  const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
   const apiClient = useContext(ApiClientContext)
 
   const {
@@ -52,11 +53,11 @@ const CreateWorkspace = () => {
     if (createdWorkspaceId && activeStep === 2 && apiClient) {
       apiClient
         .getWorkspace(createdWorkspaceId)
-        .then((response: any) => {
+        .then((response: AxiosResponse<WorkspaceDTO, any>) => {
           setWorkspace(response.data)
         })
         .catch((error: any) => {
-          console.log(error, '-------')
+          console.log(error)
         })
     }
   }, [createdWorkspaceId, activeStep, apiClient])
@@ -119,6 +120,20 @@ const CreateWorkspace = () => {
       return true
     } catch (_) {
       return 'Please enter a valid URL'
+    }
+  }
+
+  const handleDelete = () => {
+    if (apiClient) {
+      apiClient
+        .removeWorkspace(createdWorkspaceId as string, true)
+        .then((response: any) => {
+          console.log(response)
+          navigate('/')
+        })
+        .catch((error: any) => {
+          console.log(error)
+        })
     }
   }
 
