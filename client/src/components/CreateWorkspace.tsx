@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Box,
   Stepper,
@@ -19,24 +19,26 @@ import { useXTerm } from 'react-xtermjs'
 import { AxiosResponse } from 'axios'
 
 import Header from './shared/Header'
-import { DockerClientContext } from '../contexts/DockerClientContext'
-import { ApiClientContext } from '../contexts/ApiClientContext'
 import WorkspaceItem from './shared/WorkspaceItem'
 import { WorkspaceDTO } from '../api-client'
+import { useApiClient } from '../providers/ApiClientProvider'
+import { useDockerClient } from '../providers/DockerClientProvider'
+import { useDaytonaConfig } from '../providers/DaytonaConfigProvider'
 
 const steps = ['Setup', 'Preparing', 'Ready']
 
 const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0)
   const navigate = useNavigate()
-  const client = useContext(DockerClientContext)
+  const client = useDockerClient()
+  const daytonaConfig = useDaytonaConfig()
   const { instance, ref } = useXTerm()
   const [isError, setIsError] = useState(false)
   const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(
     null,
   )
   const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
-  const apiClient = useContext(ApiClientContext)
+  const apiClient = useApiClient()
 
   const {
     control,
@@ -45,7 +47,7 @@ const CreateWorkspace = () => {
   } = useForm({
     defaultValues: {
       repo: '',
-      editor: '',
+      editor: daytonaConfig?.defaultIde || 'vscode',
     },
   })
 

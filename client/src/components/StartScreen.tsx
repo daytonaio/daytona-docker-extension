@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Typography, List } from '@mui/material'
 
 import Header from './shared/Header'
 import { ReactComponent as Logo } from '../assets/logo.svg'
 import { WorkspaceDTO } from '../api-client'
-import { ApiClientContext } from '../contexts/ApiClientContext'
 import WorkspaceItem from './shared/WorkspaceItem'
 import { AxiosResponse } from 'axios'
+import { useApiClient } from '../providers/ApiClientProvider'
 
 const StartScreen = () => {
-  const apiClient = useContext(ApiClientContext)
+  const apiClient = useApiClient()
   const [workspaces, setWorkspaces] = useState<Array<WorkspaceDTO>>([])
 
   useEffect(() => {

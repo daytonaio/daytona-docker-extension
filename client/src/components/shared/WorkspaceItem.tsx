@@ -1,10 +1,26 @@
-import { FC, useCallback, useContext, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
+import {
+  Box,
+  Button,
+  ListItem,
+  ListItemText,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { Workspace } from '../../api-client'
-import { Box, Button, ListItem, ListItemText, Typography } from '@mui/material'
-import { DockerClientContext } from '../../contexts/DockerClientContext'
+import { useDockerClient } from '../../providers/DockerClientProvider'
 
-const WorkspaceItem: FC<{ workspace: Workspace }> = ({ workspace }) => {
-  const client = useContext(DockerClientContext)
+const WorkspaceItem: FC<{
+  workspace: Workspace
+  onDelete: (workspace: Workspace) => void
+}> = ({ workspace, onDelete }) => {
+  const client = useDockerClient()
   const [workspacePath, setWorkspacePath] = useState<string | null>(null)
 
   const isWorkspaceRunning = (workspace: Workspace) => {
