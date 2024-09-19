@@ -23,18 +23,24 @@ export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (daytonaConfig) {
-      axiosInstance.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${daytonaConfig?.profiles[0].api.key}`
-
-      const api = new WorkspaceApi(
-        new Configuration({
-          basePath: daytonaConfig?.profiles[0].api.url,
-        }),
-        undefined,
-        axiosInstance,
+      const profile = daytonaConfig?.profiles.find(
+        (p) => p.name === daytonaConfig.activeProfile,
       )
-      setApiClient(api)
+
+      if (profile) {
+        axiosInstance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${profile.api.key}`
+
+        const api = new WorkspaceApi(
+          new Configuration({
+            basePath: profile.api.url,
+          }),
+          undefined,
+          axiosInstance,
+        )
+        setApiClient(api)
+      }
     }
   }, [daytonaConfig])
 

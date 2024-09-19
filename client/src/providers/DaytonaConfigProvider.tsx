@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useDockerClient } from './DockerClientProvider'
 
 interface IDaytonaConfigProfile {
   id: string
@@ -33,26 +34,32 @@ export const DaytonaConfigProvider = ({
   const [daytonaConfig, setDaytonaConfig] = useState<IDaytonaConfig | null>(
     null,
   )
+  const dockerClient = useDockerClient()
+
+  const loadDaytonaConfig = async () => {
+    try {
+      const result = await dockerClient?.extension.host?.cli.exec('daytona', [
+        'config',
+        '--format',
+        'json',
+        '-k',
+      ])
+
+      const config = result?.parseJsonObject()
+
+      if (config) {
+        setDaytonaConfig(config)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    setTimeout(() => {
-      setDaytonaConfig({
-        id: 'daytona',
-        activeProfile: 'default',
-        defaultIde: 'vscode',
-        profiles: [
-          {
-            id: 'default',
-            name: 'Default',
-            api: {
-              url: 'http://localhost:3986',
-              key: 'ODk4MTI1YjItYjRhNi00NjUwLTgwODYtZWZlZjhiNzA3ZDVk',
-            },
-          },
-        ],
-      })
-    }, 2000)
-  }, [])
+    if (dockerClient) {
+      loadDaytonaConfig()
+    }
+  }, [dockerClient])
 
   const value = useMemo(() => {
     return daytonaConfig
