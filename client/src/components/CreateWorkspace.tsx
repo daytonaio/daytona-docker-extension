@@ -38,7 +38,7 @@ const CreateWorkspace = () => {
     null,
   )
   const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
-  const apiClient = useApiClient()
+  const { apiClient } = useApiClient()
 
   const {
     control,

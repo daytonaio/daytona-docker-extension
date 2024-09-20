@@ -9,7 +9,7 @@ import { AxiosResponse } from 'axios'
 import { useApiClient } from '../providers/ApiClientProvider'
 
 const StartScreen = () => {
-  const apiClient = useApiClient()
+  const { apiClient } = useApiClient()
   const [workspaces, setWorkspaces] = useState<Array<WorkspaceDTO>>([])
 
   useEffect(() => {
