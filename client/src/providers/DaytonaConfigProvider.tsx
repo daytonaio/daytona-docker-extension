@@ -24,7 +24,13 @@ interface IDaytonaConfig {
   profiles: IDaytonaConfigProfile[]
 }
 
-const DaytonaConfigContext = createContext<IDaytonaConfig | null>(null)
+const DaytonaConfigContext = createContext<{
+  daytonaConfig: IDaytonaConfig | null
+  loadDaytonaConfig: () => void
+}>({
+  daytonaConfig: null,
+  loadDaytonaConfig: () => {},
+})
 
 export const DaytonaConfigProvider = ({
   children,
@@ -62,7 +68,10 @@ export const DaytonaConfigProvider = ({
   }, [dockerClient])
 
   const value = useMemo(() => {
-    return daytonaConfig
+    return {
+      daytonaConfig,
+      loadDaytonaConfig,
+    }
   }, [daytonaConfig])
 
   return (

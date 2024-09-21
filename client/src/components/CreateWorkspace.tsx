@@ -31,7 +31,7 @@ const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0)
   const navigate = useNavigate()
   const client = useDockerClient()
-  const daytonaConfig = useDaytonaConfig()
+  const { daytonaConfig } = useDaytonaConfig()
   const { instance, ref } = useXTerm()
   const [isError, setIsError] = useState(false)
   const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(

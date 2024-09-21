@@ -24,7 +24,7 @@ const axiosInstance = axios.create()
 
 export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
   const [apiClient, setApiClient] = useState<WorkspaceApi | null>(null)
-  const daytonaConfig = useDaytonaConfig()
+  const { daytonaConfig } = useDaytonaConfig()
   const [isServerRuning, setIsServerRunning] = useState(false)
 
   const activeProfileConfig = useMemo(() => {

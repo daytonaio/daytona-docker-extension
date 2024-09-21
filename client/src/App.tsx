@@ -22,7 +22,7 @@ const router = createMemoryRouter([
 
 export function App() {
   const { isServerRuning, apiClient } = useApiClient()
-  const daytonaConfig = useDaytonaConfig()
+  const { daytonaConfig } = useDaytonaConfig()
   const { instance, ref } = useXTerm()
   const [isTerminalHidden, setIsTerminalHidden] = useState(true)
   const client = useDockerClient()
