@@ -56,6 +56,7 @@ export const DaytonaConfigProvider = ({
       if (config) {
         setDaytonaConfig(config)
       }
+      setTimeout(loadDaytonaConfig, 500)
     } catch (error) {
       console.log(error)
     }

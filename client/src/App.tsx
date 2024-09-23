@@ -6,7 +6,7 @@ import StartScreen from './components/StartScreen'
 import CreateWorkspace from './components/CreateWorkspace'
 import { useApiClient } from './providers/ApiClientProvider'
 import { useDaytonaConfig } from './providers/DaytonaConfigProvider'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDockerClient } from './providers/DockerClientProvider'
 
 const router = createMemoryRouter([
@@ -31,33 +31,25 @@ export function App() {
     setIsTerminalHidden(false)
     try {
       await new Promise<void>((resolve, reject) => {
-        console.log('--------')
-
-        const result = client?.extension.host?.cli.exec(
-          'daytona',
-          ['serve'],
-          // {
-          //   stream: {
-          //     onOutput: (message: any) => {
-          //       console.log('+++++++++++++');
-
-          //       try {
-          //         instance?.write(message.stdout)
-          //         instance?.write(message.stderr)
-          //       } catch (error) {
-          //         console.log(error, 'eeeeeeeee');
-
-          //         reject(error)
-          //       }
-          //     },
-          //     onClose: () => resolve(),
-          //     onError: (error: any) => {
-          //       console.log(error, 'eeeeeeeee');
-          //       reject(error)
-          //     },
-          //   },
-          // },
-        )
+        const result = client?.extension.host?.cli.exec('daytona', ['serve'], {
+          stream: {
+            onOutput: (message: any) => {
+              try {
+                if (message.stdout) {
+                  instance?.write(message.stdout)
+                } else if (message.stderr) {
+                  instance?.write(message.stderr)
+                }
+              } catch (error) {
+                reject(error)
+              }
+            },
+            onClose: () => resolve(),
+            onError: (error: any) => {
+              reject(error)
+            },
+          },
+        })
       })
     } catch (error: any) {
       instance?.write(error)
