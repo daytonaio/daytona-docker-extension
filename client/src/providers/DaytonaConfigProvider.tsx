@@ -1,6 +1,7 @@
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -42,7 +43,7 @@ export const DaytonaConfigProvider = ({
   )
   const dockerClient = useDockerClient()
 
-  const loadDaytonaConfig = async () => {
+  const loadDaytonaConfig = useCallback(async () => {
     try {
       const result = await dockerClient?.extension.host?.cli.exec('daytona', [
         'config',
@@ -56,15 +57,25 @@ export const DaytonaConfigProvider = ({
       if (config) {
         setDaytonaConfig(config)
       }
-      setTimeout(loadDaytonaConfig, 500)
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [])
 
   useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
     if (dockerClient) {
       loadDaytonaConfig()
+
+      interval = setInterval(async () => {
+        await loadDaytonaConfig()
+      }, 2000)
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
     }
   }, [dockerClient])
 
