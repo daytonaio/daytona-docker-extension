@@ -23,7 +23,7 @@ const Header = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = async (profileName: string) => {
+  const onItemClick = async (profileName: string) => {
     setAnchorEl(null)
     try {
       await dockerClient?.extension.host?.cli.exec('daytona', [
@@ -87,7 +87,7 @@ const Header = () => {
             <Menu
               anchorEl={anchorEl}
               open={open}
-              onClose={handleClose}
+              onClose={() => setAnchorEl(null)}
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
@@ -95,7 +95,7 @@ const Header = () => {
               {profiles.map((profile) => (
                 <MenuItem
                   key={profile.name}
-                  onClick={() => handleClose(profile.name)}
+                  onClick={() => onItemClick(profile.name)}
                 >
                   {profile.name}
                 </MenuItem>
