@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { useXTerm } from 'react-xtermjs'
@@ -6,8 +7,8 @@ import StartScreen from './components/StartScreen'
 import CreateWorkspace from './components/CreateWorkspace'
 import { useApiClient } from './providers/ApiClientProvider'
 import { useDaytonaConfig } from './providers/DaytonaConfigProvider'
-import { useState } from 'react'
 import { useDockerClient } from './providers/DockerClientProvider'
+import SwitchProfile from './components/shared/SwitchProfile'
 
 const router = createMemoryRouter([
   {
@@ -36,9 +37,13 @@ export function App() {
             onOutput: (message: any) => {
               try {
                 if (message.stdout) {
-                  instance?.write(message.stdout)
+                  message.stdout
+                    ?.split('\n')
+                    .forEach((line: string) => instance?.writeln(line))
                 } else if (message.stderr) {
-                  instance?.write(message.stderr)
+                  message.stderr
+                    ?.split('\n')
+                    .forEach((line: string) => instance?.writeln(line))
                 }
               } catch (error) {
                 reject(error)
@@ -82,6 +87,10 @@ export function App() {
                   Start Server
                 </Button>
               )}
+              <Typography variant="h6" mt={4}>
+                You can switch to a different profile
+              </Typography>
+              <SwitchProfile />
             </Box>
           ) : (
             <Grid

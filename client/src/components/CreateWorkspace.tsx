@@ -80,7 +80,9 @@ const CreateWorkspace = () => {
                   setCreatedWorkspaceId(workspaceId)
                 }
                 try {
-                  instance?.write(message.stdout)
+                  message.stdout
+                    ?.split('\n')
+                    .forEach((line: string) => instance?.writeln(line))
                 } catch (error) {
                   reject(error)
                 }

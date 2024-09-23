@@ -1,48 +1,11 @@
-import {
-  Stack,
-  Typography,
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-} from '@mui/material'
+import { Stack, Typography, Box, Button, IconButton } from '@mui/material'
 import ChevronLeft from '@mui/icons-material/ChevronLeft'
 import { Link, useLocation } from 'react-router-dom'
-import { useMemo, useState } from 'react'
-import { useDaytonaConfig } from '../../providers/DaytonaConfigProvider'
-import { useDockerClient } from '../../providers/DockerClientProvider'
+
+import SwitchProfile from './SwitchProfile'
 
 const Header = () => {
   const location = useLocation()
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const { daytonaConfig, loadDaytonaConfig } = useDaytonaConfig()
-  const dockerClient = useDockerClient()
-
-  const open = Boolean(anchorEl)
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const onItemClick = async (profileName: string) => {
-    setAnchorEl(null)
-    try {
-      await dockerClient?.extension.host?.cli.exec('daytona', [
-        'profile',
-        'use',
-        profileName,
-      ])
-      loadDaytonaConfig()
-    } catch (error) {
-      console.log(error)
-      dockerClient?.desktopUI.toast.error('Failed to switch profile')
-    }
-  }
-
-  const profiles = useMemo(() => {
-    return daytonaConfig?.profiles.filter(
-      (profile) => profile.name !== daytonaConfig?.activeProfile,
-    )
-  }, [daytonaConfig])
 
   return (
     <Stack
@@ -72,38 +35,7 @@ const Header = () => {
           </Link>
         )}
       </Box>
-      <Box display="flex" gap={2} alignItems={'center'}>
-        <Typography>Active profile</Typography>
-        <Box>
-          <Button
-            disabled={location.pathname === '/create'}
-            variant="outlined"
-            onClick={handleClick}
-            size="small"
-          >
-            {daytonaConfig?.activeProfile}
-          </Button>
-          {profiles && profiles.length > 0 && (
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              {profiles.map((profile) => (
-                <MenuItem
-                  key={profile.name}
-                  onClick={() => onItemClick(profile.name)}
-                >
-                  {profile.name}
-                </MenuItem>
-              ))}
-            </Menu>
-          )}
-        </Box>
-      </Box>
+      <SwitchProfile disabled={location.pathname === '/create'} />
     </Stack>
   )
 }
