@@ -73,12 +73,21 @@ const CreateWorkspace = () => {
           {
             stream: {
               onOutput: (message: any) => {
-                const workspaceIdRegex = /ID\s+([a-f0-9]+)/
-                const match = message.stdout.match(workspaceIdRegex)
-                if (match) {
-                  const workspaceId = match[1]
-                  setCreatedWorkspaceId(workspaceId)
+                if (message.stdout) {
+                  const workspaceIdRegex = /ID\s+([a-f0-9]+)/
+                  const match = message.stdout.match(workspaceIdRegex)
+
+                  if (match) {
+                    const workspaceId = match[1]
+                    setCreatedWorkspaceId(workspaceId)
+                  }
                 }
+
+                if (message.stderr) {
+                  instance?.writeln(message.stderr)
+                  reject(message.stderr)
+                }
+
                 try {
                   message.stdout
                     ?.split('\n')
