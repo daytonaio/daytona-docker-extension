@@ -16,6 +16,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Workspace } from '../../api-client'
 import { useDockerClient } from '../../providers/DockerClientProvider'
+import VsCodeIcon from './icons/VsCodeIcon'
 
 const WorkspaceItem: FC<{
   workspace: Workspace
@@ -154,7 +155,11 @@ const WorkspaceItem: FC<{
             {isWorkspaceRunning && (
               <Button
                 startIcon={
-                  loadingPath && <CircularProgress size="16px" color="info" />
+                  loadingPath ? (
+                    <CircularProgress size="16px" color="info" />
+                  ) : (
+                    <VsCodeIcon />
+                  )
                 }
                 size="small"
                 variant="contained"
