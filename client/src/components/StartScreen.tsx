@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Box, Typography, List } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import Header from './shared/Header'
 import { ReactComponent as Logo } from '../assets/logo.svg'
 import { WorkspaceDTO } from '../api-client'
-import WorkspaceItem from './shared/WorkspaceItem'
 import { AxiosResponse } from 'axios'
 import { useApiClient } from '../providers/ApiClientProvider'
+import WorkspaceList from './shared/WorkspaceList'
 
 const StartScreen = () => {
   const { apiClient } = useApiClient()
@@ -29,8 +29,7 @@ const StartScreen = () => {
     if (apiClient) {
       apiClient
         .removeWorkspace(workspace.id, true)
-        .then((response: any) => {
-          console.log(response)
+        .then(() => {
           fetchWorkspaces()
         })
         .catch((error: any) => {
@@ -48,15 +47,7 @@ const StartScreen = () => {
           <Typography variant="h2" mb={2}>
             Workspaces
           </Typography>
-          <List aria-label="mailbox folders">
-            {workspaces.map((workspace: WorkspaceDTO) => (
-              <WorkspaceItem
-                key={workspace.id}
-                workspace={workspace}
-                onDelete={handleDelete}
-              />
-            ))}
-          </List>
+          <WorkspaceList workspaces={workspaces} onDelete={handleDelete} />
         </Box>
       ) : (
         <Box display="flex" flexDirection="column" alignItems="center" pt={4}>

@@ -2,48 +2,30 @@ import { FC, useCallback, useMemo, useState } from 'react'
 import {
   Box,
   Button,
-  ListItem,
-  ListItemText,
   Typography,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   CircularProgress,
+  TableRow,
+  TableCell,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { Workspace } from '../../api-client'
+import { WorkspaceDTO } from '../../api-client'
 import { useDockerClient } from '../../providers/DockerClientProvider'
 import VsCodeIcon from './icons/VsCodeIcon'
 
 const WorkspaceItem: FC<{
-  workspace: Workspace
-  onDelete: (workspace: Workspace) => void
+  workspace: WorkspaceDTO
+  onDelete: () => void
 }> = ({ workspace, onDelete }) => {
   const client = useDockerClient()
-  const [openDialog, setOpenDialog] = useState(false)
   const [loadingPath, setLoadingPath] = useState(false)
-
-  const handleClickOpen = () => {
-    setOpenDialog(true)
-  }
-
-  const handleClose = () => {
-    setOpenDialog(false)
-  }
-
-  const handleDelete = () => {
-    onDelete(workspace)
-  }
 
   const isWorkspaceRunning = useMemo(() => {
     return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
   }, [workspace])
 
   const getCodePath = useCallback(
-    async (data: Workspace) => {
+    async (data: WorkspaceDTO) => {
       try {
         await new Promise<void>((resolve, reject) => {
           const result = client?.extension.host?.cli.exec(
@@ -68,7 +50,6 @@ const WorkspaceItem: FC<{
         })
 
         if (!path) {
-          console.log('2222')
           await new Promise<void>((resolve, reject) => {
             client?.extension.host?.cli.exec(
               'daytona',
@@ -114,80 +95,44 @@ const WorkspaceItem: FC<{
   }
 
   return (
-    <ListItem divider>
-      <Box
-        display={'flex'}
-        alignItems="center"
-        gap={2}
-        justifyContent="space-between"
-        width={'100%'}
-      >
-        <Box display={'flex'} alignItems="center" gap={3}>
-          <ListItemText>
-            <Typography variant="subtitle2">{workspace.name}</Typography>
-          </ListItemText>
-          <ListItemText secondary={workspace.projects[0].repository.url} />
-          <Typography
-            color={isWorkspaceRunning(workspace) ? 'success.main' : 'error'}
-          >
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <ListItem divider>
-        <Box
-          display={'flex'}
-          alignItems="center"
-          gap={2}
-          justifyContent="space-between"
-          width={'100%'}
-        >
-          <Box display={'flex'} alignItems="center" gap={3}>
-            <ListItemText>
-              <Typography variant="subtitle2">{workspace.name}</Typography>
-            </ListItemText>
-            <ListItemText secondary={workspace.projects[0].repository.url} />
-            <Typography color={isWorkspaceRunning ? 'success.main' : 'error'}>
-              {isWorkspaceRunning ? 'Running' : 'Stopped'}
-            </Typography>
-          </Box>
-          <Box display={'flex'} gap={2}>
-            {isWorkspaceRunning && (
-              <Button
-                startIcon={
-                  loadingPath ? (
-                    <CircularProgress size="16px" color="info" />
-                  ) : (
-                    <VsCodeIcon />
-                  )
-                }
-                size="small"
-                variant="contained"
-                onClick={openInVsCode}
-              >
-                Open in VS code
-              </Button>
-            )}
-            <IconButton
-              aria-label="delete"
-              color="error"
-              onClick={handleClickOpen}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
+    <TableRow
+      sx={{ '&:last-child td, &:last-child th': { border: 0 }, height: 50 }}
+    >
+      <TableCell>
+        <Box display={'flex'} alignItems="center" gap={2}>
+          <Typography variant="subtitle2">{workspace.name}</Typography>
+          <Typography>{workspace.projects[0].repository.url}</Typography>
         </Box>
-        {workspacePath && (
-          <a
-            href={`vscode://vscode-remote/ssh-remote+default-${workspace.id}-${workspace.projects[0].name}${workspacePath}?windowId=_blank`}
-          >
-            <Button size="small" variant="contained">
-              Open in VS code
+      </TableCell>
+      <TableCell>
+        <Typography color={isWorkspaceRunning ? 'success.main' : 'error'}>
+          {isWorkspaceRunning ? 'Running' : 'Stopped'}
+        </Typography>
+      </TableCell>
+      <TableCell>
+        <Box display={'flex'} gap={2} justifyContent="flex-end">
+          {isWorkspaceRunning && (
+            <Button
+              startIcon={
+                loadingPath ? (
+                  <CircularProgress size="16px" color="info" />
+                ) : (
+                  <VsCodeIcon />
+                )
+              }
+              size="small"
+              variant="contained"
+              onClick={openInVsCode}
+            >
+              VS CODE
             </Button>
-          </a>
-        )}
-      </Box>
-    </ListItem>
+          )}
+          <IconButton aria-label="delete" color="error" onClick={onDelete}>
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </TableCell>
+    </TableRow>
   )
 }
 

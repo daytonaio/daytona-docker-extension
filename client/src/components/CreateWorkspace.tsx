@@ -19,11 +19,11 @@ import { useXTerm } from 'react-xtermjs'
 import { AxiosResponse } from 'axios'
 
 import Header from './shared/Header'
-import WorkspaceItem from './shared/WorkspaceItem'
 import { WorkspaceDTO } from '../api-client'
 import { useApiClient } from '../providers/ApiClientProvider'
 import { useDockerClient } from '../providers/DockerClientProvider'
 import { useDaytonaConfig } from '../providers/DaytonaConfigProvider'
+import WorkspaceList from './shared/WorkspaceList'
 
 const steps = ['Setup', 'Preparing', 'Ready']
 
@@ -140,8 +140,7 @@ const CreateWorkspace = () => {
     if (apiClient) {
       apiClient
         .removeWorkspace(createdWorkspaceId as string, true)
-        .then((response: any) => {
-          console.log(response)
+        .then(() => {
           navigate('/')
         })
         .catch((error: any) => {
@@ -270,7 +269,10 @@ const CreateWorkspace = () => {
                 </Box>
                 {workspace && (
                   <Box mt={4}>
-                    <WorkspaceItem workspace={workspace} />
+                    <WorkspaceList
+                      workspaces={[workspace]}
+                      onDelete={handleDelete}
+                    />
                   </Box>
                 )}
               </>
