@@ -2,25 +2,11 @@ version: "3"
 
 services:
   daytona-docker-extension:
-    environment:
-      - LOG_LEVEL=debug
-      - HOME=/Users/Shared/daytona
     image: ${DESKTOP_PLUGIN_IMAGE}
     hostname: daytona-docker-extension
     volumes:
-      - daytona:/Users/Shared/daytona
-      - headscale:/Users/Shared/daytona/.config/daytona/server/headscale
       - /var/run/docker.sock.raw:/var/run/docker.sock
     extra_hosts:
       - host.docker.internal:host-gateway
     cap_add:
       - SYS_TTY_CONFIG
-
-volumes:
-  headscale:
-  daytona:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /Users/Shared/daytona
