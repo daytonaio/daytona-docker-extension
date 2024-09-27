@@ -1,10 +1,11 @@
-<svg width="211" height="220" viewBox="0 0 211 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="11.1428" y="149.025" width="76.2474" height="26.1421" fill="white"/>
-<rect x="113.522" y="57.5287" width="87.1399" height="26.1421" fill="white"/>
-<rect width="91.4971" height="26.142" transform="matrix(0.707105 -0.707108 0.707105 0.707108 67.7737 65.5858)" fill="white"/>
-<rect width="70.2691" height="26.142" transform="matrix(-0.707105 -0.707108 -0.707105 0.707108 68.1729 130.941)" fill="white"/>
-<rect width="74.0691" height="26.142" transform="matrix(-0.707105 0.707108 -0.707105 -0.707108 133.532 167.511)" fill="white"/>
-<rect width="82.7831" height="26.142" transform="matrix(0.707105 0.707108 0.707105 -0.707108 133.133 102.156)" fill="white"/>
-<rect x="67.7737" y="37.9226" width="63.1767" height="26.142" transform="rotate(90 67.7737 37.9226)" fill="white"/>
-<rect x="159.278" y="129.419" width="78.4262" height="26.142" transform="rotate(90 159.278 129.419)" fill="white"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" fill="none" style=""><rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="none" stroke="none"/>
+
+
+
+
+
+
+
+
+
+<g class="currentLayer" style=""><title>Layer 1</title><rect width="290.07692709476237" height="300.0769120390496" fill="#0A0A0A" id="svg_1" class="selected" y="106.53846407816516" x="111.15384920889414"/><rect x="130.20700073242188" y="308.677001953125" width="102.68499755859375" height="35.28710174560547" fill="white" id="svg_2"/><rect x="268.0840148925781" y="185.17300415039062" width="117.35399627685547" height="35.28710174560547" fill="white" id="svg_3"/><rect width="123.36299896240234" height="35.24660110473633" transform="matrix(0.706295,-0.707918,0.706295,0.707918,206.473,196.049) " fill="white" id="svg_4"/><rect width="94.74210357666016" height="35.24660110473633" transform="matrix(-0.706295,-0.707918,-0.706295,0.707918,207.01,284.266) " fill="white" id="svg_5"/><rect width="99.8655014038086" height="35.24660110473633" transform="matrix(-0.706295,0.707918,-0.706295,-0.707918,295.032,333.63) " fill="white" id="svg_6"/><rect width="111.61399841308594" height="35.24660110473633" transform="matrix(0.706295,0.707918,0.706295,-0.707918,294.494,245.412) " fill="white" id="svg_7"/><rect x="206.47300720214844" y="158.70899963378906" width="85.2770004272461" height="35.206199645996094" transform="rotate(90 206.47300720214844,158.7089996337891) " fill="white" id="svg_8"/><rect x="329.7049865722656" y="282.2130126953125" width="105.86100006103516" height="35.206199645996094" transform="rotate(90 329.7049865722656,282.21301269531256) " fill="white" id="svg_9"/></g></svg>
