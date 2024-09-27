@@ -61,6 +61,7 @@ const WorkspaceList: FC<{
               sx={{
                 borderColor: 'secondary.dark',
                 height: 50,
+                fontSize: '12px',
               }}
             >
               NAME
@@ -69,6 +70,7 @@ const WorkspaceList: FC<{
               sx={{
                 borderColor: 'secondary.dark',
                 height: 50,
+                fontSize: '12px',
               }}
             >
               STATUS
@@ -77,6 +79,7 @@ const WorkspaceList: FC<{
               sx={{
                 borderColor: 'secondary.dark',
                 height: 50,
+                fontSize: '12px',
                 width: 100,
               }}
               align="left"

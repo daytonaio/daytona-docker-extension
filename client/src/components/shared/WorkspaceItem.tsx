@@ -7,8 +7,11 @@ import {
   CircularProgress,
   TableRow,
   TableCell,
+  Chip,
+  Link,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import LaunchIcon from '@mui/icons-material/Launch'
 import { WorkspaceDTO } from '../../api-client'
 import { useDockerClient } from '../../providers/DockerClientProvider'
 import VsCodeIcon from './icons/VsCodeIcon'
@@ -94,20 +97,42 @@ const WorkspaceItem: FC<{
     }
   }
 
+  const openRepo = () => {
+    client?.openExternal(workspace.projects[0].repository.url)
+  }
+
   return (
     <TableRow
       sx={{ '&:last-child td, &:last-child th': { border: 0 }, height: 50 }}
     >
       <TableCell>
-        <Box display={'flex'} alignItems="center" gap={2}>
-          <Typography variant="subtitle2">{workspace.name}</Typography>
-          <Typography>{workspace.projects[0].repository.url}</Typography>
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          gap={1}
+          alignItems="flex-start"
+        >
+          <Typography variant="subtitle1">{workspace.name}</Typography>
+          <Link
+            onClick={openRepo}
+            color="secondary"
+            sx={{
+              cursor: 'pointer',
+              textDecoration: 'none',
+              ':hover': { textDecoration: 'underline' },
+            }}
+          >
+            {workspace.projects[0].repository.url}
+            <LaunchIcon />
+          </Link>
         </Box>
       </TableCell>
       <TableCell>
-        <Typography color={isWorkspaceRunning ? 'success.main' : 'error'}>
-          {isWorkspaceRunning ? 'Running' : 'Stopped'}
-        </Typography>
+        {isWorkspaceRunning ? (
+          <Chip label="Running" color="success" sx={{ padding: '14px' }} />
+        ) : (
+          <Chip label="Stopped" color="error" sx={{ padding: '14px' }} />
+        )}
       </TableCell>
       <TableCell>
         <Box display={'flex'} gap={2} justifyContent="flex-end">
