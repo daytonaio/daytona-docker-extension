@@ -84,14 +84,12 @@ const CreateWorkspace = () => {
                 }
 
                 if (message.stderr) {
-                  instance?.writeln(message.stderr)
+                  instance?.write(message.stderr)
                   reject(message.stderr)
                 }
 
                 try {
-                  message.stdout
-                    ?.split('\n')
-                    .forEach((line: string) => instance?.writeln(line))
+                  instance?.write(message.stdout)
                 } catch (error) {
                   reject(error)
                 }

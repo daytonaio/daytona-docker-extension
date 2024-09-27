@@ -32,29 +32,33 @@ export function App() {
     setIsTerminalHidden(false)
     try {
       await new Promise<void>((resolve, reject) => {
-        const result = client?.extension.host?.cli.exec('daytona', ['serve'], {
-          stream: {
-            onOutput: (message: any) => {
-              try {
-                if (message.stdout) {
-                  message.stdout
-                    ?.split('\n')
-                    .forEach((line: string) => instance?.writeln(line))
-                } else if (message.stderr) {
-                  message.stderr
-                    ?.split('\n')
-                    .forEach((line: string) => instance?.writeln(line))
+        const result = client?.extension.host?.cli.exec(
+          'daytona',
+          ['server', '-y'],
+          {
+            stream: {
+              onOutput: (message: any) => {
+                try {
+                  if (message.stdout) {
+                    message.stdout
+                      ?.split('\n')
+                      .forEach((line: string) => instance?.writeln(line))
+                  } else if (message.stderr) {
+                    message.stderr
+                      ?.split('\n')
+                      .forEach((line: string) => instance?.writeln(line))
+                  }
+                } catch (error) {
+                  reject(error)
                 }
-              } catch (error) {
+              },
+              onClose: () => resolve(),
+              onError: (error: any) => {
                 reject(error)
-              }
-            },
-            onClose: () => resolve(),
-            onError: (error: any) => {
-              reject(error)
+              },
             },
           },
-        })
+        )
       })
     } catch (error: any) {
       instance?.write(error)
