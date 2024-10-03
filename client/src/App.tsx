@@ -22,7 +22,7 @@ const router = createMemoryRouter([
 ])
 
 export function App() {
-  const { isServerRuning, apiClient } = useApiClient()
+  const { isServerRuning, workspaceApiClient } = useApiClient()
   const { daytonaConfig } = useDaytonaConfig()
   const { instance, ref } = useXTerm()
   const [isTerminalHidden, setIsTerminalHidden] = useState(true)
@@ -71,7 +71,7 @@ export function App() {
         <RouterProvider router={router} />
       ) : (
         <>
-          {apiClient ? (
+          {workspaceApiClient ? (
             <Box
               display="flex"
               flexDirection="column"
@@ -120,7 +120,7 @@ export function App() {
       <Box
         ref={ref}
         width={'100%'}
-        hidden={isServerRuning || !apiClient || isTerminalHidden}
+        hidden={isServerRuning || !workspaceApiClient || isTerminalHidden}
       />
     </>
   )

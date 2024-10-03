@@ -9,21 +9,25 @@ import {
 } from 'react'
 import axios from 'axios'
 
-import { WorkspaceApi, Configuration } from '../api-client'
+import { WorkspaceApi, Configuration, TargetApi } from '../api-client'
 import { useDaytonaConfig } from './DaytonaConfigProvider'
 
 const ApiClientContext = createContext<{
-  apiClient: WorkspaceApi | null
+  workspaceApiClient: WorkspaceApi | null
+  targetApiClient: TargetApi | null
   isServerRuning: boolean
 }>({
-  apiClient: null,
+  workspaceApiClient: null,
+  targetApiClient: null,
   isServerRuning: false,
 })
 
 const axiosInstance = axios.create()
 
 export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
-  const [apiClient, setApiClient] = useState<WorkspaceApi | null>(null)
+  const [workspaceApiClient, setWorkspaceApiClient] =
+    useState<WorkspaceApi | null>(null)
+  const [targetApiClient, setTargetApiClient] = useState<TargetApi | null>(null)
   const { daytonaConfig } = useDaytonaConfig()
   const [isServerRuning, setIsServerRunning] = useState(false)
 
@@ -59,30 +63,30 @@ export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
   }, [activeProfileConfig])
 
   useEffect(() => {
-    if (daytonaConfig) {
-      if (activeProfileConfig) {
-        axiosInstance.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${activeProfileConfig.api.key}`
+    if (activeProfileConfig) {
+      axiosInstance.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${activeProfileConfig.api.key}`
 
-        const api = new WorkspaceApi(
-          new Configuration({
-            basePath: activeProfileConfig.api.url,
-          }),
-          undefined,
-          axiosInstance,
-        )
-        setApiClient(api)
-      }
+      const config = new Configuration({
+        basePath: activeProfileConfig.api.url,
+      })
+
+      const workspaceApi = new WorkspaceApi(config, undefined, axiosInstance)
+      setWorkspaceApiClient(workspaceApi)
+
+      const targetApi = new TargetApi(config, undefined, axiosInstance)
+      setTargetApiClient(targetApi)
     }
-  }, [daytonaConfig, activeProfileConfig])
+  }, [activeProfileConfig])
 
   const value = useMemo(() => {
     return {
-      apiClient,
+      workspaceApiClient,
+      targetApiClient,
       isServerRuning,
     }
-  }, [apiClient, isServerRuning])
+  }, [workspaceApiClient, targetApiClient, isServerRuning])
 
   return (
     <ApiClientContext.Provider value={value}>

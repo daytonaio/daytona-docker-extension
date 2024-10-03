@@ -19,7 +19,7 @@ import { useXTerm } from 'react-xtermjs'
 import { AxiosResponse } from 'axios'
 
 import Header from './shared/Header'
-import { WorkspaceDTO } from '../api-client'
+import { ProviderTarget, WorkspaceDTO } from '../api-client'
 import { useApiClient } from '../providers/ApiClientProvider'
 import { useDockerClient } from '../providers/DockerClientProvider'
 import { useDaytonaConfig } from '../providers/DaytonaConfigProvider'
@@ -38,7 +38,8 @@ const CreateWorkspace = () => {
     null,
   )
   const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
-  const { apiClient } = useApiClient()
+  const [targets, setTargets] = useState<ProviderTarget[]>([])
+  const { workspaceApiClient, targetApiClient } = useApiClient()
 
   const {
     control,
@@ -52,8 +53,25 @@ const CreateWorkspace = () => {
   })
 
   useEffect(() => {
-    if (createdWorkspaceId && activeStep === 2 && apiClient) {
-      apiClient
+    if (targetApiClient) {
+      targetApiClient
+        .listTargets()
+        .then((response: AxiosResponse<any, any>) => {
+          console.log(response, '---------response--------')
+
+          if (response.data.length > 0) {
+            setTargets(response.data)
+          }
+        })
+        .catch((error: any) => {
+          console.log(error, '---------error--------')
+        })
+    }
+  }, [targetApiClient])
+
+  useEffect(() => {
+    if (createdWorkspaceId && activeStep === 2 && workspaceApiClient) {
+      workspaceApiClient
         .getWorkspace(createdWorkspaceId)
         .then((response: AxiosResponse<WorkspaceDTO, any>) => {
           setWorkspace(response.data)
@@ -62,7 +80,7 @@ const CreateWorkspace = () => {
           console.log(error)
         })
     }
-  }, [createdWorkspaceId, activeStep, apiClient])
+  }, [createdWorkspaceId, activeStep, workspaceApiClient])
 
   const onSubmit = async (data: any) => {
     try {
@@ -135,8 +153,8 @@ const CreateWorkspace = () => {
   }
 
   const handleDelete = () => {
-    if (apiClient) {
-      apiClient
+    if (workspaceApiClient) {
+      workspaceApiClient
         .removeWorkspace(createdWorkspaceId as string, true)
         .then(() => {
           navigate('/')

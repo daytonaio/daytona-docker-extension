@@ -9,12 +9,12 @@ import { useApiClient } from '../providers/ApiClientProvider'
 import WorkspaceList from './shared/WorkspaceList'
 
 const StartScreen = () => {
-  const { apiClient } = useApiClient()
+  const { workspaceApiClient } = useApiClient()
   const [workspaces, setWorkspaces] = useState<Array<WorkspaceDTO>>([])
 
-  useEffect(() => {
-    if (apiClient) {
-      apiClient
+  const fetchWorkspaces = async () => {
+    if (workspaceApiClient) {
+      workspaceApiClient
         .listWorkspaces()
         .then((response: AxiosResponse<WorkspaceDTO[], any>) => {
           setWorkspaces(response.data)
@@ -23,11 +23,15 @@ const StartScreen = () => {
           console.log(error)
         })
     }
-  }, [apiClient])
-
+  }
+  useEffect(() => {
+    if (workspaceApiClient) {
+      fetchWorkspaces()
+    }
+  }, [workspaceApiClient])
   const handleDelete = (workspace: WorkspaceDTO) => {
-    if (apiClient) {
-      apiClient
+    if (workspaceApiClient) {
+      workspaceApiClient
         .removeWorkspace(workspace.id, true)
         .then(() => {
           fetchWorkspaces()
