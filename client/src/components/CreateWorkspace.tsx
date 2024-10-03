@@ -45,10 +45,12 @@ const CreateWorkspace = () => {
     control,
     handleSubmit,
     formState: { isValid },
+    setValue,
   } = useForm({
     defaultValues: {
       repo: '',
       editor: daytonaConfig?.defaultIde || 'vscode',
+      target: '',
     },
   })
 
@@ -56,15 +58,14 @@ const CreateWorkspace = () => {
     if (targetApiClient) {
       targetApiClient
         .listTargets()
-        .then((response: AxiosResponse<any, any>) => {
-          console.log(response, '---------response--------')
-
+        .then((response: AxiosResponse<ProviderTarget[], any>) => {
           if (response.data.length > 0) {
             setTargets(response.data)
+            setValue('target', response.data[0].name)
           }
         })
         .catch((error: any) => {
-          console.log(error, '---------error--------')
+          console.log(error)
         })
     }
   }, [targetApiClient])
@@ -87,7 +88,7 @@ const CreateWorkspace = () => {
       await new Promise<void>((resolve, reject) => {
         const result = client?.extension.host?.cli.exec(
           'daytona',
-          ['create', data.repo, '-t', 'local'],
+          ['create', data.repo, '-t', data.target],
           {
             stream: {
               onOutput: (message: any) => {
@@ -188,59 +189,91 @@ const CreateWorkspace = () => {
                 <Typography variant="h2" textAlign="center" mb={2}>
                   Create Workspace
                 </Typography>
-                <Box display="flex" flexDirection="column" gap={1}>
-                  <Typography variant="body1">
-                    Choose source (Browse your repos, select a predefined
-                    sample, or find with URL)
-                  </Typography>
-                  <Controller
-                    name="repo"
-                    control={control}
-                    rules={{
-                      required: 'This field is required',
-                      validate: validateURL,
-                    }}
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        error={!!error}
-                        helperText={error?.message}
-                        placeholder="https://..., git@..."
-                        fullWidth
-                        {...field}
+                {targets.length > 0 ? (
+                  <>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                      <Typography variant="body1">
+                        Choose source (Browse your repos, select a predefined
+                        sample, or find with URL)
+                      </Typography>
+                      <Controller
+                        name="repo"
+                        control={control}
+                        rules={{
+                          required: 'This field is required',
+                          validate: validateURL,
+                        }}
+                        render={({ field, fieldState: { error } }) => (
+                          <TextField
+                            error={!!error}
+                            helperText={error?.message}
+                            placeholder="https://..., git@..."
+                            fullWidth
+                            {...field}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </Box>
-                <Box display="flex" flexDirection="column" gap={1}>
-                  <Typography variant="body1">Choose IDE</Typography>
-                  <Controller
-                    name="editor"
-                    control={control}
-                    rules={{ required: 'This field is required' }}
-                    render={({ field, fieldState: { error } }) => (
-                      <FormControl error={!!error}>
-                        <Select {...field}>
-                          <MenuItem value="editor1">VS Code</MenuItem>
-                          <MenuItem value="editor2">VS Code - Browser</MenuItem>
-                          <MenuItem value="editor3">Terminal SSH</MenuItem>
-                          <MenuItem value="editor4">CLion</MenuItem>
-                          <MenuItem value="editor5">GoLand</MenuItem>
-                          <MenuItem value="editor6">
-                            Intellij IDEA Ultimate
-                          </MenuItem>
-                          <MenuItem value="editor7">PHP Storm</MenuItem>
-                          <MenuItem value="editor8">
-                            PyCharm Professional
-                          </MenuItem>
-                          <MenuItem value="editor9">Rider</MenuItem>
-                          <MenuItem value="editor10">RubyMine</MenuItem>
-                          <MenuItem value="editor11">WebStorm</MenuItem>
-                        </Select>
-                        <FormHelperText>{error?.message}</FormHelperText>
-                      </FormControl>
-                    )}
-                  />
-                </Box>
+                    </Box>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                      <Typography variant="body1">Choose IDE</Typography>
+                      <Controller
+                        name="editor"
+                        control={control}
+                        rules={{ required: 'This field is required' }}
+                        render={({ field, fieldState: { error } }) => (
+                          <FormControl error={!!error}>
+                            <Select {...field}>
+                              <MenuItem value="vscode">VS Code</MenuItem>
+                              <MenuItem value="vscode-browser">
+                                VS Code - Browser
+                              </MenuItem>
+                              <MenuItem value="terminal-ssh">
+                                Terminal SSH
+                              </MenuItem>
+                              <MenuItem value="clion">CLion</MenuItem>
+                              <MenuItem value="goland">GoLand</MenuItem>
+                              <MenuItem value="intellij-idea-ultimate">
+                                Intellij IDEA Ultimate
+                              </MenuItem>
+                              <MenuItem value="phpstorm">PHP Storm</MenuItem>
+                              <MenuItem value="pycharm">
+                                PyCharm Professional
+                              </MenuItem>
+                              <MenuItem value="rider">Rider</MenuItem>
+                              <MenuItem value="rubymine">RubyMine</MenuItem>
+                              <MenuItem value="webstorm">WebStorm</MenuItem>
+                            </Select>
+                            <FormHelperText>{error?.message}</FormHelperText>
+                          </FormControl>
+                        )}
+                      />
+                    </Box>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                      <Typography variant="body1">Choose Target</Typography>
+                      <Controller
+                        name="target"
+                        control={control}
+                        rules={{ required: 'This field is required' }}
+                        render={({ field, fieldState: { error } }) => (
+                          <FormControl error={!!error}>
+                            <Select {...field}>
+                              {targets.map((target) => (
+                                <MenuItem key={target.name} value={target.name}>
+                                  {target.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            <FormHelperText>{error?.message}</FormHelperText>
+                          </FormControl>
+                        )}
+                      />
+                    </Box>
+                  </>
+                ) : (
+                  <Typography variant="body1" textAlign="center" mb={2}>
+                    Please set up a target to create a workspace
+                  </Typography>
+                )}
               </Box>
             )}
 
@@ -295,7 +328,7 @@ const CreateWorkspace = () => {
             )}
           </Box>
 
-          {activeStep === 0 && (
+          {activeStep === 0 && targets.length > 0 && (
             <Box display="flex" flexDirection="row" pt={2} px={8}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleNext}>
