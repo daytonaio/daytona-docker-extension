@@ -52,10 +52,15 @@ export const DaytonaConfigProvider = ({
         '-k',
       ])
 
-      const config = result?.parseJsonObject()
+      const newConfig = result?.parseJsonObject()
 
-      if (config) {
-        setDaytonaConfig(config)
+      if (newConfig) {
+        setDaytonaConfig((prevConfig) => {
+          if (JSON.stringify(newConfig) !== JSON.stringify(prevConfig)) {
+            return newConfig
+          }
+          return prevConfig
+        })
       }
     } catch (error) {
       console.log(error)
