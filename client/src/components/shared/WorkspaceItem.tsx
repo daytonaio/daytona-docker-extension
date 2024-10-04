@@ -138,6 +138,10 @@ const WorkspaceItem: FC<{
         <Box display={'flex'} gap={2} justifyContent="flex-end">
           {isWorkspaceRunning && (
             <Button
+              sx={{
+                width: 120,
+                justifyContent: 'space-between',
+              }}
               startIcon={
                 loadingPath ? (
                   <CircularProgress size="16px" color="info" />
