@@ -67,6 +67,7 @@ const CreateWorkspace = () => {
     handleSubmit,
     formState: { isValid },
     setValue,
+    watch,
   } = useForm({
     defaultValues: {
       repo: '',
@@ -74,6 +75,8 @@ const CreateWorkspace = () => {
       target: '',
     },
   })
+
+  const selectedEditor = watch('editor')
 
   useEffect(() => {
     if (targetApiClient) {
@@ -91,11 +94,47 @@ const CreateWorkspace = () => {
     }
   }, [targetApiClient])
 
+  const openInEditor = async (
+    createdWorkspaceId: string,
+    createdWorkspaceName: string,
+    editor: string,
+  ) => {
+    try {
+      await new Promise<void>((resolve, reject) => {
+        client?.extension.host?.cli.exec(
+          'daytona',
+          ['code', createdWorkspaceId, createdWorkspaceName, '--ide', editor],
+          {
+            stream: {
+              onOutput: (message: any) => {
+                if (message.stderr) {
+                  client?.desktopUI.toast.error(
+                    `Error with opening editor. ${message.stderr}`,
+                  )
+                  resolve()
+                }
+              },
+              onClose: () => resolve(),
+              onError: (error: any) => reject(error),
+            },
+          },
+        )
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (createdWorkspaceId && activeStep === 2 && workspaceApiClient) {
       workspaceApiClient
         .getWorkspace(createdWorkspaceId)
-        .then((response: AxiosResponse<WorkspaceDTO, any>) => {
+        .then(async (response: AxiosResponse<WorkspaceDTO, any>) => {
+          await openInEditor(
+            createdWorkspaceId,
+            response.data.name,
+            selectedEditor,
+          )
           setWorkspace(response.data)
         })
         .catch((error: any) => {
@@ -343,12 +382,22 @@ const CreateWorkspace = () => {
                     You can open your favorite IDE and start coding
                   </Typography>
                 </Box>
-                {workspace && (
+                {workspace ? (
                   <Box mt={4}>
                     <WorkspaceList
                       workspaces={[workspace]}
                       onDelete={handleDelete}
                     />
+                  </Box>
+                ) : (
+                  <Box
+                    alignItems="center"
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}
+                  >
+                    <CircularProgress />
+                    <Typography variant="h3">Opening workspace</Typography>
                   </Box>
                 )}
               </>

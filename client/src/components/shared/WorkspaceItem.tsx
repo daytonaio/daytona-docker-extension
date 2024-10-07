@@ -21,80 +21,39 @@ const WorkspaceItem: FC<{
   onDelete: () => void
 }> = ({ workspace, onDelete }) => {
   const client = useDockerClient()
-  const [loadingPath, setLoadingPath] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const isWorkspaceRunning = useMemo(() => {
     return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
   }, [workspace])
 
-  const getCodePath = useCallback(
-    async (data: WorkspaceDTO) => {
-      try {
-        await new Promise<void>((resolve, reject) => {
-          const result = client?.extension.host?.cli.exec(
-            'daytona',
-            ['ssh', data.id, data.name, 'echo $HOME'],
-            {
-              stream: {
-                onOutput: (message: any) => {
-                  try {
-                    setWorkspacePath(
-                      `${message.stdout.trim()}/${workspace.projects[0].name}`,
-                    )
-                  } catch (error) {
-                    reject(error)
-                  }
-                },
-                onClose: () => resolve(),
-                onError: (error: any) => reject(error),
+  const openInEditor = async () => {
+    setIsLoading(true)
+    try {
+      await new Promise<void>((resolve, reject) => {
+        client?.extension.host?.cli.exec(
+          'daytona',
+          ['code', workspace.id, workspace.name, '--ide', 'vscode'],
+          {
+            stream: {
+              onOutput: (message: any) => {
+                if (message.stderr) {
+                  client?.desktopUI.toast.error(
+                    `Error with opening editor. ${message.stderr}`,
+                  )
+                  resolve()
+                }
               },
+              onClose: () => resolve(),
+              onError: (error: any) => reject(error),
             },
-          )
-        })
-
-        if (!path) {
-          await new Promise<void>((resolve, reject) => {
-            client?.extension.host?.cli.exec(
-              'daytona',
-              ['ssh', data.id, data.name, 'echo $HOME'],
-              {
-                stream: {
-                  onOutput: (message: any) => {
-                    if (message.stdout) {
-                      path = `${message.stdout.trim()}/${
-                        workspace.projects[0].name
-                      }`
-                    }
-                  },
-                  onClose: () => resolve(),
-                  onError: (error: any) => reject(error),
-                },
-              },
-            )
-          })
-        }
-
-        return path
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    [client],
-  )
-
-  const openInVsCode = async () => {
-    setLoadingPath(true)
-    const path = await getCodePath(workspace)
-
-    setLoadingPath(false)
-    if (path) {
-      const a = document.createElement('a')
-      a.href = `vscode://vscode-remote/ssh-remote+default-${workspace.id}-${workspace.projects[0].name}${path}?windowId=_blank`
-      a.click()
-      a.remove()
-    } else {
-      client?.desktopUI.toast.error('Failed to open in editor')
+          },
+        )
+      })
+    } catch (error) {
+      console.log(error)
     }
+    setIsLoading(false)
   }
 
   const openRepo = () => {
@@ -143,7 +102,7 @@ const WorkspaceItem: FC<{
                 justifyContent: 'space-between',
               }}
               startIcon={
-                loadingPath ? (
+                isLoading ? (
                   <CircularProgress size="16px" color="info" />
                 ) : (
                   <VsCodeIcon />
@@ -151,7 +110,7 @@ const WorkspaceItem: FC<{
               }
               size="small"
               variant="contained"
-              onClick={openInVsCode}
+              onClick={openInEditor}
             >
               VS CODE
             </Button>
