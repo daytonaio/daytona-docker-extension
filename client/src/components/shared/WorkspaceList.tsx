@@ -14,12 +14,14 @@ import {
 } from '@mui/material'
 
 import { WorkspaceDTO } from '../../api-client'
-import WorkspaceItem from './WorkspaceItem'
+import WorkspaceItem from './WorkspaceItem/WorkspaceItem'
+import Editor from '../../enums/editor'
 
 const WorkspaceList: FC<{
   workspaces: WorkspaceDTO[]
   onDelete: (workspace: WorkspaceDTO) => void
-}> = ({ workspaces, onDelete }) => {
+  preferedEditor?: string
+}> = ({ workspaces, onDelete, preferedEditor }) => {
   const [workspaceToDelete, setWorkspaceToDelete] =
     useState<WorkspaceDTO | null>(null)
 
@@ -94,6 +96,7 @@ const WorkspaceList: FC<{
               key={workspace.id}
               workspace={workspace}
               onDelete={() => setWorkspaceToDelete(workspace)}
+              preferedEditor={preferedEditor}
             />
           ))}
         </TableBody>

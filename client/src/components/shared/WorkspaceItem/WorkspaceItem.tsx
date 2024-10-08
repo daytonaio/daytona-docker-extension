@@ -1,10 +1,8 @@
-import { FC, useCallback, useMemo, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import {
   Box,
-  Button,
   Typography,
   IconButton,
-  CircularProgress,
   TableRow,
   TableCell,
   Chip,
@@ -12,14 +10,16 @@ import {
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import LaunchIcon from '@mui/icons-material/Launch'
-import { WorkspaceDTO } from '../../api-client'
-import { useDockerClient } from '../../providers/DockerClientProvider'
-import VsCodeIcon from './icons/VsCodeIcon'
+import { WorkspaceDTO } from '../../../api-client'
+import { useDockerClient } from '../../../providers/DockerClientProvider'
+import OpenInEditorButton from './OpenInEditorButton'
+import Editor from '../../../enums/editor'
 
 const WorkspaceItem: FC<{
   workspace: WorkspaceDTO
   onDelete: () => void
-}> = ({ workspace, onDelete }) => {
+  preferedEditor?: string
+}> = ({ workspace, onDelete, preferedEditor }) => {
   const client = useDockerClient()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,13 +27,13 @@ const WorkspaceItem: FC<{
     return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
   }, [workspace])
 
-  const openInEditor = async () => {
+  const openInEditor = async (editor: string) => {
     setIsLoading(true)
     try {
       await new Promise<void>((resolve, reject) => {
         client?.extension.host?.cli.exec(
           'daytona',
-          ['code', workspace.id, workspace.name, '--ide', 'vscode'],
+          ['code', workspace.id, workspace.name, '--ide', editor],
           {
             stream: {
               onOutput: (message: any) => {
@@ -96,24 +96,11 @@ const WorkspaceItem: FC<{
       <TableCell>
         <Box display={'flex'} gap={2} justifyContent="flex-end">
           {isWorkspaceRunning && (
-            <Button
-              sx={{
-                width: 120,
-                justifyContent: 'space-between',
-              }}
-              startIcon={
-                isLoading ? (
-                  <CircularProgress size="16px" color="info" />
-                ) : (
-                  <VsCodeIcon />
-                )
-              }
-              size="small"
-              variant="contained"
-              onClick={openInEditor}
-            >
-              VS CODE
-            </Button>
+            <OpenInEditorButton
+              onSelect={openInEditor}
+              isLoading={isLoading}
+              editor={preferedEditor}
+            />
           )}
           <IconButton aria-label="delete" color="error" onClick={onDelete}>
             <DeleteIcon />

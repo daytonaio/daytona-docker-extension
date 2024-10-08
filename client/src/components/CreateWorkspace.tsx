@@ -25,6 +25,7 @@ import { useApiClient } from '../providers/ApiClientProvider'
 import { useDockerClient } from '../providers/DockerClientProvider'
 import { useDaytonaConfig } from '../providers/DaytonaConfigProvider'
 import WorkspaceList from './shared/WorkspaceList'
+import Editor from '../enums/editor'
 
 const steps = ['Setup', 'Preparing', 'Ready']
 
@@ -47,6 +48,11 @@ const top100Films = [
     year: 2001,
   },
 ]
+
+const editors = Object.keys(Editor).map((e) => ({
+  value: e,
+  label: Editor[e as keyof typeof Editor],
+}))
 
 const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0)
@@ -289,25 +295,14 @@ const CreateWorkspace = () => {
                         render={({ field, fieldState: { error } }) => (
                           <FormControl error={!!error}>
                             <Select {...field}>
-                              <MenuItem value="vscode">VS Code</MenuItem>
-                              <MenuItem value="vscode-browser">
-                                VS Code - Browser
-                              </MenuItem>
-                              <MenuItem value="terminal-ssh">
-                                Terminal SSH
-                              </MenuItem>
-                              <MenuItem value="clion">CLion</MenuItem>
-                              <MenuItem value="goland">GoLand</MenuItem>
-                              <MenuItem value="intellij-idea-ultimate">
-                                Intellij IDEA Ultimate
-                              </MenuItem>
-                              <MenuItem value="phpstorm">PHP Storm</MenuItem>
-                              <MenuItem value="pycharm">
-                                PyCharm Professional
-                              </MenuItem>
-                              <MenuItem value="rider">Rider</MenuItem>
-                              <MenuItem value="rubymine">RubyMine</MenuItem>
-                              <MenuItem value="webstorm">WebStorm</MenuItem>
+                              {editors.map((editor) => (
+                                <MenuItem
+                                  key={editor.value}
+                                  value={editor.value}
+                                >
+                                  {editor.label}
+                                </MenuItem>
+                              ))}
                             </Select>
                             <FormHelperText>{error?.message}</FormHelperText>
                           </FormControl>
@@ -387,6 +382,7 @@ const CreateWorkspace = () => {
                     <WorkspaceList
                       workspaces={[workspace]}
                       onDelete={handleDelete}
+                      preferedEditor={selectedEditor}
                     />
                   </Box>
                 ) : (
@@ -395,6 +391,7 @@ const CreateWorkspace = () => {
                     display="flex"
                     flexDirection="column"
                     gap={2}
+                    mt={4}
                   >
                     <CircularProgress />
                     <Typography variant="h3">Opening workspace</Typography>
