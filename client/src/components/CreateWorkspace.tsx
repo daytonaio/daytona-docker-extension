@@ -25,7 +25,7 @@ import { useApiClient } from '../providers/ApiClientProvider'
 import { useDockerClient } from '../providers/DockerClientProvider'
 import { useDaytonaConfig } from '../providers/DaytonaConfigProvider'
 import WorkspaceList from './shared/WorkspaceList'
-import Editor from '../enums/editor'
+import { Editor, EDITORS } from '../constants/editors'
 
 const steps = ['Setup', 'Preparing', 'Ready']
 
@@ -48,11 +48,6 @@ const top100Films = [
     year: 2001,
   },
 ]
-
-const editors = Object.keys(Editor).map((e) => ({
-  value: e,
-  label: Editor[e as keyof typeof Editor],
-}))
 
 const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0)
@@ -77,7 +72,7 @@ const CreateWorkspace = () => {
   } = useForm({
     defaultValues: {
       repo: '',
-      editor: daytonaConfig?.defaultIde || 'vscode',
+      editor: daytonaConfig?.defaultIde || Editor.vscode,
       target: '',
     },
   })
@@ -103,7 +98,7 @@ const CreateWorkspace = () => {
   const openInEditor = async (
     createdWorkspaceId: string,
     createdWorkspaceName: string,
-    editor: string,
+    editor: Editor,
   ) => {
     try {
       await new Promise<void>((resolve, reject) => {
@@ -139,7 +134,7 @@ const CreateWorkspace = () => {
           await openInEditor(
             createdWorkspaceId,
             response.data.name,
-            selectedEditor,
+            selectedEditor as Editor,
           )
           setWorkspace(response.data)
         })
@@ -295,12 +290,9 @@ const CreateWorkspace = () => {
                         render={({ field, fieldState: { error } }) => (
                           <FormControl error={!!error}>
                             <Select {...field}>
-                              {editors.map((editor) => (
-                                <MenuItem
-                                  key={editor.value}
-                                  value={editor.value}
-                                >
-                                  {editor.label}
+                              {Object.values(Editor).map((editor) => (
+                                <MenuItem key={editor} value={editor}>
+                                  {EDITORS[editor as Editor].label}
                                 </MenuItem>
                               ))}
                             </Select>
@@ -382,7 +374,7 @@ const CreateWorkspace = () => {
                     <WorkspaceList
                       workspaces={[workspace]}
                       onDelete={handleDelete}
-                      preferedEditor={selectedEditor}
+                      preferedEditor={selectedEditor as Editor}
                     />
                   </Box>
                 ) : (

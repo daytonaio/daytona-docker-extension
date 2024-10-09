@@ -15,12 +15,12 @@ import {
 
 import { WorkspaceDTO } from '../../api-client'
 import WorkspaceItem from './WorkspaceItem/WorkspaceItem'
-import Editor from '../../enums/editor'
+import { Editor } from '../../constants/editors'
 
 const WorkspaceList: FC<{
   workspaces: WorkspaceDTO[]
   onDelete: (workspace: WorkspaceDTO) => void
-  preferedEditor?: string
+  preferedEditor?: Editor
 }> = ({ workspaces, onDelete, preferedEditor }) => {
   const [workspaceToDelete, setWorkspaceToDelete] =
     useState<WorkspaceDTO | null>(null)

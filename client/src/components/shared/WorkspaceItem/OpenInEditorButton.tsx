@@ -9,33 +9,29 @@ import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
 
 import VsCodeIcon from '../icons/VsCodeIcon'
-import Editor from '../../../enums/editor'
+import { Editor, EDITORS } from '../../../constants/editors'
 
 interface Props {
-  onSelect: (editor: string) => void
+  onSelect: (editor: Editor) => void
   isLoading: boolean
-  editor?: string
+  editor?: Editor
 }
-
-const options = Object.keys(Editor).map((e) => ({
-  value: e,
-  label: Editor[e as keyof typeof Editor],
-}))
 
 const OpenInEditorButton: FC<Props> = ({
   onSelect,
   isLoading,
-  editor = 'vscode',
+  editor = Editor.vscode,
 }) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLDivElement>(null)
-  const [selectedEditor, setSelectedEditor] = useState(editor)
+  const [selectedEditor, setSelectedEditor] = useState<Editor>(editor)
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    editor: string,
+    editor: Editor,
   ) => {
     setSelectedEditor(editor)
+    onSelect(editor)
     setOpen(false)
   }
 
@@ -79,7 +75,7 @@ const OpenInEditorButton: FC<Props> = ({
           variant="contained"
           onClick={() => onSelect(selectedEditor)}
         >
-          <Box flex={1}>{selectedEditor}</Box>
+          <Box flex={1}>{EDITORS[selectedEditor].label}</Box>
         </Button>
         <Button
           aria-controls={open ? 'split-button-menu' : undefined}
@@ -110,17 +106,19 @@ const OpenInEditorButton: FC<Props> = ({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {options.map((option) => (
-                    <MenuItem
-                      key={option.value}
-                      selected={option.value === selectedEditor}
-                      onClick={(event) =>
-                        handleMenuItemClick(event, option.value)
-                      }
-                    >
-                      {option.label}
-                    </MenuItem>
-                  ))}
+                  {Object.values(Editor)
+                    .filter((editor) => editor !== selectedEditor)
+                    .map((editor) => (
+                      <MenuItem
+                        key={editor}
+                        selected={editor === selectedEditor}
+                        onClick={(event) =>
+                          handleMenuItemClick(event, editor as Editor)
+                        }
+                      >
+                        {EDITORS[editor as Editor].label}
+                      </MenuItem>
+                    ))}
                 </MenuList>
               </ClickAwayListener>
             </Paper>

@@ -13,12 +13,12 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { WorkspaceDTO } from '../../../api-client'
 import { useDockerClient } from '../../../providers/DockerClientProvider'
 import OpenInEditorButton from './OpenInEditorButton'
-import Editor from '../../../enums/editor'
+import { Editor } from '../../../constants/editors'
 
 const WorkspaceItem: FC<{
   workspace: WorkspaceDTO
   onDelete: () => void
-  preferedEditor?: string
+  preferedEditor?: Editor
 }> = ({ workspace, onDelete, preferedEditor }) => {
   const client = useDockerClient()
   const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +27,7 @@ const WorkspaceItem: FC<{
     return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
   }, [workspace])
 
-  const openInEditor = async (editor: string) => {
+  const openInEditor = async (editor: Editor) => {
     setIsLoading(true)
     try {
       await new Promise<void>((resolve, reject) => {
