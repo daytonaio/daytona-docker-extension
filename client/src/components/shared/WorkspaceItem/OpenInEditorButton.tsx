@@ -53,6 +53,28 @@ const OpenInEditorButton: FC<Props> = ({
     setOpen(false)
   }
 
+  if (
+    isLoading &&
+    (selectedEditor === Editor.VsCodeBrowser || editor === Editor.Jupyter)
+  ) {
+    return (
+      <Button
+        sx={{
+          width: 190,
+          justifyContent: 'space-between',
+          textTransform: 'uppercase',
+          textAlign: 'center',
+        }}
+        startIcon={<CircularProgress size="16px" color="secondary" />}
+        disabled={true}
+        size="small"
+        variant="outlined"
+      >
+        <Box flex={1}>Forwarding port</Box>
+      </Button>
+    )
+  }
+
   return (
     <>
       <ButtonGroup
@@ -66,6 +88,7 @@ const OpenInEditorButton: FC<Props> = ({
             justifyContent: 'space-between',
             textTransform: 'uppercase',
             textAlign: 'center',
+            borderRight: 'transparent !important',
           }}
           startIcon={
             isLoading ? (
@@ -74,6 +97,7 @@ const OpenInEditorButton: FC<Props> = ({
               EDITORS[selectedEditor].icon
             )
           }
+          disabled={isLoading}
           size="small"
           variant="outlined"
           onClick={() => onSelect(selectedEditor)}
@@ -87,6 +111,7 @@ const OpenInEditorButton: FC<Props> = ({
           aria-haspopup="menu"
           variant="outlined"
           onClick={handleToggle}
+          disabled={isLoading}
         >
           <ArrowDropDownIcon />
         </Button>

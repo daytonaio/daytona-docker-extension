@@ -387,6 +387,9 @@ const CreateWorkspace = () => {
                   >
                     <CircularProgress />
                     <Typography variant="h3">Opening workspace</Typography>
+                    {selectedEditor === Editor.Jupyter && (
+                      <Typography variant="body1">Forwarding port</Typography>
+                    )}
                   </Box>
                 )}
               </>
