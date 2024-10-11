@@ -4,150 +4,117 @@ export default function VsCodeIcon(props: any) {
   return (
     <SvgIcon {...props}>
       <svg
-        width="20"
-        height="24"
-        viewBox="0 0 100 100"
-        fill="none"
+        {...props}
+        className={`${props.className} no-override-fill`}
         xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="2.91 2.5 16.09 16"
       >
-        <g filter="url(#b)" clip-path="url(#a)">
-          <mask
-            id="c"
-            mask-type="alpha"
-            maskUnits="userSpaceOnUse"
-            x="0"
-            y="0"
-            width="100"
-            height="100"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M70.912 99.572a6.193 6.193 0 0 0 4.96-.191l20.588-9.958a6.285 6.285 0 0 0 3.54-5.661V16.239a6.286 6.286 0 0 0-3.54-5.662L75.873.62a6.2 6.2 0 0 0-7.104 1.216L29.355 37.98l-17.168-13.1a4.146 4.146 0 0 0-5.318.238l-5.506 5.035a4.205 4.205 0 0 0-.004 6.194L16.247 50 1.36 63.654a4.205 4.205 0 0 0 .004 6.194l5.506 5.034a4.145 4.145 0 0 0 5.318.238l17.168-13.1L68.77 98.166a6.205 6.205 0 0 0 2.143 1.407Zm4.103-72.39L45.11 50 75.015 72.82V27.18Z"
-              fill="#fff"
-            />
-          </mask>
-          <g mask="url(#c)">
-            <path
-              d="M96.461 10.593 75.857.621a6.205 6.205 0 0 0-7.107 1.214L1.298 63.654a4.203 4.203 0 0 0 .005 6.194l5.51 5.034a4.15 4.15 0 0 0 5.32.238L93.36 13.18c2.725-2.078 6.64-.124 6.64 3.314v-.24a6.287 6.287 0 0 0-3.539-5.661Z"
-              fill="#D9D9D9"
-            />
-            <g filter="url(#d)">
-              <path
-                d="M96.461 89.407 75.857 99.38a6.205 6.205 0 0 1-7.107-1.215L1.298 36.346a4.203 4.203 0 0 1 .005-6.194l5.51-5.034a4.15 4.15 0 0 1 5.32-.238L93.36 86.82c2.725 2.079 6.64.125 6.64-3.314v.241a6.287 6.287 0 0 1-3.539 5.66Z"
-                fill="#E6E6E6"
-              />
-            </g>
-            <g filter="url(#e)">
-              <path
-                d="M75.858 99.38a6.206 6.206 0 0 1-7.108-1.215c2.306 2.318 6.25.676 6.25-2.602V4.437c0-3.278-3.944-4.92-6.25-2.602A6.208 6.208 0 0 1 75.858.619l20.6 9.958A6.286 6.286 0 0 1 100 16.24v67.523a6.286 6.286 0 0 1-3.542 5.661l-20.6 9.958Z"
-                fill="#fff"
-              />
-            </g>
-            <path
-              opacity=".25"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M70.85 99.572a6.193 6.193 0 0 0 4.962-.191L96.4 89.423a6.284 6.284 0 0 0 3.539-5.661V16.239a6.285 6.285 0 0 0-3.539-5.662L75.811.62a6.2 6.2 0 0 0-7.103 1.216L29.294 37.98l-17.168-13.1a4.146 4.146 0 0 0-5.318.238l-5.506 5.034a4.205 4.205 0 0 0-.004 6.194L16.186 50 1.297 63.654a4.205 4.205 0 0 0 .005 6.194l5.506 5.034a4.146 4.146 0 0 0 5.318.238l17.168-13.1 39.414 36.145a6.205 6.205 0 0 0 2.143 1.407Zm4.104-72.39L45.048 50l29.906 22.819V27.18Z"
-              fill="url(#f)"
-            />
-          </g>
+        <path
+          d="M18.4298 4.1955L15.116 2.59997C14.7324 2.41529 14.274 2.49319 13.973 2.79422L3.12487 12.6852C2.83309 12.9512 2.83342 13.4106 3.1256 13.6762L4.0117 14.4817C4.25057 14.6989 4.6103 14.7149 4.86749 14.5198L17.9311 4.60942C18.3694 4.27694 18.9989 4.58953 18.9989 5.13964V5.10117C18.9989 4.71502 18.7777 4.36302 18.4298 4.1955Z"
+          fill="#0065A9"
+        />
+        <g filter="url(#filter0_d_3477_4034)">
+          <path
+            d="M18.4309 16.8052L15.1171 18.4007C14.7335 18.5854 14.2751 18.5075 13.9741 18.2065L3.12597 8.31554C2.83419 8.0495 2.83452 7.59011 3.1267 7.3245L4.0128 6.51894C4.25167 6.30179 4.6114 6.2858 4.86858 6.48091L17.9322 16.3913C18.3705 16.7237 19 16.4112 19 15.8611V15.8995C19 16.2857 18.7788 16.6377 18.4309 16.8052Z"
+            fill="#007ACC"
+          />
+        </g>
+        <g filter="url(#filter1_d_3477_4034)">
+          <path
+            d="M15.1143 18.4009C14.7306 18.5855 14.2722 18.5074 13.9712 18.2063C14.3421 18.5772 14.9764 18.3145 14.9764 17.79V3.20993C14.9764 2.68535 14.3421 2.42263 13.9712 2.79357C14.2722 2.49252 14.7306 2.4145 15.1143 2.59902L18.4275 4.19236C18.7757 4.35978 18.9971 4.71192 18.9971 5.09823V15.9017C18.9971 16.288 18.7757 16.6402 18.4275 16.8076L15.1143 18.4009Z"
+            fill="#1F9CF0"
+          />
+        </g>
+        <g opacity="0.25">
+          <path
+            opacity="0.25"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M14.3124 18.4316C14.5657 18.5302 14.8545 18.5239 15.1102 18.4009L18.4214 16.8076C18.7693 16.6402 18.9906 16.2881 18.9906 15.9017V5.09827C18.9906 4.71194 18.7693 4.3598 18.4214 4.19238L15.1102 2.59905C14.7747 2.4376 14.382 2.47714 14.0875 2.69124C14.0454 2.72182 14.0053 2.75597 13.9677 2.7936L7.62885 8.57668L4.86776 6.4808C4.61074 6.28568 4.25122 6.30168 4.0125 6.51882L3.12693 7.32438C2.83493 7.59 2.8346 8.04938 3.12621 8.31542L5.52071 10.5L3.12621 12.6845C2.8346 12.9506 2.83493 13.41 3.12693 13.6756L4.0125 14.4811C4.25122 14.6983 4.61074 14.7143 4.86776 14.5192L7.62885 12.4233L13.9677 18.2064C14.068 18.3067 14.1857 18.3822 14.3124 18.4316ZM14.9723 6.84898L10.1625 10.5L14.9723 14.151V6.84898Z"
+            fill="url(#paint0_linear_3477_4034)"
+          />
         </g>
         <defs>
           <filter
-            id="b"
-            x="-6.25"
-            y="-4.167"
-            width="112.5"
-            height="112.5"
+            id="filter0_d_3477_4034"
+            x="0.813225"
+            y="4.25054"
+            width="20.2809"
+            height="16.3435"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
+              type="matrix"
               values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
             />
-            <feOffset dy="2.083" />
-            <feGaussianBlur stdDeviation="3.125" />
-            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" />
-            <feBlend in2="BackgroundImageFix" result="effect1_dropShadow" />
+            <feOffset />
+            <feGaussianBlur stdDeviation="1.04706" />
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+            />
             <feBlend
+              mode="overlay"
+              in2="BackgroundImageFix"
+              result="effect1_dropShadow_3477_4034"
+            />
+            <feBlend
+              mode="normal"
               in="SourceGraphic"
-              in2="effect1_dropShadow"
+              in2="effect1_dropShadow_3477_4034"
               result="shape"
             />
           </filter>
           <filter
-            id="d"
-            x="-8.394"
-            y="15.695"
-            width="116.728"
-            height="92.638"
+            id="filter1_d_3477_4034"
+            x="11.8771"
+            y="0.405846"
+            width="9.21413"
+            height="20.1882"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
+              type="matrix"
               values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
             />
             <feOffset />
-            <feGaussianBlur stdDeviation="4.167" />
-            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+            <feGaussianBlur stdDeviation="1.04706" />
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+            />
             <feBlend
               mode="overlay"
               in2="BackgroundImageFix"
-              result="effect1_dropShadow"
+              result="effect1_dropShadow_3477_4034"
             />
             <feBlend
+              mode="normal"
               in="SourceGraphic"
-              in2="effect1_dropShadow"
-              result="shape"
-            />
-          </filter>
-          <filter
-            id="e"
-            x="60.417"
-            y="-8.333"
-            width="47.917"
-            height="116.667"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-            <feColorMatrix
-              in="SourceAlpha"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-            />
-            <feOffset />
-            <feGaussianBlur stdDeviation="4.167" />
-            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-            <feBlend
-              mode="overlay"
-              in2="BackgroundImageFix"
-              result="effect1_dropShadow"
-            />
-            <feBlend
-              in="SourceGraphic"
-              in2="effect1_dropShadow"
+              in2="effect1_dropShadow_3477_4034"
               result="shape"
             />
           </filter>
           <linearGradient
-            id="f"
-            x1="49.939"
-            y1="0"
-            x2="49.939"
-            y2="100.001"
+            id="paint0_linear_3477_4034"
+            x1="10.9491"
+            y1="2.5"
+            x2="10.9491"
+            y2="18.5"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#fff" />
-            <stop offset="1" stop-color="#fff" stop-opacity="0" />
+            <stop stopColor="white" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
-          <clipPath id="a">
-            <path fill="#fff" d="M0 0h100v100H0z" />
-          </clipPath>
         </defs>
       </svg>
     </SvgIcon>

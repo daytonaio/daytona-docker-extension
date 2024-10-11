@@ -1,4 +1,11 @@
-import { Box, Button, ButtonGroup, CircularProgress } from '@mui/material'
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  ListItemText,
+  ListItemIcon,
+} from '@mui/material'
 import { FC, useRef, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
@@ -8,7 +15,6 @@ import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
 
-import VsCodeIcon from '../icons/VsCodeIcon'
 import { Editor, EDITORS } from '../../../constants/editors'
 
 interface Props {
@@ -20,16 +26,13 @@ interface Props {
 const OpenInEditorButton: FC<Props> = ({
   onSelect,
   isLoading,
-  editor = Editor.vscode,
+  editor = Editor.Vscode,
 }) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLDivElement>(null)
   const [selectedEditor, setSelectedEditor] = useState<Editor>(editor)
 
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    editor: Editor,
-  ) => {
+  const handleMenuItemClick = (editor: Editor) => {
     setSelectedEditor(editor)
     onSelect(editor)
     setOpen(false)
@@ -59,7 +62,7 @@ const OpenInEditorButton: FC<Props> = ({
       >
         <Button
           sx={{
-            width: 120,
+            width: 140,
             justifyContent: 'space-between',
             textTransform: 'uppercase',
             textAlign: 'center',
@@ -68,11 +71,11 @@ const OpenInEditorButton: FC<Props> = ({
             isLoading ? (
               <CircularProgress size="16px" color="info" />
             ) : (
-              <VsCodeIcon />
+              EDITORS[selectedEditor].icon
             )
           }
           size="small"
-          variant="contained"
+          variant="outlined"
           onClick={() => onSelect(selectedEditor)}
         >
           <Box flex={1}>{EDITORS[selectedEditor].label}</Box>
@@ -82,6 +85,7 @@ const OpenInEditorButton: FC<Props> = ({
           aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
           aria-haspopup="menu"
+          variant="outlined"
           onClick={handleToggle}
         >
           <ArrowDropDownIcon />
@@ -112,11 +116,14 @@ const OpenInEditorButton: FC<Props> = ({
                       <MenuItem
                         key={editor}
                         selected={editor === selectedEditor}
-                        onClick={(event) =>
-                          handleMenuItemClick(event, editor as Editor)
-                        }
+                        onClick={() => handleMenuItemClick(editor as Editor)}
                       >
-                        {EDITORS[editor as Editor].label}
+                        <ListItemIcon>
+                          {EDITORS[editor as Editor].icon}
+                        </ListItemIcon>
+                        <ListItemText>
+                          {EDITORS[editor as Editor].label}
+                        </ListItemText>
                       </MenuItem>
                     ))}
                 </MenuList>

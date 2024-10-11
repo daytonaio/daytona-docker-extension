@@ -72,7 +72,7 @@ const CreateWorkspace = () => {
   } = useForm({
     defaultValues: {
       repo: '',
-      editor: daytonaConfig?.defaultIde || Editor.vscode,
+      editor: daytonaConfig?.defaultIde || Editor.Vscode,
       target: '',
     },
   })
