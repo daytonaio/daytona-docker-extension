@@ -1,6 +1,6 @@
 import VsCodeIcon from '../components/shared/icons/VsCodeIcon'
 import VsCodeBrowserIcon from '../components/shared/icons/VsCodeBrowserIcon'
-// import CursorIcon from '../components/shared/icons/CursorIcon';
+import CursorIcon from '../components/shared/icons/CursorIcon'
 import JupyterIcon from '../components/shared/icons/JupyterIcon'
 import FleetIcon from '../components/shared/icons/FleetIcon'
 import CLionIcon from '../components/shared/icons/CLionIcon'
@@ -45,6 +45,7 @@ export const EDITORS: Record<
   [Editor.Cursor]: {
     value: Editor.Cursor,
     label: 'Cursor',
+    icon: <CursorIcon />,
   },
   [Editor.Jupyter]: {
     value: Editor.Jupyter,
