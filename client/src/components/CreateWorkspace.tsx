@@ -20,7 +20,13 @@ import { useXTerm } from 'react-xtermjs'
 import { AxiosResponse } from 'axios'
 
 import Header from './shared/Header'
-import { ProviderTarget, WorkspaceDTO } from '../api-client'
+import {
+  GitNamespace,
+  GitProvider,
+  GitRepository,
+  ProviderTarget,
+  WorkspaceDTO,
+} from '../api-client'
 import { useApiClient } from '../providers/ApiClientProvider'
 import { useDockerClient } from '../providers/DockerClientProvider'
 import { useDaytonaConfig } from '../providers/DaytonaConfigProvider'
@@ -28,26 +34,6 @@ import WorkspaceList from './shared/WorkspaceList'
 import { Editor, EDITORS } from '../constants/editors'
 
 const steps = ['Setup', 'Preparing', 'Ready']
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  {
-    title: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-]
 
 const CreateWorkspace = () => {
   const [activeStep, setActiveStep] = useState(0)
@@ -61,7 +47,10 @@ const CreateWorkspace = () => {
   )
   const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
   const [targets, setTargets] = useState<ProviderTarget[]>([])
-  const { workspaceApiClient, targetApiClient } = useApiClient()
+  const { workspaceApiClient, targetApiClient, gitProvidersApiClient } =
+    useApiClient()
+  const [repos, setRepos] = useState<GitRepository[]>([])
+  const [loadingRepos, setLoadingRepos] = useState(false)
 
   const {
     control,
@@ -78,6 +67,40 @@ const CreateWorkspace = () => {
   })
 
   const selectedEditor = watch('editor')
+
+  useEffect(() => {
+    if (gitProvidersApiClient) {
+      setLoadingRepos(true)
+      gitProvidersApiClient
+        .listGitProviders()
+        .then((response: AxiosResponse<GitProvider[], any>) => {
+          response.data.forEach((p: GitProvider) => {
+            gitProvidersApiClient
+              .getNamespaces(p.id)
+              .then((response: AxiosResponse<GitNamespace[], any>) => {
+                response.data.forEach((n: GitNamespace) => {
+                  gitProvidersApiClient
+                    .getRepositories(p.id, n.id)
+                    .then((response: AxiosResponse<GitRepository[], any>) => {
+                      setRepos([...repos, ...response.data])
+                      setLoadingRepos(false)
+                    })
+                    .catch((error: any) => {
+                      throw error
+                    })
+                })
+              })
+              .catch((error: any) => {
+                throw error
+              })
+          })
+        })
+        .catch((e) => {
+          setLoadingRepos(false)
+          console.error(e)
+        })
+    }
+  }, [gitProvidersApiClient])
 
   useEffect(() => {
     if (targetApiClient) {
@@ -267,7 +290,8 @@ const CreateWorkspace = () => {
                         render={({ field, fieldState: { error } }) => (
                           <Autocomplete
                             freeSolo
-                            options={top100Films.map((option) => option.title)}
+                            options={repos.map((repo) => repo.url)}
+                            loading={loadingRepos}
                             renderInput={(params) => (
                               <TextField
                                 error={!!error}
@@ -275,6 +299,20 @@ const CreateWorkspace = () => {
                                 placeholder="https://..., git@..."
                                 {...params}
                                 {...field}
+                                InputProps={{
+                                  ...params.InputProps,
+                                  endAdornment: (
+                                    <>
+                                      {loadingRepos ? (
+                                        <CircularProgress
+                                          color="inherit"
+                                          size={20}
+                                        />
+                                      ) : null}
+                                      {params.InputProps.endAdornment}
+                                    </>
+                                  ),
+                                }}
                               />
                             )}
                           />
