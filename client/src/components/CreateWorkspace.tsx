@@ -292,6 +292,9 @@ const CreateWorkspace = () => {
                             freeSolo
                             options={repos.map((repo) => repo.url)}
                             loading={loadingRepos}
+                            onChange={(_, value) => {
+                              field.onChange(value)
+                            }}
                             renderInput={(params) => (
                               <TextField
                                 error={!!error}
