@@ -31,6 +31,7 @@ const WorkspaceItem: FC<{
     setIsLoading(true)
     try {
       await new Promise<void>((resolve, reject) => {
+        let stderr = ''
         client?.extension.host?.cli.exec(
           'daytona',
           ['code', workspace.id, workspace.name, '--ide', editor],
@@ -38,14 +39,23 @@ const WorkspaceItem: FC<{
             stream: {
               onOutput: (message: any) => {
                 if (message.stderr) {
-                  client?.desktopUI.toast.error(
-                    `Error with opening editor. ${message.stderr}`,
-                  )
-                  resolve()
+                  stderr += message.stderr
                 }
               },
               onClose: () => resolve(),
-              onError: (error: any) => reject(error),
+              onError: (error: any) => {
+                if (!error) {
+                  resolve()
+                  return
+                }
+
+                client?.desktopUI.toast.error(
+                  `Error with opening editor. ERROR: ${JSON.stringify(
+                    error,
+                  )} ${stderr}`,
+                )
+                reject(error)
+              },
             },
           },
         )
@@ -57,6 +67,7 @@ const WorkspaceItem: FC<{
   }
 
   const openRepo = () => {
+    // @ts-ignore
     client?.openExternal(workspace.projects[0].repository.url)
   }
 

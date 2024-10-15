@@ -125,6 +125,8 @@ const CreateWorkspace = () => {
   ) => {
     try {
       await new Promise<void>((resolve, reject) => {
+        let stderr = ''
+
         client?.extension.host?.cli.exec(
           'daytona',
           ['code', createdWorkspaceId, createdWorkspaceName, '--ide', editor],
@@ -132,14 +134,23 @@ const CreateWorkspace = () => {
             stream: {
               onOutput: (message: any) => {
                 if (message.stderr) {
-                  client?.desktopUI.toast.error(
-                    `Error with opening editor. ${message.stderr}`,
-                  )
-                  resolve()
+                  stderr += message.stderr
                 }
               },
               onClose: () => resolve(),
-              onError: (error: any) => reject(error),
+              onError: (error: any) => {
+                if (!error) {
+                  resolve()
+                  return
+                }
+
+                client?.desktopUI.toast.error(
+                  `Error with opening editor. ERROR: ${JSON.stringify(
+                    error,
+                  )} ${stderr}`,
+                )
+                reject(error)
+              },
             },
           },
         )
@@ -172,7 +183,7 @@ const CreateWorkspace = () => {
       await new Promise<void>((resolve, reject) => {
         const result = client?.extension.host?.cli.exec(
           'daytona',
-          ['create', data.repo, '-t', data.target],
+          ['create', data.repo, '-t', data.target, '--no-ide'],
           {
             stream: {
               onOutput: (message: any) => {
