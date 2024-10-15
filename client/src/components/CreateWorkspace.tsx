@@ -73,27 +73,31 @@ const CreateWorkspace = () => {
       setLoadingRepos(true)
       gitProvidersApiClient
         .listGitProviders()
-        .then((response: AxiosResponse<GitProvider[], any>) => {
-          response.data.forEach((p: GitProvider) => {
-            gitProvidersApiClient
-              .getNamespaces(p.id)
-              .then((response: AxiosResponse<GitNamespace[], any>) => {
-                response.data.forEach((n: GitNamespace) => {
-                  gitProvidersApiClient
-                    .getRepositories(p.id, n.id)
-                    .then((response: AxiosResponse<GitRepository[], any>) => {
-                      setRepos([...repos, ...response.data])
-                      setLoadingRepos(false)
-                    })
-                    .catch((error: any) => {
-                      throw error
-                    })
-                })
-              })
-              .catch((error: any) => {
-                throw error
-              })
-          })
+        .then(async (response: AxiosResponse<GitProvider[], any>) => {
+          const list = []
+
+          try {
+            for (const p of response.data) {
+              const response = await gitProvidersApiClient.getNamespaces(p.id)
+              for (const n of response.data) {
+                const response = await gitProvidersApiClient.getRepositories(
+                  p.id,
+                  n.id,
+                )
+                if (!response || !response.data) {
+                  continue
+                }
+                list.push(...response.data)
+              }
+            }
+          } catch (error) {
+            client?.desktopUI.toast.error(
+              `Error while fetching repos. ${error}`,
+            )
+          }
+
+          setRepos(list)
+          setLoadingRepos(false)
         })
         .catch((e) => {
           setLoadingRepos(false)
