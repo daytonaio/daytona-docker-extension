@@ -5,6 +5,8 @@ import {
   CircularProgress,
   ListItemText,
   ListItemIcon,
+  Tooltip,
+  Chip,
 } from '@mui/material'
 import { FC, useRef, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -57,22 +59,7 @@ const OpenInEditorButton: FC<Props> = ({
     isLoading &&
     (selectedEditor === Editor.VsCodeBrowser || editor === Editor.Jupyter)
   ) {
-    return (
-      <Button
-        sx={{
-          width: 190,
-          justifyContent: 'space-between',
-          textTransform: 'uppercase',
-          textAlign: 'center',
-        }}
-        startIcon={<CircularProgress size="16px" color="secondary" />}
-        disabled={true}
-        size="small"
-        variant="outlined"
-      >
-        <Box flex={1}>Forwarding port</Box>
-      </Button>
-    )
+    return <Chip sx={{ padding: '14px' }} label="Forwarding port" />
   }
 
   return (
@@ -82,28 +69,27 @@ const OpenInEditorButton: FC<Props> = ({
         ref={anchorRef}
         aria-label="Button group with a nested menu"
       >
-        <Button
-          sx={{
-            width: 140,
-            justifyContent: 'space-between',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            borderRight: 'transparent !important',
-          }}
-          startIcon={
-            isLoading ? (
-              <CircularProgress size="16px" color="info" />
-            ) : (
-              EDITORS[selectedEditor].icon
-            )
-          }
-          disabled={isLoading}
-          size="small"
-          variant="outlined"
-          onClick={() => onSelect(selectedEditor)}
-        >
-          <Box flex={1}>{EDITORS[selectedEditor].label}</Box>
-        </Button>
+        <Tooltip title="Open in Editor">
+          <Button
+            sx={{
+              justifyContent: 'space-between',
+              textTransform: 'uppercase',
+              textAlign: 'center',
+              borderRight: 'transparent !important',
+            }}
+            startIcon={
+              isLoading ? (
+                <CircularProgress size="16px" color="info" />
+              ) : (
+                EDITORS[selectedEditor].icon
+              )
+            }
+            disabled={isLoading}
+            size="small"
+            variant="outlined"
+            onClick={() => onSelect(selectedEditor)}
+          />
+        </Tooltip>
         <Button
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}

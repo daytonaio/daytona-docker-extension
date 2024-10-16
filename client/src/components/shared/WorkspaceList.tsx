@@ -82,6 +82,16 @@ const WorkspaceList: FC<{
                 borderColor: 'secondary.dark',
                 height: 50,
                 fontSize: '12px',
+                width: 200,
+              }}
+            >
+              TARGET
+            </TableCell>
+            <TableCell
+              sx={{
+                borderColor: 'secondary.dark',
+                height: 50,
+                fontSize: '12px',
                 width: 100,
               }}
               align="left"

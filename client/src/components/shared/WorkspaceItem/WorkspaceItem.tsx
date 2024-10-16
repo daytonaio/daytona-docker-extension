@@ -104,8 +104,14 @@ const WorkspaceItem: FC<{
           <Chip label="Stopped" color="error" sx={{ padding: '14px' }} />
         )}
       </TableCell>
+      <TableCell>{workspace.projects[0].target}</TableCell>
       <TableCell>
-        <Box display={'flex'} gap={2} justifyContent="flex-end">
+        <Box
+          display="flex"
+          gap={2}
+          justifyContent="flex-end"
+          alignItems="center"
+        >
           {isWorkspaceRunning && (
             <OpenInEditorButton
               onSelect={openInEditor}

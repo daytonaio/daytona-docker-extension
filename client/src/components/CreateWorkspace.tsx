@@ -21,7 +21,6 @@ import { AxiosResponse } from 'axios'
 
 import Header from './shared/Header'
 import {
-  GitNamespace,
   GitProvider,
   GitRepository,
   ProviderTarget,
@@ -345,9 +344,19 @@ const CreateWorkspace = () => {
                         rules={{ required: 'This field is required' }}
                         render={({ field, fieldState: { error } }) => (
                           <FormControl error={!!error}>
-                            <Select {...field}>
+                            <Select
+                              {...field}
+                              renderValue={(value) =>
+                                EDITORS[value as Editor].label
+                              }
+                            >
                               {Object.values(Editor).map((editor) => (
-                                <MenuItem key={editor} value={editor}>
+                                <MenuItem
+                                  key={editor}
+                                  value={editor}
+                                  sx={{ display: 'flex', gap: 1 }}
+                                >
+                                  {EDITORS[editor as Editor].icon}
                                   {EDITORS[editor as Editor].label}
                                 </MenuItem>
                               ))}

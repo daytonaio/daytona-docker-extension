@@ -4,8 +4,8 @@ export default function JupyterIcon(props: any) {
   return (
     <SvgIcon {...props}>
       <svg
-        width="44"
-        height="51"
+        width="24"
+        height="24"
         viewBox="0 0 44 51"
         version="2.0"
         xmlnsXlink="http://www.w3.org/1999/xlink"
