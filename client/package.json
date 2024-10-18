@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "format:write": "prettier --write src/**/*.{ts,tsx}",
-    "generate-api-client": "openapi-generator-cli generate -i https://raw.githubusercontent.com/daytonaio/daytona/v0.39.0/pkg/api/docs/swagger.json -g typescript-axios --additional-properties=enumNameSuffix= --type-mappings=DateTime=Date -o src/api-client && npm run format:write"
+    "generate-api-client": "openapi-generator-cli generate -i https://raw.githubusercontent.com/daytonaio/daytona/v0.40.0/pkg/api/docs/swagger.json -g typescript-axios --additional-properties=enumNameSuffix= --type-mappings=DateTime=Date -o src/api-client && npm run format:write"
   },
   "dependencies": {
     "@docker/docker-mui-theme": "^0.0.9",

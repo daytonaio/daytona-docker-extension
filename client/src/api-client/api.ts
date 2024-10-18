@@ -83,6 +83,170 @@ export type ApikeyApiKeyType =
 /**
  *
  * @export
+ * @interface Build
+ */
+export interface Build {
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof Build
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {ContainerConfig}
+   * @memberof Build
+   */
+  containerConfig: ContainerConfig
+  /**
+   *
+   * @type {string}
+   * @memberof Build
+   */
+  createdAt: string
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof Build
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof Build
+   */
+  id: string
+  /**
+   *
+   * @type {string}
+   * @memberof Build
+   */
+  image?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Build
+   */
+  prebuildId: string
+  /**
+   *
+   * @type {GitRepository}
+   * @memberof Build
+   */
+  repository: GitRepository
+  /**
+   *
+   * @type {BuildBuildState}
+   * @memberof Build
+   */
+  state: BuildBuildState
+  /**
+   *
+   * @type {string}
+   * @memberof Build
+   */
+  updatedAt: string
+  /**
+   *
+   * @type {string}
+   * @memberof Build
+   */
+  user?: string
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const BuildBuildState = {
+  BuildStatePendingRun: 'pending-run',
+  BuildStateRunning: 'running',
+  BuildStateError: 'error',
+  BuildStateSuccess: 'success',
+  BuildStatePublished: 'published',
+  BuildStatePendingDelete: 'pending-delete',
+  BuildStatePendingForcedDelete: 'pending-forced-delete',
+  BuildStateDeleting: 'deleting',
+} as const
+
+export type BuildBuildState =
+  (typeof BuildBuildState)[keyof typeof BuildBuildState]
+
+/**
+ *
+ * @export
+ * @interface BuildConfig
+ */
+export interface BuildConfig {
+  /**
+   *
+   * @type {CachedBuild}
+   * @memberof BuildConfig
+   */
+  cachedBuild?: CachedBuild
+  /**
+   *
+   * @type {DevcontainerConfig}
+   * @memberof BuildConfig
+   */
+  devcontainer?: DevcontainerConfig
+}
+/**
+ *
+ * @export
+ * @interface CachedBuild
+ */
+export interface CachedBuild {
+  /**
+   *
+   * @type {string}
+   * @memberof CachedBuild
+   */
+  image: string
+  /**
+   *
+   * @type {string}
+   * @memberof CachedBuild
+   */
+  user: string
+}
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const CloneTarget = {
+  CloneTargetBranch: 'branch',
+  CloneTargetCommit: 'commit',
+} as const
+
+export type CloneTarget = (typeof CloneTarget)[keyof typeof CloneTarget]
+
+/**
+ *
+ * @export
+ * @interface ContainerConfig
+ */
+export interface ContainerConfig {
+  /**
+   *
+   * @type {string}
+   * @memberof ContainerConfig
+   */
+  image: string
+  /**
+   *
+   * @type {string}
+   * @memberof ContainerConfig
+   */
+  user: string
+}
+/**
+ *
+ * @export
  * @interface ContainerRegistry
  */
 export interface ContainerRegistry {
@@ -108,21 +272,95 @@ export interface ContainerRegistry {
 /**
  *
  * @export
+ * @interface CreateBuildDTO
+ */
+export interface CreateBuildDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateBuildDTO
+   */
+  branch: string
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateBuildDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof CreateBuildDTO
+   */
+  prebuildId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateBuildDTO
+   */
+  projectConfigName: string
+}
+/**
+ *
+ * @export
+ * @interface CreatePrebuildDTO
+ */
+export interface CreatePrebuildDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePrebuildDTO
+   */
+  branch?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CreatePrebuildDTO
+   */
+  commitInterval?: number
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePrebuildDTO
+   */
+  id?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CreatePrebuildDTO
+   */
+  retention: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof CreatePrebuildDTO
+   */
+  triggerFiles?: Array<string>
+}
+/**
+ *
+ * @export
  * @interface CreateProjectConfigDTO
  */
 export interface CreateProjectConfigDTO {
   /**
    *
-   * @type {ProjectBuildConfig}
+   * @type {BuildConfig}
    * @memberof CreateProjectConfigDTO
    */
-  buildConfig?: ProjectBuildConfig
+  buildConfig?: BuildConfig
   /**
    *
    * @type {{ [key: string]: string; }}
    * @memberof CreateProjectConfigDTO
    */
   envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProjectConfigDTO
+   */
+  gitProviderConfigId?: string
   /**
    *
    * @type {string}
@@ -137,10 +375,10 @@ export interface CreateProjectConfigDTO {
   name: string
   /**
    *
-   * @type {CreateProjectConfigSourceDTO}
+   * @type {string}
    * @memberof CreateProjectConfigDTO
    */
-  source: CreateProjectConfigSourceDTO
+  repositoryUrl: string
   /**
    *
    * @type {string}
@@ -151,15 +389,89 @@ export interface CreateProjectConfigDTO {
 /**
  *
  * @export
- * @interface CreateProjectConfigSourceDTO
+ * @interface CreateProjectDTO
  */
-export interface CreateProjectConfigSourceDTO {
+export interface CreateProjectDTO {
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof CreateProjectDTO
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateProjectDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProjectDTO
+   */
+  gitProviderConfigId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProjectDTO
+   */
+  image?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProjectDTO
+   */
+  name: string
+  /**
+   *
+   * @type {CreateProjectSourceDTO}
+   * @memberof CreateProjectDTO
+   */
+  source: CreateProjectSourceDTO
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProjectDTO
+   */
+  user?: string
+}
+/**
+ *
+ * @export
+ * @interface CreateProjectSourceDTO
+ */
+export interface CreateProjectSourceDTO {
   /**
    *
    * @type {GitRepository}
-   * @memberof CreateProjectConfigSourceDTO
+   * @memberof CreateProjectSourceDTO
    */
   repository: GitRepository
+}
+/**
+ *
+ * @export
+ * @interface CreateProviderTargetDTO
+ */
+export interface CreateProviderTargetDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProviderTargetDTO
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateProviderTargetDTO
+   */
+  options: string
+  /**
+   *
+   * @type {ProviderProviderInfo}
+   * @memberof CreateProviderTargetDTO
+   */
+  providerInfo: ProviderProviderInfo
 }
 /**
  *
@@ -181,10 +493,10 @@ export interface CreateWorkspaceDTO {
   name: string
   /**
    *
-   * @type {Array<CreateProjectConfigDTO>}
+   * @type {Array<CreateProjectDTO>}
    * @memberof CreateWorkspaceDTO
    */
-  projects: Array<CreateProjectConfigDTO>
+  projects: Array<CreateProjectDTO>
   /**
    *
    * @type {string}
@@ -265,6 +577,67 @@ export interface FileStatus {
 /**
  *
  * @export
+ * @interface GetRepositoryContext
+ */
+export interface GetRepositoryContext {
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  branch?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  owner?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  path?: string
+  /**
+   *
+   * @type {number}
+   * @memberof GetRepositoryContext
+   */
+  prNumber?: number
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  sha?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  source?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GetRepositoryContext
+   */
+  url: string
+}
+/**
+ *
+ * @export
  * @interface GitBranch
  */
 export interface GitBranch {
@@ -311,6 +684,12 @@ export interface GitProvider {
    * @type {string}
    * @memberof GitProvider
    */
+  alias: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitProvider
+   */
   baseApiUrl?: string
   /**
    *
@@ -318,6 +697,24 @@ export interface GitProvider {
    * @memberof GitProvider
    */
   id: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitProvider
+   */
+  providerId: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitProvider
+   */
+  signingKey?: string
+  /**
+   *
+   * @type {SigningMethod}
+   * @memberof GitProvider
+   */
+  signingMethod?: SigningMethod
   /**
    *
    * @type {string}
@@ -331,6 +728,7 @@ export interface GitProvider {
    */
   username: string
 }
+
 /**
  *
  * @export
@@ -391,7 +789,13 @@ export interface GitRepository {
    * @type {string}
    * @memberof GitRepository
    */
-  branch?: string
+  branch: string
+  /**
+   *
+   * @type {CloneTarget}
+   * @memberof GitRepository
+   */
+  cloneTarget?: CloneTarget
   /**
    *
    * @type {string}
@@ -441,12 +845,31 @@ export interface GitRepository {
    */
   url: string
 }
+
 /**
  *
  * @export
  * @interface GitStatus
  */
 export interface GitStatus {
+  /**
+   *
+   * @type {number}
+   * @memberof GitStatus
+   */
+  ahead?: number
+  /**
+   *
+   * @type {number}
+   * @memberof GitStatus
+   */
+  behind?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof GitStatus
+   */
+  branchPublished?: boolean
   /**
    *
    * @type {string}
@@ -526,6 +949,86 @@ export interface NetworkKey {
 /**
  *
  * @export
+ * @interface PrebuildConfig
+ */
+export interface PrebuildConfig {
+  /**
+   *
+   * @type {string}
+   * @memberof PrebuildConfig
+   */
+  branch: string
+  /**
+   *
+   * @type {number}
+   * @memberof PrebuildConfig
+   */
+  commitInterval: number
+  /**
+   *
+   * @type {string}
+   * @memberof PrebuildConfig
+   */
+  id: string
+  /**
+   *
+   * @type {number}
+   * @memberof PrebuildConfig
+   */
+  retention: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PrebuildConfig
+   */
+  triggerFiles: Array<string>
+}
+/**
+ *
+ * @export
+ * @interface PrebuildDTO
+ */
+export interface PrebuildDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof PrebuildDTO
+   */
+  branch: string
+  /**
+   *
+   * @type {number}
+   * @memberof PrebuildDTO
+   */
+  commitInterval?: number
+  /**
+   *
+   * @type {string}
+   * @memberof PrebuildDTO
+   */
+  id: string
+  /**
+   *
+   * @type {string}
+   * @memberof PrebuildDTO
+   */
+  projectConfigName: string
+  /**
+   *
+   * @type {number}
+   * @memberof PrebuildDTO
+   */
+  retention: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PrebuildDTO
+   */
+  triggerFiles?: Array<string>
+}
+/**
+ *
+ * @export
  * @interface ProfileData
  */
 export interface ProfileData {
@@ -544,22 +1047,22 @@ export interface ProfileData {
 export interface Project {
   /**
    *
-   * @type {ProjectBuildConfig}
+   * @type {BuildConfig}
    * @memberof Project
    */
-  buildConfig?: ProjectBuildConfig
-  /**
-   *
-   * @type {boolean}
-   * @memberof Project
-   */
-  default: boolean
+  buildConfig?: BuildConfig
   /**
    *
    * @type {{ [key: string]: string; }}
    * @memberof Project
    */
   envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof Project
+   */
+  gitProviderConfigId?: string
   /**
    *
    * @type {string}
@@ -606,28 +1109,15 @@ export interface Project {
 /**
  *
  * @export
- * @interface ProjectBuildConfig
- */
-export interface ProjectBuildConfig {
-  /**
-   *
-   * @type {DevcontainerConfig}
-   * @memberof ProjectBuildConfig
-   */
-  devcontainer?: DevcontainerConfig
-}
-/**
- *
- * @export
  * @interface ProjectConfig
  */
 export interface ProjectConfig {
   /**
    *
-   * @type {ProjectBuildConfig}
+   * @type {BuildConfig}
    * @memberof ProjectConfig
    */
-  buildConfig?: ProjectBuildConfig
+  buildConfig?: BuildConfig
   /**
    *
    * @type {boolean}
@@ -645,6 +1135,12 @@ export interface ProjectConfig {
    * @type {string}
    * @memberof ProjectConfig
    */
+  gitProviderConfigId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProjectConfig
+   */
   image: string
   /**
    *
@@ -654,10 +1150,16 @@ export interface ProjectConfig {
   name: string
   /**
    *
-   * @type {GitRepository}
+   * @type {Array<PrebuildConfig>}
    * @memberof ProjectConfig
    */
-  repository: GitRepository
+  prebuilds?: Array<PrebuildConfig>
+  /**
+   *
+   * @type {string}
+   * @memberof ProjectConfig
+   */
+  repositoryUrl: string
   /**
    *
    * @type {string}
@@ -738,6 +1240,12 @@ export interface Provider {
    * @type {string}
    * @memberof Provider
    */
+  label?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Provider
+   */
   name: string
   /**
    *
@@ -752,6 +1260,12 @@ export interface Provider {
  * @interface ProviderProviderInfo
  */
 export interface ProviderProviderInfo {
+  /**
+   *
+   * @type {string}
+   * @memberof ProviderProviderInfo
+   */
+  label?: string
   /**
    *
    * @type {string}
@@ -802,6 +1316,12 @@ export interface ProviderProviderTargetProperty {
    */
   options?: Array<string>
   /**
+   * Suggestions is an optional list of auto-complete values to assist the user while filling the field
+   * @type {Array<string>}
+   * @memberof ProviderProviderTargetProperty
+   */
+  suggestions?: Array<string>
+  /**
    *
    * @type {ProviderProviderTargetPropertyType}
    * @memberof ProviderProviderTargetProperty
@@ -835,6 +1355,12 @@ export type ProviderProviderTargetPropertyType =
 export interface ProviderTarget {
   /**
    *
+   * @type {boolean}
+   * @memberof ProviderTarget
+   */
+  isDefault: boolean
+  /**
+   *
    * @type {string}
    * @memberof ProviderTarget
    */
@@ -864,6 +1390,31 @@ export interface RepositoryUrl {
    * @memberof RepositoryUrl
    */
   url: string
+}
+/**
+ *
+ * @export
+ * @interface Sample
+ */
+export interface Sample {
+  /**
+   *
+   * @type {string}
+   * @memberof Sample
+   */
+  description: string
+  /**
+   *
+   * @type {string}
+   * @memberof Sample
+   */
+  gitUrl: string
+  /**
+   *
+   * @type {string}
+   * @memberof Sample
+   */
+  name: string
 }
 /**
  *
@@ -966,6 +1517,12 @@ export interface ServerConfig {
    * @type {string}
    * @memberof ServerConfig
    */
+  samplesIndexUrl?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ServerConfig
+   */
   serverDownloadUrl: string
 }
 /**
@@ -979,13 +1536,37 @@ export interface SetGitProviderConfig {
    * @type {string}
    * @memberof SetGitProviderConfig
    */
+  alias?: string
+  /**
+   *
+   * @type {string}
+   * @memberof SetGitProviderConfig
+   */
   baseApiUrl?: string
   /**
    *
    * @type {string}
    * @memberof SetGitProviderConfig
    */
-  id: string
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof SetGitProviderConfig
+   */
+  providerId: string
+  /**
+   *
+   * @type {string}
+   * @memberof SetGitProviderConfig
+   */
+  signingKey?: string
+  /**
+   *
+   * @type {SigningMethod}
+   * @memberof SetGitProviderConfig
+   */
+  signingMethod?: SigningMethod
   /**
    *
    * @type {string}
@@ -999,6 +1580,7 @@ export interface SetGitProviderConfig {
    */
   username?: string
 }
+
 /**
  *
  * @export
@@ -1018,6 +1600,19 @@ export interface SetProjectState {
    */
   uptime: number
 }
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const SigningMethod = {
+  SigningMethodSSH: 'ssh',
+  SigningMethodGPG: 'gpg',
+} as const
+
+export type SigningMethod = (typeof SigningMethod)[keyof typeof SigningMethod]
+
 /**
  *
  * @export
@@ -1492,6 +2087,744 @@ export class ApiKeyApi extends BaseAPI {
   public revokeApiKey(apiKeyName: string, options?: RawAxiosRequestConfig) {
     return ApiKeyApiFp(this.configuration)
       .revokeApiKey(apiKeyName, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * BuildApi - axios parameter creator
+ * @export
+ */
+export const BuildApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Create a build
+     * @summary Create a build
+     * @param {CreateBuildDTO} createBuildDto Create Build DTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createBuild: async (
+      createBuildDto: CreateBuildDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createBuildDto' is not null or undefined
+      assertParamExists('createBuild', 'createBuildDto', createBuildDto)
+      const localVarPath = `/build`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createBuildDto,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete ALL builds
+     * @summary Delete ALL builds
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteAllBuilds: async (
+      force?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/build`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete build
+     * @summary Delete build
+     * @param {string} buildId Build ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteBuild: async (
+      buildId: string,
+      force?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'buildId' is not null or undefined
+      assertParamExists('deleteBuild', 'buildId', buildId)
+      const localVarPath = `/build/{buildId}`.replace(
+        `{${'buildId'}}`,
+        encodeURIComponent(String(buildId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete builds
+     * @summary Delete builds
+     * @param {string} prebuildId Prebuild ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteBuildsFromPrebuild: async (
+      prebuildId: string,
+      force?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'prebuildId' is not null or undefined
+      assertParamExists('deleteBuildsFromPrebuild', 'prebuildId', prebuildId)
+      const localVarPath = `/build/prebuild/{prebuildId}`.replace(
+        `{${'prebuildId'}}`,
+        encodeURIComponent(String(prebuildId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get build data
+     * @summary Get build data
+     * @param {string} buildId Build ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getBuild: async (
+      buildId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'buildId' is not null or undefined
+      assertParamExists('getBuild', 'buildId', buildId)
+      const localVarPath = `/build/{buildId}`.replace(
+        `{${'buildId'}}`,
+        encodeURIComponent(String(buildId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List builds
+     * @summary List builds
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listBuilds: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/build`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * BuildApi - functional programming interface
+ * @export
+ */
+export const BuildApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = BuildApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Create a build
+     * @summary Create a build
+     * @param {CreateBuildDTO} createBuildDto Create Build DTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createBuild(
+      createBuildDto: CreateBuildDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createBuild(
+        createBuildDto,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.createBuild']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete ALL builds
+     * @summary Delete ALL builds
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteAllBuilds(
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteAllBuilds(
+        force,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.deleteAllBuilds']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete build
+     * @summary Delete build
+     * @param {string} buildId Build ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteBuild(
+      buildId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteBuild(
+        buildId,
+        force,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.deleteBuild']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete builds
+     * @summary Delete builds
+     * @param {string} prebuildId Prebuild ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteBuildsFromPrebuild(
+      prebuildId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteBuildsFromPrebuild(
+          prebuildId,
+          force,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.deleteBuildsFromPrebuild']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get build data
+     * @summary Get build data
+     * @param {string} buildId Build ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getBuild(
+      buildId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Build>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getBuild(
+        buildId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.getBuild']?.[localVarOperationServerIndex]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List builds
+     * @summary List builds
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listBuilds(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Build>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listBuilds(
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.listBuilds']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * BuildApi - factory interface
+ * @export
+ */
+export const BuildApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = BuildApiFp(configuration)
+  return {
+    /**
+     * Create a build
+     * @summary Create a build
+     * @param {CreateBuildDTO} createBuildDto Create Build DTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createBuild(
+      createBuildDto: CreateBuildDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<string> {
+      return localVarFp
+        .createBuild(createBuildDto, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete ALL builds
+     * @summary Delete ALL builds
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteAllBuilds(
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteAllBuilds(force, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete build
+     * @summary Delete build
+     * @param {string} buildId Build ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteBuild(
+      buildId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteBuild(buildId, force, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete builds
+     * @summary Delete builds
+     * @param {string} prebuildId Prebuild ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteBuildsFromPrebuild(
+      prebuildId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteBuildsFromPrebuild(prebuildId, force, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get build data
+     * @summary Get build data
+     * @param {string} buildId Build ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getBuild(
+      buildId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Build> {
+      return localVarFp
+        .getBuild(buildId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List builds
+     * @summary List builds
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listBuilds(options?: RawAxiosRequestConfig): AxiosPromise<Array<Build>> {
+      return localVarFp
+        .listBuilds(options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * BuildApi - object-oriented interface
+ * @export
+ * @class BuildApi
+ * @extends {BaseAPI}
+ */
+export class BuildApi extends BaseAPI {
+  /**
+   * Create a build
+   * @summary Create a build
+   * @param {CreateBuildDTO} createBuildDto Create Build DTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public createBuild(
+    createBuildDto: CreateBuildDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return BuildApiFp(this.configuration)
+      .createBuild(createBuildDto, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete ALL builds
+   * @summary Delete ALL builds
+   * @param {boolean} [force] Force
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public deleteAllBuilds(force?: boolean, options?: RawAxiosRequestConfig) {
+    return BuildApiFp(this.configuration)
+      .deleteAllBuilds(force, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete build
+   * @summary Delete build
+   * @param {string} buildId Build ID
+   * @param {boolean} [force] Force
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public deleteBuild(
+    buildId: string,
+    force?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return BuildApiFp(this.configuration)
+      .deleteBuild(buildId, force, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete builds
+   * @summary Delete builds
+   * @param {string} prebuildId Prebuild ID
+   * @param {boolean} [force] Force
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public deleteBuildsFromPrebuild(
+    prebuildId: string,
+    force?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return BuildApiFp(this.configuration)
+      .deleteBuildsFromPrebuild(prebuildId, force, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get build data
+   * @summary Get build data
+   * @param {string} buildId Build ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public getBuild(buildId: string, options?: RawAxiosRequestConfig) {
+    return BuildApiFp(this.configuration)
+      .getBuild(buildId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List builds
+   * @summary List builds
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public listBuilds(options?: RawAxiosRequestConfig) {
+    return BuildApiFp(this.configuration)
+      .listBuilds(options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -2006,30 +3339,23 @@ export class ContainerRegistryApi extends BaseAPI {
 }
 
 /**
- * GitProviderApi - axios parameter creator
+ * DefaultApi - axios parameter creator
  * @export
  */
-export const GitProviderApiAxiosParamCreator = function (
+export const DefaultApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
     /**
-     * Get Git context
-     * @summary Get Git context
-     * @param {string} gitUrl Git URL
+     * Health check
+     * @summary Health check
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getGitContext: async (
-      gitUrl: string,
+    healthCheck: async (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'gitUrl' is not null or undefined
-      assertParamExists('getGitContext', 'gitUrl', gitUrl)
-      const localVarPath = `/gitprovider/context/{gitUrl}`.replace(
-        `{${'gitUrl'}}`,
-        encodeURIComponent(String(gitUrl)),
-      )
+      const localVarPath = `/health`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -2066,22 +3392,178 @@ export const GitProviderApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+  }
+}
+
+/**
+ * DefaultApi - functional programming interface
+ * @export
+ */
+export const DefaultApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+  return {
     /**
-     * Get Git provider
-     * @summary Get Git provider
-     * @param {string} url Url
+     * Health check
+     * @summary Health check
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getGitProviderForUrl: async (
-      url: string,
+    async healthCheck(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<{ [key: string]: string }>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.healthCheck(
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.healthCheck']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * DefaultApi - factory interface
+ * @export
+ */
+export const DefaultApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = DefaultApiFp(configuration)
+  return {
+    /**
+     * Health check
+     * @summary Health check
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    healthCheck(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<{ [key: string]: string }> {
+      return localVarFp
+        .healthCheck(options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * DefaultApi - object-oriented interface
+ * @export
+ * @class DefaultApi
+ * @extends {BaseAPI}
+ */
+export class DefaultApi extends BaseAPI {
+  /**
+   * Health check
+   * @summary Health check
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public healthCheck(options?: RawAxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .healthCheck(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * GitProviderApi - axios parameter creator
+ * @export
+ */
+export const GitProviderApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Get Git context
+     * @summary Get Git context
+     * @param {GetRepositoryContext} repository Get repository context
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getGitContext: async (
+      repository: GetRepositoryContext,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'url' is not null or undefined
-      assertParamExists('getGitProviderForUrl', 'url', url)
-      const localVarPath = `/gitprovider/for-url/{url}`.replace(
-        `{${'url'}}`,
-        encodeURIComponent(String(url)),
+      // verify required parameter 'repository' is not null or undefined
+      assertParamExists('getGitContext', 'repository', repository)
+      const localVarPath = `/gitprovider/context`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        repository,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get Git provider
+     * @summary Get Git provider
+     * @param {string} gitProviderId ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getGitProvider: async (
+      gitProviderId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'gitProviderId' is not null or undefined
+      assertParamExists('getGitProvider', 'gitProviderId', gitProviderId)
+      const localVarPath = `/gitprovider/{gitProviderId}`.replace(
+        `{${'gitProviderId'}}`,
+        encodeURIComponent(String(gitProviderId)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -2229,11 +3711,15 @@ export const GitProviderApiAxiosParamCreator = function (
      * Get Git namespaces
      * @summary Get Git namespaces
      * @param {string} gitProviderId Git provider
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getNamespaces: async (
       gitProviderId: string,
+      page?: number,
+      perPage?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'gitProviderId' is not null or undefined
@@ -2264,6 +3750,14 @@ export const GitProviderApiAxiosParamCreator = function (
         configuration,
       )
 
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (perPage !== undefined) {
+        localVarQueryParameter['per_page'] = perPage
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -2284,6 +3778,8 @@ export const GitProviderApiAxiosParamCreator = function (
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
      * @param {string} repositoryId Repository
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2291,6 +3787,8 @@ export const GitProviderApiAxiosParamCreator = function (
       gitProviderId: string,
       namespaceId: string,
       repositoryId: string,
+      page?: number,
+      perPage?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'gitProviderId' is not null or undefined
@@ -2335,6 +3833,14 @@ export const GitProviderApiAxiosParamCreator = function (
         configuration,
       )
 
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (perPage !== undefined) {
+        localVarQueryParameter['per_page'] = perPage
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -2355,6 +3861,8 @@ export const GitProviderApiAxiosParamCreator = function (
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
      * @param {string} repositoryId Repository
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2362,6 +3870,8 @@ export const GitProviderApiAxiosParamCreator = function (
       gitProviderId: string,
       namespaceId: string,
       repositoryId: string,
+      page?: number,
+      perPage?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'gitProviderId' is not null or undefined
@@ -2406,6 +3916,14 @@ export const GitProviderApiAxiosParamCreator = function (
         configuration,
       )
 
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (perPage !== undefined) {
+        localVarQueryParameter['per_page'] = perPage
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -2425,12 +3943,16 @@ export const GitProviderApiAxiosParamCreator = function (
      * @summary Get Git repositories
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRepositories: async (
       gitProviderId: string,
       namespaceId: string,
+      page?: number,
+      perPage?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'gitProviderId' is not null or undefined
@@ -2468,6 +3990,14 @@ export const GitProviderApiAxiosParamCreator = function (
         'Authorization',
         configuration,
       )
+
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (perPage !== undefined) {
+        localVarQueryParameter['per_page'] = perPage
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -2550,6 +4080,59 @@ export const GitProviderApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/gitprovider`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List Git providers for url
+     * @summary List Git providers for url
+     * @param {string} url Url
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listGitProvidersForUrl: async (
+      url: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'url' is not null or undefined
+      assertParamExists('listGitProvidersForUrl', 'url', url)
+      const localVarPath = `/gitprovider/for-url/{url}`.replace(
+        `{${'url'}}`,
+        encodeURIComponent(String(url)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -2714,18 +4297,18 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
     /**
      * Get Git context
      * @summary Get Git context
-     * @param {string} gitUrl Git URL
+     * @param {GetRepositoryContext} repository Get repository context
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getGitContext(
-      gitUrl: string,
+      repository: GetRepositoryContext,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GitRepository>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getGitContext(
-        gitUrl,
+        repository,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -2744,21 +4327,23 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
     /**
      * Get Git provider
      * @summary Get Git provider
-     * @param {string} url Url
+     * @param {string} gitProviderId ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getGitProviderForUrl(
-      url: string,
+    async getGitProvider(
+      gitProviderId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GitProvider>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getGitProviderForUrl(url, options)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getGitProvider(
+        gitProviderId,
+        options,
+      )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['GitProviderApi.getGitProviderForUrl']?.[
+        operationServerMap['GitProviderApi.getGitProvider']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -2831,11 +4416,15 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
      * Get Git namespaces
      * @summary Get Git namespaces
      * @param {string} gitProviderId Git provider
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getNamespaces(
       gitProviderId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -2845,6 +4434,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getNamespaces(
         gitProviderId,
+        page,
+        perPage,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -2866,6 +4457,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
      * @param {string} repositoryId Repository
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2873,6 +4466,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
       gitProviderId: string,
       namespaceId: string,
       repositoryId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -2884,6 +4479,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
         gitProviderId,
         namespaceId,
         repositoryId,
+        page,
+        perPage,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -2905,6 +4502,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
      * @param {string} repositoryId Repository
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2912,6 +4511,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
       gitProviderId: string,
       namespaceId: string,
       repositoryId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -2923,6 +4524,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
         gitProviderId,
         namespaceId,
         repositoryId,
+        page,
+        perPage,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -2943,12 +4546,16 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
      * @summary Get Git repositories
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getRepositories(
       gitProviderId: string,
       namespaceId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -2959,6 +4566,8 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getRepositories(
         gitProviderId,
         namespaceId,
+        page,
+        perPage,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -3024,6 +4633,37 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['GitProviderApi.listGitProviders']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List Git providers for url
+     * @summary List Git providers for url
+     * @param {string} url Url
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listGitProvidersForUrl(
+      url: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<GitProvider>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listGitProvidersForUrl(url, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['GitProviderApi.listGitProvidersForUrl']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -3112,31 +4752,31 @@ export const GitProviderApiFactory = function (
     /**
      * Get Git context
      * @summary Get Git context
-     * @param {string} gitUrl Git URL
+     * @param {GetRepositoryContext} repository Get repository context
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getGitContext(
-      gitUrl: string,
+      repository: GetRepositoryContext,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<GitRepository> {
       return localVarFp
-        .getGitContext(gitUrl, options)
+        .getGitContext(repository, options)
         .then((request) => request(axios, basePath))
     },
     /**
      * Get Git provider
      * @summary Get Git provider
-     * @param {string} url Url
+     * @param {string} gitProviderId ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getGitProviderForUrl(
-      url: string,
+    getGitProvider(
+      gitProviderId: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<GitProvider> {
       return localVarFp
-        .getGitProviderForUrl(url, options)
+        .getGitProvider(gitProviderId, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -3173,15 +4813,19 @@ export const GitProviderApiFactory = function (
      * Get Git namespaces
      * @summary Get Git namespaces
      * @param {string} gitProviderId Git provider
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getNamespaces(
       gitProviderId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<GitNamespace>> {
       return localVarFp
-        .getNamespaces(gitProviderId, options)
+        .getNamespaces(gitProviderId, page, perPage, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -3190,6 +4834,8 @@ export const GitProviderApiFactory = function (
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
      * @param {string} repositoryId Repository
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3197,10 +4843,19 @@ export const GitProviderApiFactory = function (
       gitProviderId: string,
       namespaceId: string,
       repositoryId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<GitBranch>> {
       return localVarFp
-        .getRepoBranches(gitProviderId, namespaceId, repositoryId, options)
+        .getRepoBranches(
+          gitProviderId,
+          namespaceId,
+          repositoryId,
+          page,
+          perPage,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
     /**
@@ -3209,6 +4864,8 @@ export const GitProviderApiFactory = function (
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
      * @param {string} repositoryId Repository
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3216,10 +4873,19 @@ export const GitProviderApiFactory = function (
       gitProviderId: string,
       namespaceId: string,
       repositoryId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<GitPullRequest>> {
       return localVarFp
-        .getRepoPRs(gitProviderId, namespaceId, repositoryId, options)
+        .getRepoPRs(
+          gitProviderId,
+          namespaceId,
+          repositoryId,
+          page,
+          perPage,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
     /**
@@ -3227,16 +4893,20 @@ export const GitProviderApiFactory = function (
      * @summary Get Git repositories
      * @param {string} gitProviderId Git provider
      * @param {string} namespaceId Namespace
+     * @param {number} [page] Page number
+     * @param {number} [perPage] Number of items per page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRepositories(
       gitProviderId: string,
       namespaceId: string,
+      page?: number,
+      perPage?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<GitRepository>> {
       return localVarFp
-        .getRepositories(gitProviderId, namespaceId, options)
+        .getRepositories(gitProviderId, namespaceId, page, perPage, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -3265,6 +4935,21 @@ export const GitProviderApiFactory = function (
     ): AxiosPromise<Array<GitProvider>> {
       return localVarFp
         .listGitProviders(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List Git providers for url
+     * @summary List Git providers for url
+     * @param {string} url Url
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listGitProvidersForUrl(
+      url: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<GitProvider>> {
+      return localVarFp
+        .listGitProvidersForUrl(url, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -3310,28 +4995,34 @@ export class GitProviderApi extends BaseAPI {
   /**
    * Get Git context
    * @summary Get Git context
-   * @param {string} gitUrl Git URL
+   * @param {GetRepositoryContext} repository Get repository context
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
    */
-  public getGitContext(gitUrl: string, options?: RawAxiosRequestConfig) {
+  public getGitContext(
+    repository: GetRepositoryContext,
+    options?: RawAxiosRequestConfig,
+  ) {
     return GitProviderApiFp(this.configuration)
-      .getGitContext(gitUrl, options)
+      .getGitContext(repository, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
    * Get Git provider
    * @summary Get Git provider
-   * @param {string} url Url
+   * @param {string} gitProviderId ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
    */
-  public getGitProviderForUrl(url: string, options?: RawAxiosRequestConfig) {
+  public getGitProvider(
+    gitProviderId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
     return GitProviderApiFp(this.configuration)
-      .getGitProviderForUrl(url, options)
+      .getGitProvider(gitProviderId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -3367,13 +5058,20 @@ export class GitProviderApi extends BaseAPI {
    * Get Git namespaces
    * @summary Get Git namespaces
    * @param {string} gitProviderId Git provider
+   * @param {number} [page] Page number
+   * @param {number} [perPage] Number of items per page
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
    */
-  public getNamespaces(gitProviderId: string, options?: RawAxiosRequestConfig) {
+  public getNamespaces(
+    gitProviderId: string,
+    page?: number,
+    perPage?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
     return GitProviderApiFp(this.configuration)
-      .getNamespaces(gitProviderId, options)
+      .getNamespaces(gitProviderId, page, perPage, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -3383,6 +5081,8 @@ export class GitProviderApi extends BaseAPI {
    * @param {string} gitProviderId Git provider
    * @param {string} namespaceId Namespace
    * @param {string} repositoryId Repository
+   * @param {number} [page] Page number
+   * @param {number} [perPage] Number of items per page
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
@@ -3391,10 +5091,19 @@ export class GitProviderApi extends BaseAPI {
     gitProviderId: string,
     namespaceId: string,
     repositoryId: string,
+    page?: number,
+    perPage?: number,
     options?: RawAxiosRequestConfig,
   ) {
     return GitProviderApiFp(this.configuration)
-      .getRepoBranches(gitProviderId, namespaceId, repositoryId, options)
+      .getRepoBranches(
+        gitProviderId,
+        namespaceId,
+        repositoryId,
+        page,
+        perPage,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -3404,6 +5113,8 @@ export class GitProviderApi extends BaseAPI {
    * @param {string} gitProviderId Git provider
    * @param {string} namespaceId Namespace
    * @param {string} repositoryId Repository
+   * @param {number} [page] Page number
+   * @param {number} [perPage] Number of items per page
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
@@ -3412,10 +5123,19 @@ export class GitProviderApi extends BaseAPI {
     gitProviderId: string,
     namespaceId: string,
     repositoryId: string,
+    page?: number,
+    perPage?: number,
     options?: RawAxiosRequestConfig,
   ) {
     return GitProviderApiFp(this.configuration)
-      .getRepoPRs(gitProviderId, namespaceId, repositoryId, options)
+      .getRepoPRs(
+        gitProviderId,
+        namespaceId,
+        repositoryId,
+        page,
+        perPage,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -3424,6 +5144,8 @@ export class GitProviderApi extends BaseAPI {
    * @summary Get Git repositories
    * @param {string} gitProviderId Git provider
    * @param {string} namespaceId Namespace
+   * @param {number} [page] Page number
+   * @param {number} [perPage] Number of items per page
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
@@ -3431,10 +5153,12 @@ export class GitProviderApi extends BaseAPI {
   public getRepositories(
     gitProviderId: string,
     namespaceId: string,
+    page?: number,
+    perPage?: number,
     options?: RawAxiosRequestConfig,
   ) {
     return GitProviderApiFp(this.configuration)
-      .getRepositories(gitProviderId, namespaceId, options)
+      .getRepositories(gitProviderId, namespaceId, page, perPage, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -3469,6 +5193,20 @@ export class GitProviderApi extends BaseAPI {
   }
 
   /**
+   * List Git providers for url
+   * @summary List Git providers for url
+   * @param {string} url Url
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof GitProviderApi
+   */
+  public listGitProvidersForUrl(url: string, options?: RawAxiosRequestConfig) {
+    return GitProviderApiFp(this.configuration)
+      .listGitProvidersForUrl(url, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * Remove Git provider
    * @summary Remove Git provider
    * @param {string} gitProviderId Git provider
@@ -3499,6 +5237,786 @@ export class GitProviderApi extends BaseAPI {
   ) {
     return GitProviderApiFp(this.configuration)
       .setGitProvider(gitProviderConfig, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * PrebuildApi - axios parameter creator
+ * @export
+ */
+export const PrebuildApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Delete prebuild
+     * @summary Delete prebuild
+     * @param {string} configName Project config name
+     * @param {string} prebuildId Prebuild ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deletePrebuild: async (
+      configName: string,
+      prebuildId: string,
+      force?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'configName' is not null or undefined
+      assertParamExists('deletePrebuild', 'configName', configName)
+      // verify required parameter 'prebuildId' is not null or undefined
+      assertParamExists('deletePrebuild', 'prebuildId', prebuildId)
+      const localVarPath = `/project-config/{configName}/prebuild/{prebuildId}`
+        .replace(`{${'configName'}}`, encodeURIComponent(String(configName)))
+        .replace(`{${'prebuildId'}}`, encodeURIComponent(String(prebuildId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get prebuild
+     * @summary Get prebuild
+     * @param {string} configName Project config name
+     * @param {string} prebuildId Prebuild ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPrebuild: async (
+      configName: string,
+      prebuildId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'configName' is not null or undefined
+      assertParamExists('getPrebuild', 'configName', configName)
+      // verify required parameter 'prebuildId' is not null or undefined
+      assertParamExists('getPrebuild', 'prebuildId', prebuildId)
+      const localVarPath = `/project-config/{configName}/prebuild/{prebuildId}`
+        .replace(`{${'configName'}}`, encodeURIComponent(String(configName)))
+        .replace(`{${'prebuildId'}}`, encodeURIComponent(String(prebuildId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List prebuilds
+     * @summary List prebuilds
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPrebuilds: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/project-config/prebuild`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List prebuilds for project config
+     * @summary List prebuilds for project config
+     * @param {string} configName Config name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPrebuildsForProjectConfig: async (
+      configName: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'configName' is not null or undefined
+      assertParamExists(
+        'listPrebuildsForProjectConfig',
+        'configName',
+        configName,
+      )
+      const localVarPath = `/project-config/{configName}/prebuild`.replace(
+        `{${'configName'}}`,
+        encodeURIComponent(String(configName)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * ProcessGitEvent
+     * @summary ProcessGitEvent
+     * @param {object} workspace Webhook event
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    processGitEvent: async (
+      workspace: object,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspace' is not null or undefined
+      assertParamExists('processGitEvent', 'workspace', workspace)
+      const localVarPath = `/project-config/prebuild/process-git-event`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        workspace,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Set prebuild
+     * @summary Set prebuild
+     * @param {string} configName Config name
+     * @param {CreatePrebuildDTO} prebuild Prebuild
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setPrebuild: async (
+      configName: string,
+      prebuild: CreatePrebuildDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'configName' is not null or undefined
+      assertParamExists('setPrebuild', 'configName', configName)
+      // verify required parameter 'prebuild' is not null or undefined
+      assertParamExists('setPrebuild', 'prebuild', prebuild)
+      const localVarPath = `/project-config/{configName}/prebuild`.replace(
+        `{${'configName'}}`,
+        encodeURIComponent(String(configName)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        prebuild,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * PrebuildApi - functional programming interface
+ * @export
+ */
+export const PrebuildApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PrebuildApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Delete prebuild
+     * @summary Delete prebuild
+     * @param {string} configName Project config name
+     * @param {string} prebuildId Prebuild ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deletePrebuild(
+      configName: string,
+      prebuildId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deletePrebuild(
+        configName,
+        prebuildId,
+        force,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['PrebuildApi.deletePrebuild']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get prebuild
+     * @summary Get prebuild
+     * @param {string} configName Project config name
+     * @param {string} prebuildId Prebuild ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPrebuild(
+      configName: string,
+      prebuildId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PrebuildDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPrebuild(
+        configName,
+        prebuildId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['PrebuildApi.getPrebuild']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List prebuilds
+     * @summary List prebuilds
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPrebuilds(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<PrebuildDTO>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPrebuilds(
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['PrebuildApi.listPrebuilds']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List prebuilds for project config
+     * @summary List prebuilds for project config
+     * @param {string} configName Config name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPrebuildsForProjectConfig(
+      configName: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<PrebuildDTO>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listPrebuildsForProjectConfig(
+          configName,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['PrebuildApi.listPrebuildsForProjectConfig']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * ProcessGitEvent
+     * @summary ProcessGitEvent
+     * @param {object} workspace Webhook event
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async processGitEvent(
+      workspace: object,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.processGitEvent(
+        workspace,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['PrebuildApi.processGitEvent']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Set prebuild
+     * @summary Set prebuild
+     * @param {string} configName Config name
+     * @param {CreatePrebuildDTO} prebuild Prebuild
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setPrebuild(
+      configName: string,
+      prebuild: CreatePrebuildDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.setPrebuild(
+        configName,
+        prebuild,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['PrebuildApi.setPrebuild']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * PrebuildApi - factory interface
+ * @export
+ */
+export const PrebuildApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = PrebuildApiFp(configuration)
+  return {
+    /**
+     * Delete prebuild
+     * @summary Delete prebuild
+     * @param {string} configName Project config name
+     * @param {string} prebuildId Prebuild ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deletePrebuild(
+      configName: string,
+      prebuildId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deletePrebuild(configName, prebuildId, force, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get prebuild
+     * @summary Get prebuild
+     * @param {string} configName Project config name
+     * @param {string} prebuildId Prebuild ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPrebuild(
+      configName: string,
+      prebuildId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PrebuildDTO> {
+      return localVarFp
+        .getPrebuild(configName, prebuildId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List prebuilds
+     * @summary List prebuilds
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPrebuilds(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<PrebuildDTO>> {
+      return localVarFp
+        .listPrebuilds(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List prebuilds for project config
+     * @summary List prebuilds for project config
+     * @param {string} configName Config name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPrebuildsForProjectConfig(
+      configName: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<PrebuildDTO>> {
+      return localVarFp
+        .listPrebuildsForProjectConfig(configName, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * ProcessGitEvent
+     * @summary ProcessGitEvent
+     * @param {object} workspace Webhook event
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    processGitEvent(
+      workspace: object,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .processGitEvent(workspace, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Set prebuild
+     * @summary Set prebuild
+     * @param {string} configName Config name
+     * @param {CreatePrebuildDTO} prebuild Prebuild
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setPrebuild(
+      configName: string,
+      prebuild: CreatePrebuildDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<string> {
+      return localVarFp
+        .setPrebuild(configName, prebuild, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * PrebuildApi - object-oriented interface
+ * @export
+ * @class PrebuildApi
+ * @extends {BaseAPI}
+ */
+export class PrebuildApi extends BaseAPI {
+  /**
+   * Delete prebuild
+   * @summary Delete prebuild
+   * @param {string} configName Project config name
+   * @param {string} prebuildId Prebuild ID
+   * @param {boolean} [force] Force
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PrebuildApi
+   */
+  public deletePrebuild(
+    configName: string,
+    prebuildId: string,
+    force?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PrebuildApiFp(this.configuration)
+      .deletePrebuild(configName, prebuildId, force, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get prebuild
+   * @summary Get prebuild
+   * @param {string} configName Project config name
+   * @param {string} prebuildId Prebuild ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PrebuildApi
+   */
+  public getPrebuild(
+    configName: string,
+    prebuildId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PrebuildApiFp(this.configuration)
+      .getPrebuild(configName, prebuildId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List prebuilds
+   * @summary List prebuilds
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PrebuildApi
+   */
+  public listPrebuilds(options?: RawAxiosRequestConfig) {
+    return PrebuildApiFp(this.configuration)
+      .listPrebuilds(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List prebuilds for project config
+   * @summary List prebuilds for project config
+   * @param {string} configName Config name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PrebuildApi
+   */
+  public listPrebuildsForProjectConfig(
+    configName: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PrebuildApiFp(this.configuration)
+      .listPrebuildsForProjectConfig(configName, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * ProcessGitEvent
+   * @summary ProcessGitEvent
+   * @param {object} workspace Webhook event
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PrebuildApi
+   */
+  public processGitEvent(workspace: object, options?: RawAxiosRequestConfig) {
+    return PrebuildApiFp(this.configuration)
+      .processGitEvent(workspace, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set prebuild
+   * @summary Set prebuild
+   * @param {string} configName Config name
+   * @param {CreatePrebuildDTO} prebuild Prebuild
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PrebuildApi
+   */
+  public setPrebuild(
+    configName: string,
+    prebuild: CreatePrebuildDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PrebuildApiFp(this.configuration)
+      .setPrebuild(configName, prebuild, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -3870,11 +6388,13 @@ export const ProjectConfigApiAxiosParamCreator = function (
      * Delete project config data
      * @summary Delete project config data
      * @param {string} configName Config name
+     * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteProjectConfig: async (
       configName: string,
+      force?: boolean,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'configName' is not null or undefined
@@ -3904,6 +6424,10 @@ export const ProjectConfigApiAxiosParamCreator = function (
         'Authorization',
         configuration,
       )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -4196,17 +6720,23 @@ export const ProjectConfigApiFp = function (configuration?: Configuration) {
      * Delete project config data
      * @summary Delete project config data
      * @param {string} configName Config name
+     * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async deleteProjectConfig(
       configName: string,
+      force?: boolean,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.deleteProjectConfig(configName, options)
+        await localVarAxiosParamCreator.deleteProjectConfig(
+          configName,
+          force,
+          options,
+        )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['ProjectConfigApi.deleteProjectConfig']?.[
@@ -4382,15 +6912,17 @@ export const ProjectConfigApiFactory = function (
      * Delete project config data
      * @summary Delete project config data
      * @param {string} configName Config name
+     * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteProjectConfig(
       configName: string,
+      force?: boolean,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .deleteProjectConfig(configName, options)
+        .deleteProjectConfig(configName, force, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -4480,16 +7012,18 @@ export class ProjectConfigApi extends BaseAPI {
    * Delete project config data
    * @summary Delete project config data
    * @param {string} configName Config name
+   * @param {boolean} [force] Force
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProjectConfigApi
    */
   public deleteProjectConfig(
     configName: string,
+    force?: boolean,
     options?: RawAxiosRequestConfig,
   ) {
     return ProjectConfigApiFp(this.configuration)
-      .deleteProjectConfig(configName, options)
+      .deleteProjectConfig(configName, force, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -5060,6 +7594,146 @@ export class ProviderApi extends BaseAPI {
 }
 
 /**
+ * SampleApi - axios parameter creator
+ * @export
+ */
+export const SampleApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * List samples
+     * @summary List samples
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listSamples: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/sample`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * SampleApi - functional programming interface
+ * @export
+ */
+export const SampleApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = SampleApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * List samples
+     * @summary List samples
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listSamples(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Sample>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listSamples(
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['SampleApi.listSamples']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * SampleApi - factory interface
+ * @export
+ */
+export const SampleApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = SampleApiFp(configuration)
+  return {
+    /**
+     * List samples
+     * @summary List samples
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listSamples(options?: RawAxiosRequestConfig): AxiosPromise<Array<Sample>> {
+      return localVarFp
+        .listSamples(options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * SampleApi - object-oriented interface
+ * @export
+ * @class SampleApi
+ * @extends {BaseAPI}
+ */
+export class SampleApi extends BaseAPI {
+  /**
+   * List samples
+   * @summary List samples
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SampleApi
+   */
+  public listSamples(options?: RawAxiosRequestConfig) {
+    return SampleApiFp(this.configuration)
+      .listSamples(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * ServerApi - axios parameter creator
  * @export
  */
@@ -5521,14 +8195,67 @@ export const TargetApiAxiosParamCreator = function (
       }
     },
     /**
+     * Set target to default
+     * @summary Set target to default
+     * @param {string} target Target name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setDefaultTarget: async (
+      target: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'target' is not null or undefined
+      assertParamExists('setDefaultTarget', 'target', target)
+      const localVarPath = `/target/{target}/set-default`.replace(
+        `{${'target'}}`,
+        encodeURIComponent(String(target)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'PATCH',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Set a target
      * @summary Set a target
-     * @param {ProviderTarget} target Target to set
+     * @param {CreateProviderTargetDTO} target Target to set
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     setTarget: async (
-      target: ProviderTarget,
+      target: CreateProviderTargetDTO,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'target' is not null or undefined
@@ -5648,14 +8375,42 @@ export const TargetApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
+     * Set target to default
+     * @summary Set target to default
+     * @param {string} target Target name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setDefaultTarget(
+      target: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.setDefaultTarget(target, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.setDefaultTarget']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
      * Set a target
      * @summary Set a target
-     * @param {ProviderTarget} target Target to set
+     * @param {CreateProviderTargetDTO} target Target to set
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async setTarget(
-      target: ProviderTarget,
+      target: CreateProviderTargetDTO,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
@@ -5720,14 +8475,29 @@ export const TargetApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Set target to default
+     * @summary Set target to default
+     * @param {string} target Target name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setDefaultTarget(
+      target: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .setDefaultTarget(target, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Set a target
      * @summary Set a target
-     * @param {ProviderTarget} target Target to set
+     * @param {CreateProviderTargetDTO} target Target to set
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     setTarget(
-      target: ProviderTarget,
+      target: CreateProviderTargetDTO,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
@@ -5772,14 +8542,31 @@ export class TargetApi extends BaseAPI {
   }
 
   /**
-   * Set a target
-   * @summary Set a target
-   * @param {ProviderTarget} target Target to set
+   * Set target to default
+   * @summary Set target to default
+   * @param {string} target Target name
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TargetApi
    */
-  public setTarget(target: ProviderTarget, options?: RawAxiosRequestConfig) {
+  public setDefaultTarget(target: string, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .setDefaultTarget(target, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set a target
+   * @summary Set a target
+   * @param {CreateProviderTargetDTO} target Target to set
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public setTarget(
+    target: CreateProviderTargetDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
     return TargetApiFp(this.configuration)
       .setTarget(target, options)
       .then((request) => request(this.axios, this.basePath))
@@ -5855,11 +8642,13 @@ export const WorkspaceApiAxiosParamCreator = function (
      * Get workspace info
      * @summary Get workspace info
      * @param {string} workspaceId Workspace ID or Name
+     * @param {boolean} [verbose] Verbose
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getWorkspace: async (
       workspaceId: string,
+      verbose?: boolean,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'workspaceId' is not null or undefined
@@ -5889,6 +8678,10 @@ export const WorkspaceApiAxiosParamCreator = function (
         'Authorization',
         configuration,
       )
+
+      if (verbose !== undefined) {
+        localVarQueryParameter['verbose'] = verbose
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -6344,17 +9137,20 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
      * Get workspace info
      * @summary Get workspace info
      * @param {string} workspaceId Workspace ID or Name
+     * @param {boolean} [verbose] Verbose
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getWorkspace(
       workspaceId: string,
+      verbose?: boolean,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceDTO>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkspace(
         workspaceId,
+        verbose,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -6631,15 +9427,17 @@ export const WorkspaceApiFactory = function (
      * Get workspace info
      * @summary Get workspace info
      * @param {string} workspaceId Workspace ID or Name
+     * @param {boolean} [verbose] Verbose
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getWorkspace(
       workspaceId: string,
+      verbose?: boolean,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<WorkspaceDTO> {
       return localVarFp
-        .getWorkspace(workspaceId, options)
+        .getWorkspace(workspaceId, verbose, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -6788,13 +9586,18 @@ export class WorkspaceApi extends BaseAPI {
    * Get workspace info
    * @summary Get workspace info
    * @param {string} workspaceId Workspace ID or Name
+   * @param {boolean} [verbose] Verbose
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WorkspaceApi
    */
-  public getWorkspace(workspaceId: string, options?: RawAxiosRequestConfig) {
+  public getWorkspace(
+    workspaceId: string,
+    verbose?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
     return WorkspaceApiFp(this.configuration)
-      .getWorkspace(workspaceId, options)
+      .getWorkspace(workspaceId, verbose, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
