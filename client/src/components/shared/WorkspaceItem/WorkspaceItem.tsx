@@ -19,52 +19,14 @@ const WorkspaceItem: FC<{
   workspace: WorkspaceDTO
   onDelete: () => void
   preferedEditor?: Editor
-}> = ({ workspace, onDelete, preferedEditor }) => {
+  isLoading: boolean
+  openInEditor: (editor: Editor, workspace: WorkspaceDTO) => void
+}> = ({ workspace, onDelete, preferedEditor, isLoading, openInEditor }) => {
   const client = useDockerClient()
-  const [isLoading, setIsLoading] = useState(false)
 
   const isWorkspaceRunning = useMemo(() => {
     return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
   }, [workspace])
-
-  const openInEditor = async (editor: Editor) => {
-    setIsLoading(true)
-    try {
-      await new Promise<void>((resolve, reject) => {
-        let stderr = ''
-        client?.extension.host?.cli.exec(
-          'daytona',
-          ['code', workspace.id, workspace.name, '--ide', editor],
-          {
-            stream: {
-              onOutput: (message: any) => {
-                if (message.stderr) {
-                  stderr += message.stderr
-                }
-              },
-              onClose: () => resolve(),
-              onError: (error: any) => {
-                if (!error) {
-                  resolve()
-                  return
-                }
-
-                client?.desktopUI.toast.error(
-                  `Error with opening editor. ERROR: ${JSON.stringify(
-                    error,
-                  )} ${stderr}`,
-                )
-                reject(error)
-              },
-            },
-          },
-        )
-      })
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
 
   const openRepo = () => {
     // @ts-ignore
@@ -114,7 +76,7 @@ const WorkspaceItem: FC<{
         >
           {isWorkspaceRunning && (
             <OpenInEditorButton
-              onSelect={openInEditor}
+              onSelect={(editor) => openInEditor(editor, workspace)}
               isLoading={isLoading}
               editor={preferedEditor}
             />
