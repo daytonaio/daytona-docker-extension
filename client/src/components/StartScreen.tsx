@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Typography } from '@mui/material'
 
 import Header from './shared/Header'
@@ -11,6 +11,7 @@ import WorkspaceList from './shared/WorkspaceList'
 const StartScreen = () => {
   const { workspaceApiClient } = useApiClient()
   const [workspaces, setWorkspaces] = useState<Array<WorkspaceDTO>>([])
+  const listRef = useRef()
 
   const fetchWorkspaces = async () => {
     if (workspaceApiClient) {
@@ -51,7 +52,11 @@ const StartScreen = () => {
           <Typography variant="h2" mb={2}>
             Workspaces
           </Typography>
-          <WorkspaceList workspaces={workspaces} onDelete={handleDelete} />
+          <WorkspaceList
+            workspaces={workspaces}
+            onDelete={handleDelete}
+            ref={listRef}
+          />
         </Box>
       ) : (
         <Box display="flex" flexDirection="column" alignItems="center" pt={4}>

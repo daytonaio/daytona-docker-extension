@@ -20,7 +20,11 @@ const WorkspaceItem: FC<{
   onDelete: () => void
   preferedEditor?: Editor
   isLoading: boolean
-  openInEditor: (editor: Editor, workspace: WorkspaceDTO) => void
+  openInEditor: (
+    createdWorkspaceId: string,
+    createdWorkspaceName: string,
+    editor: Editor,
+  ) => void
 }> = ({ workspace, onDelete, preferedEditor, isLoading, openInEditor }) => {
   const client = useDockerClient()
 
@@ -76,7 +80,9 @@ const WorkspaceItem: FC<{
         >
           {isWorkspaceRunning && (
             <OpenInEditorButton
-              onSelect={(editor) => openInEditor(editor, workspace)}
+              onSelect={(editor) =>
+                openInEditor(workspace.id, workspace.name, editor)
+              }
               isLoading={isLoading}
               editor={preferedEditor}
             />

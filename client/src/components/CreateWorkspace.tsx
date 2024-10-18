@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Autocomplete,
   Box,
@@ -50,6 +50,7 @@ const CreateWorkspace = () => {
     useApiClient()
   const [repos, setRepos] = useState<GitRepository[]>([])
   const [loadingRepos, setLoadingRepos] = useState(false)
+  const listRef = useRef<any>()
 
   const {
     control,
@@ -121,63 +122,28 @@ const CreateWorkspace = () => {
     }
   }, [targetApiClient])
 
-  const openInEditor = async (
-    createdWorkspaceId: string,
-    createdWorkspaceName: string,
-    editor: Editor,
-  ) => {
-    try {
-      await new Promise<void>((resolve, reject) => {
-        let stderr = ''
-
-        client?.extension.host?.cli.exec(
-          'daytona',
-          ['code', createdWorkspaceId, createdWorkspaceName, '--ide', editor],
-          {
-            stream: {
-              onOutput: (message: any) => {
-                if (message.stderr) {
-                  stderr += message.stderr
-                }
-              },
-              onClose: () => resolve(),
-              onError: (error: any) => {
-                if (!error) {
-                  resolve()
-                  return
-                }
-
-                client?.desktopUI.toast.error(
-                  `Error with opening editor. ERROR: ${JSON.stringify(
-                    error,
-                  )} ${stderr}`,
-                )
-                reject(error)
-              },
-            },
-          },
-        )
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   useEffect(() => {
     if (createdWorkspaceId && activeStep === 2 && workspaceApiClient) {
-      workspaceApiClient
-        .getWorkspace(createdWorkspaceId)
-        .then(async (response: AxiosResponse<WorkspaceDTO, any>) => {
-          await openInEditor(
+      const fetchWorkspace = async () => {
+        try {
+          const response = await workspaceApiClient.getWorkspace(
             createdWorkspaceId,
-            response.data.name,
-            selectedEditor as Editor,
           )
           setWorkspace(response.data)
-        })
-        .catch((error: any) => {
+
+          if (listRef.current) {
+            listRef.current.openInEditor(
+              createdWorkspaceId,
+              response.data.name,
+              selectedEditor,
+            )
+          }
+        } catch (error) {
           console.log(error)
-        })
+        }
+      }
+
+      fetchWorkspace()
     }
   }, [createdWorkspaceId, activeStep, workspaceApiClient])
 
@@ -440,6 +406,7 @@ const CreateWorkspace = () => {
                       workspaces={[workspace]}
                       onDelete={handleDelete}
                       preferedEditor={selectedEditor as Editor}
+                      ref={listRef}
                     />
                   </Box>
                 ) : (

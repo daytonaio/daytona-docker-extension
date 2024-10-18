@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -20,44 +20,50 @@ import { Editor } from '../../constants/editors'
 import { useXTerm } from 'react-xtermjs'
 import { useDockerClient } from '../../providers/DockerClientProvider'
 
-const WorkspaceList: FC<{
+interface Props {
   workspaces: WorkspaceDTO[]
   onDelete: (workspace: WorkspaceDTO) => void
   preferedEditor?: Editor
-}> = ({ workspaces, onDelete, preferedEditor }) => {
+}
+
+const WorkspaceList = forwardRef<any, Props>((props, ref) => {
+  const { workspaces, onDelete, preferedEditor } = props
   const [workspaceToDelete, setWorkspaceToDelete] =
     useState<WorkspaceDTO | null>(null)
-  const { instance, ref } = useXTerm()
+  const { instance, ref: terminalRef } = useXTerm()
   const client = useDockerClient()
   const [isLoading, setIsLoading] = useState(false)
+  const [isEditorHidden, setIsEditorHidden] = useState(true)
 
   const handleClose = () => {
     setWorkspaceToDelete(null)
   }
 
-  const openInEditor = async (editor: Editor, workspace: WorkspaceDTO) => {
+  const openInEditor = async (
+    createdWorkspaceId: string,
+    createdWorkspaceName: string,
+    editor: Editor,
+  ) => {
+    setIsEditorHidden(false)
     setIsLoading(true)
-    // instance?.reset()
-    console.log('-------------')
+    instance?.reset()
 
     try {
       await new Promise<void>((resolve, reject) => {
         let stderr = ''
         client?.extension.host?.cli.exec(
           'daytona',
-          ['code', workspace.id, workspace.name, '--ide', editor],
+          ['code', createdWorkspaceId, createdWorkspaceName, '--ide', editor],
           {
             stream: {
               onOutput: (message: any) => {
-                console.log(message, '------')
-
                 if (message.stderr) {
-                  // instance?.writeln(message.stderr)
+                  instance?.writeln(message.stderr)
                   stderr += message.stderr
                 }
-                // if (message.stdout) {
-                //   instance?.writeln(message.stdout)
-                // }
+                if (message.stdout) {
+                  instance?.writeln(message.stdout)
+                }
               },
               onClose: () => resolve(),
               onError: (error: any) => {
@@ -82,6 +88,10 @@ const WorkspaceList: FC<{
     }
     setIsLoading(false)
   }
+
+  useImperativeHandle(ref, () => ({
+    openInEditor,
+  }))
 
   return (
     <>
@@ -168,10 +178,10 @@ const WorkspaceList: FC<{
         </TableBody>
       </Table>
       <Box mt={8}>
-        <Box ref={ref} width={'100%'} />
+        <Box ref={terminalRef} width={'100%'} hidden={isEditorHidden} />
       </Box>
     </>
   )
-}
+})
 
 export default WorkspaceList

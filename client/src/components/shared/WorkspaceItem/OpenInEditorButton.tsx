@@ -57,7 +57,8 @@ const OpenInEditorButton: FC<Props> = ({
 
   if (
     isLoading &&
-    (selectedEditor === Editor.VsCodeBrowser || editor === Editor.Jupyter)
+    (selectedEditor === Editor.VsCodeBrowser ||
+      selectedEditor === Editor.Jupyter)
   ) {
     return <Chip sx={{ padding: '14px' }} label="Forwarding port" />
   }
