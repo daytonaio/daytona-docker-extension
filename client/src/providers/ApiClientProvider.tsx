@@ -14,17 +14,20 @@ import {
   Configuration,
   TargetApi,
   GitProviderApi,
+  SampleApi,
 } from '../api-client'
 import { useDaytonaConfig } from './DaytonaConfigProvider'
 
 const ApiClientContext = createContext<{
   workspaceApiClient: WorkspaceApi | null
   targetApiClient: TargetApi | null
+  sampleApiClient: SampleApi | null
   gitProvidersApiClient: GitProviderApi | null
   isServerRuning: boolean
 }>({
   workspaceApiClient: null,
   targetApiClient: null,
+  sampleApiClient: null,
   isServerRuning: false,
   gitProvidersApiClient: null,
 })
@@ -37,6 +40,7 @@ export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
   const [targetApiClient, setTargetApiClient] = useState<TargetApi | null>(null)
   const [gitProvidersApiClient, setGitProvidersApiClient] =
     useState<GitProviderApi | null>(null)
+  const [sampleApiClient, setSampleApiClient] = useState<SampleApi | null>(null)
   const { daytonaConfig } = useDaytonaConfig()
   const [isServerRuning, setIsServerRunning] = useState(false)
 
@@ -87,6 +91,9 @@ export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
       const targetApi = new TargetApi(config, undefined, axiosInstance)
       setTargetApiClient(targetApi)
 
+      const sampleApi = new SampleApi(config, undefined, axiosInstance)
+      setSampleApiClient(sampleApi)
+
       const gitProvidersApi = new GitProviderApi(
         config,
         undefined,
@@ -100,12 +107,14 @@ export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
     return {
       workspaceApiClient,
       targetApiClient,
+      sampleApiClient,
       gitProvidersApiClient,
       isServerRuning,
     }
   }, [
     workspaceApiClient,
     targetApiClient,
+    sampleApiClient,
     isServerRuning,
     gitProvidersApiClient,
   ])

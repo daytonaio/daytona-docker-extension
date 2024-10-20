@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Autocomplete,
   Box,
@@ -24,6 +24,7 @@ import {
   GitProvider,
   GitRepository,
   ProviderTarget,
+  Sample,
   WorkspaceDTO,
 } from '../api-client'
 import { useApiClient } from '../providers/ApiClientProvider'
@@ -46,8 +47,13 @@ const CreateWorkspace = () => {
   )
   const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
   const [targets, setTargets] = useState<ProviderTarget[]>([])
-  const { workspaceApiClient, targetApiClient, gitProvidersApiClient } =
-    useApiClient()
+  const [samples, setSamples] = useState<Sample[]>([])
+  const {
+    workspaceApiClient,
+    targetApiClient,
+    gitProvidersApiClient,
+    sampleApiClient,
+  } = useApiClient()
   const [repos, setRepos] = useState<GitRepository[]>([])
   const [loadingRepos, setLoadingRepos] = useState(false)
   const listRef = useRef<any>()
@@ -121,6 +127,25 @@ const CreateWorkspace = () => {
         })
     }
   }, [targetApiClient])
+
+  useEffect(() => {
+    if (sampleApiClient) {
+      sampleApiClient
+        .listSamples()
+        .then((response: AxiosResponse<Sample[], any>) => {
+          if (response.data.length > 0) {
+            setSamples(response.data)
+          }
+        })
+        .catch((error: any) => {
+          console.log(error)
+        })
+    }
+  }, [sampleApiClient])
+
+  const repoOptions = useMemo(() => {
+    return [...samples.map((s) => s.gitUrl), ...repos.map((r) => r.url)]
+  }, [repos, samples])
 
   useEffect(() => {
     if (createdWorkspaceId && activeStep === 2 && workspaceApiClient) {
@@ -270,7 +295,7 @@ const CreateWorkspace = () => {
                         render={({ field, fieldState: { error } }) => (
                           <Autocomplete
                             freeSolo
-                            options={repos.map((repo) => repo.url)}
+                            options={repoOptions}
                             loading={loadingRepos}
                             onChange={(_, value) => {
                               field.onChange(value)
