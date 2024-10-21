@@ -130,14 +130,17 @@ const CreateWorkspace = () => {
 
   useEffect(() => {
     if (sampleApiClient) {
+      setLoadingRepos(true)
       sampleApiClient
         .listSamples()
         .then((response: AxiosResponse<Sample[], any>) => {
           if (response.data.length > 0) {
             setSamples(response.data)
+            setLoadingRepos(false)
           }
         })
         .catch((error: any) => {
+          setLoadingRepos(false)
           console.log(error)
         })
     }
