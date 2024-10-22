@@ -58,11 +58,13 @@ const WorkspaceList = forwardRef<any, Props>((props, ref) => {
             stream: {
               onOutput: (message: any) => {
                 if (message.stderr) {
-                  instance?.writeln(message.stderr)
+                  message.stderr = message.stderr.replaceAll('\n', '\r\n')
+                  instance?.write(message.stderr)
                   stderr += message.stderr
                 }
                 if (message.stdout) {
-                  instance?.writeln(message.stdout)
+                  message.stdout = message.stdout.replaceAll('\n', '\r\n')
+                  instance?.write(message.stdout)
                 }
               },
               onClose: () => resolve(),
