@@ -1,9 +1,11 @@
 name: ci
 
 on:
-  push:
-    branches:
-      - "main"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Enter the version to release"
+        required: true
 
 jobs:
   docker:
@@ -26,6 +28,6 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: daytonaio/daytona-docker-extension:0.29.1
+          tags: daytonaio/daytona-docker-extension:${{ github.event.inputs.version }}
           build-args: |
-            "DAYTONA_VERSION=v0.41.0"
+            "DAYTONA_VERSION=${{ github.event.inputs.version }}"
