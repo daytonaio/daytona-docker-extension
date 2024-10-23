@@ -7,21 +7,10 @@ COPY client/package-lock.json /app/client/package-lock.json
 RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \
     npm ci
+
 # install
 COPY client /app/client
 RUN npm run build
-
-FROM golang:1.17-alpine AS builder
-ENV CGO_ENABLED=0
-WORKDIR /backend
-COPY vm/go.* .
-RUN --mount=type=cache,target=/go/pkg/mod \
-    --mount=type=cache,target=/root/.cache/go-build \
-    go mod download
-COPY vm/. .
-RUN --mount=type=cache,target=/go/pkg/mod \
-    --mount=type=cache,target=/root/.cache/go-build \
-    go build -trimpath -ldflags="-s -w" -o bin/service
 
 FROM alpine:3.20
 
@@ -53,10 +42,8 @@ LABEL com.docker.extension.detailed-description="Docker Extension for using Dayt
 # LABEL com.docker.extension.changelog="See full <a href=\"https://github.com/daytonaio/daytona-docker-extension/blob/main/CHANGELOG.md\">change log</a>"
 LABEL com.docker.desktop.extension.icon="https://www.daytona.io/favicon.ico"
 LABEL com.docker.extension.detailed-description="Daytona is a self-hosted and secure open source development environment manager."
-COPY daytona.svg metadata.json docker-compose.yml /
+COPY daytona.svg metadata.json /
 
 COPY --from=client-builder /app/client/dist /client
-COPY --from=builder /backend/bin/service /
-COPY --chown=1000:1000 startup.sh daytona.sh /sbin/
 
-ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/daytona-docker-extension.sock"]
+ENTRYPOINT ["sleep", "infinity"]

@@ -1,10 +1,7 @@
 all: clean extension install
 
 ORG=daytonaio
-VERSION=0.29
-MINOR=1
-IMAGE_NAME=$(ORG)/daytona-docker-extension
-DAYTONA_VERSION=$(VERSION).${MINOR}
+IMAGE_NAME=$(ORG)/docker-extension
 TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(DAYTONA_VERSION)
 
 clean:
@@ -12,11 +9,14 @@ clean:
 	-docker rmi $(TAGGED_IMAGE_NAME)
 
 extension:
-	docker buildx build --load -t $(TAGGED_IMAGE_NAME) --build-arg DAYTONA_VERSION="v$(DAYTONA_VERSION)" --build-arg MINOR=$(MINOR) .
+	docker buildx build --load -t $(TAGGED_IMAGE_NAME) --build-arg DAYTONA_VERSION="$(DAYTONA_VERSION)" .
 
 install: extension
 	docker extension install -f $(TAGGED_IMAGE_NAME)
 
+uninstall:
+	docker extension uninstall $(TAGGED_IMAGE_NAME)
+	
 validate: extension
 	docker extension validate $(TAGGED_IMAGE_NAME)
 
