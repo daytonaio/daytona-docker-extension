@@ -18,7 +18,8 @@ const Header = () => {
     >
       <Box display="flex" gap={4}>
         <Box display="flex" alignItems="center" gap={2}>
-          {location.pathname === '/create' && (
+          {(location.pathname === '/create' ||
+            location.pathname === '/logs') && (
             <Link to="/">
               <IconButton size="small">
                 <ChevronLeft fontSize="small" />
@@ -35,7 +36,9 @@ const Header = () => {
           </Link>
         )}
       </Box>
-      <SwitchProfile disabled={location.pathname === '/create'} />
+      {location.pathname !== '/logs' && (
+        <SwitchProfile disabled={location.pathname === '/create'} />
+      )}
     </Stack>
   )
 }

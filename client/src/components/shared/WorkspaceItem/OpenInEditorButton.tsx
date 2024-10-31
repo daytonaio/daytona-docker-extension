@@ -1,12 +1,9 @@
 import {
-  Box,
   Button,
   ButtonGroup,
-  CircularProgress,
   ListItemText,
   ListItemIcon,
   Tooltip,
-  Chip,
 } from '@mui/material'
 import { FC, useRef, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -21,13 +18,11 @@ import { Editor, EDITORS } from '../../../constants/editors'
 
 interface Props {
   onSelect: (editor: Editor) => void
-  isLoading: boolean
   editor?: Editor
 }
 
 const OpenInEditorButton: FC<Props> = ({
   onSelect,
-  isLoading,
   editor = Editor.Vscode,
 }) => {
   const [open, setOpen] = useState(false)
@@ -55,14 +50,6 @@ const OpenInEditorButton: FC<Props> = ({
     setOpen(false)
   }
 
-  if (
-    isLoading &&
-    (selectedEditor === Editor.VsCodeBrowser ||
-      selectedEditor === Editor.Jupyter)
-  ) {
-    return <Chip sx={{ padding: '14px' }} label="Forwarding port" />
-  }
-
   return (
     <>
       <ButtonGroup
@@ -78,14 +65,7 @@ const OpenInEditorButton: FC<Props> = ({
               textAlign: 'center',
               borderRight: 'transparent !important',
             }}
-            startIcon={
-              isLoading ? (
-                <CircularProgress size="16px" color="info" />
-              ) : (
-                EDITORS[selectedEditor].icon
-              )
-            }
-            disabled={isLoading}
+            startIcon={EDITORS[selectedEditor].icon}
             size="small"
             variant="outlined"
             onClick={() => onSelect(selectedEditor)}
@@ -98,7 +78,6 @@ const OpenInEditorButton: FC<Props> = ({
           aria-haspopup="menu"
           variant="outlined"
           onClick={handleToggle}
-          disabled={isLoading}
         >
           <ArrowDropDownIcon />
         </Button>

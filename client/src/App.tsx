@@ -9,6 +9,7 @@ import { useApiClient } from './providers/ApiClientProvider'
 import { useDaytonaConfig } from './providers/DaytonaConfigProvider'
 import { useDockerClient } from './providers/DockerClientProvider'
 import SwitchProfile from './components/shared/SwitchProfile'
+import Logs from './components/Logs'
 
 const router = createMemoryRouter([
   {
@@ -18,6 +19,10 @@ const router = createMemoryRouter([
   {
     path: '/create',
     element: <CreateWorkspace />,
+  },
+  {
+    path: '/logs',
+    element: <Logs />,
   },
 ])
 
