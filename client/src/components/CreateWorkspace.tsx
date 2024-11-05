@@ -190,7 +190,7 @@ const CreateWorkspace = () => {
           )
           if (response && response.data) {
             setGitProvidersForUrl(response.data)
-            if (response.data.length === 1) {
+            if (response.data.length > 0) {
               setValue('providerId', response.data[0].id)
             }
           }
@@ -240,22 +240,16 @@ const CreateWorkspace = () => {
           },
         })
       })
-      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      setActiveStep(2)
     } catch (error) {
       setIsError(true)
     }
   }
 
   const handleNext = () => {
-    if (activeStep === 0) {
-      handleSubmit(onSubmit)()
-      if (isValid) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-      }
-    }
-
-    if (activeStep === 1) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    handleSubmit(onSubmit)()
+    if (isValid) {
+      setActiveStep(1)
     }
   }
 
@@ -294,7 +288,7 @@ const CreateWorkspace = () => {
         <Box width="100%">
           <Box px={4}>
             <Stepper activeStep={activeStep}>
-              {steps.map((label, index) => {
+              {steps.map((label) => {
                 const stepProps: { completed?: boolean } = {}
                 return (
                   <Step key={label} {...stepProps}>
