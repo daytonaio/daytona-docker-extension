@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
+import { FitAddon } from '@xterm/addon-fit'
 
 import Header from './shared/Header'
 import { useXTerm } from 'react-xtermjs'
@@ -7,9 +8,17 @@ import { useLocation } from 'react-router-dom'
 import { useDockerClient } from '../providers/DockerClientProvider'
 
 const Logs: FC = () => {
+  const fitAddon = useRef(new FitAddon())
   const { instance, ref: terminalRef } = useXTerm()
   const { state } = useLocation()
   const client = useDockerClient()
+
+  useEffect(() => {
+    if (instance) {
+      instance.loadAddon(fitAddon.current)
+      fitAddon.current.fit()
+    }
+  }, [instance])
 
   useEffect(() => {
     if (instance && state) {

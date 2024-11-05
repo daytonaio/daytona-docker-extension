@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useXTerm } from 'react-xtermjs'
 import { AxiosResponse } from 'axios'
+import { FitAddon } from '@xterm/addon-fit'
 
 import Header from './shared/Header'
 import {
@@ -40,6 +41,7 @@ const CreateWorkspace = () => {
   const navigate = useNavigate()
   const client = useDockerClient()
   const { daytonaConfig } = useDaytonaConfig()
+  const fitAddon = useRef(new FitAddon())
   const { instance, ref } = useXTerm()
   const [isError, setIsError] = useState(false)
   const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(
@@ -60,6 +62,13 @@ const CreateWorkspace = () => {
   )
   const [loadingRepos, setLoadingRepos] = useState(false)
   const listRef = useRef<any>()
+
+  useEffect(() => {
+    if (instance) {
+      instance.loadAddon(fitAddon.current)
+      fitAddon.current.fit()
+    }
+  }, [instance])
 
   const {
     control,
