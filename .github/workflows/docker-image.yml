@@ -6,6 +6,7 @@ on:
       version:
         description: "Enter the version to release"
         required: true
+        default: '0.42.1'
 
 jobs:
   docker:
@@ -30,4 +31,4 @@ jobs:
           push: true
           tags: daytonaio/daytona-docker-extension:${{ github.event.inputs.version }}
           build-args: |
-            "DAYTONA_VERSION=${{ github.event.inputs.version }}"
+            "DAYTONA_VERSION=v${{ github.event.inputs.version }}"

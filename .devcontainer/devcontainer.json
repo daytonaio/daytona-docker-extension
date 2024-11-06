@@ -8,18 +8,23 @@
 		// Append -bullseye or -buster to pin to an OS version.
 		// Use -bullseye variants on local on arm64/Apple Silicon.
 		"args": { 
-			"VARIANT": "16-bullseye"
+			"VARIANT": "18-bullseye"
 		}
 	},
 
-	// Set *default* container specific settings.json values on container create.
-	"settings": {},
+
 
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"dbaeumer.vscode-eslint"
-	],
+    "customizations": {
+ 			// Set *default* container specific settings.json values on container create.
+	 		"settings": {},
+	        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint"
+            ]
+        }
+    },
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

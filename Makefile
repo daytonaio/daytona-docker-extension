@@ -2,7 +2,9 @@ all: clean extension install
 
 ORG=daytonaio
 IMAGE_NAME=$(ORG)/docker-extension
-TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(DAYTONA_VERSION)
+VERSION=0.42.1
+DAYTONA_VERSION="v${VERSION}"
+TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(VERSION)
 
 clean:
 	-docker extension rm $(IMAGE_NAME)
@@ -27,4 +29,4 @@ multiarch:
 	docker buildx create --name=buildx-multi-arch --driver=docker-container --driver-opt=network=host
 
 build:
-	docker buildx build --push --builder=buildx-multi-arch --platform=linux/amd64,linux/arm64 --build-arg VERSION=$(VERSION) --tag=$(TAGGED_IMAGE_NAME) .
+	docker buildx build --push --builder=buildx-multi-arch --platform=linux/amd64,linux/arm64 --build-arg DAYTONA_VERSION=${DAYTONA_VERSION} --tag=$(TAGGED_IMAGE_NAME) .
