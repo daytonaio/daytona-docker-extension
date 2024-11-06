@@ -2,9 +2,7 @@ all: clean extension install
 
 ORG=daytonaio
 IMAGE_NAME=$(ORG)/docker-extension
-VERSION=0.42.1
-DAYTONA_VERSION="v${VERSION}"
-TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(VERSION)
+TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(DAYTONA_VERSION)
 
 clean:
 	-docker extension rm $(IMAGE_NAME)
