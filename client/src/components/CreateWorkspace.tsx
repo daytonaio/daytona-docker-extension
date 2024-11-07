@@ -64,11 +64,11 @@ const CreateWorkspace = () => {
   const listRef = useRef<any>()
 
   useEffect(() => {
-    if (instance) {
+    if (instance && activeStep === 1) {
       instance.loadAddon(fitAddon.current)
       fitAddon.current.fit()
     }
-  }, [instance])
+  }, [instance, activeStep])
 
   const {
     control,
@@ -213,7 +213,7 @@ const CreateWorkspace = () => {
   }, [selectedRepo, setValue, gitProvidersApiClient])
 
   const onSubmit = async (data: any) => {
-    let options = ['create', data.repo, '-t', data.target, '--no-ide']
+    let options = ['create', data.repo, '-t', data.target, '--no-ide', '-y']
 
     if (data.providerId) {
       options = options.concat(['--git-provider-config', data.providerId])

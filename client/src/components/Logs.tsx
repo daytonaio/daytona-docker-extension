@@ -34,6 +34,7 @@ const Logs: FC = () => {
                 state.createdWorkspaceName,
                 '--ide',
                 state.editor,
+                '-y',
               ],
               {
                 stream: {
@@ -88,7 +89,7 @@ const Logs: FC = () => {
         gap={2}
       >
         <Typography variant="h2" textAlign="center" mb={2}>
-          Editor logs
+          IDE logs
         </Typography>
         <Box ref={terminalRef} width={'100%'} />
       </Box>
