@@ -1,4 +1,4 @@
-import { FC, forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -11,14 +11,12 @@ import {
   DialogContentText,
   DialogActions,
   Button,
-  Box,
 } from '@mui/material'
 
 import { WorkspaceDTO } from '../../api-client'
 import WorkspaceItem from './WorkspaceItem/WorkspaceItem'
 import { Editor } from '../../constants/editors'
-import { useXTerm } from 'react-xtermjs'
-import { useDockerClient } from '../../providers/DockerClientProvider'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   workspaces: WorkspaceDTO[]
@@ -30,10 +28,7 @@ const WorkspaceList = forwardRef<any, Props>((props, ref) => {
   const { workspaces, onDelete, preferedEditor } = props
   const [workspaceToDelete, setWorkspaceToDelete] =
     useState<WorkspaceDTO | null>(null)
-  const { instance, ref: terminalRef } = useXTerm()
-  const client = useDockerClient()
-  const [isLoading, setIsLoading] = useState(false)
-  const [isEditorHidden, setIsEditorHidden] = useState(true)
+  const navigate = useNavigate()
 
   const handleClose = () => {
     setWorkspaceToDelete(null)
@@ -44,51 +39,9 @@ const WorkspaceList = forwardRef<any, Props>((props, ref) => {
     createdWorkspaceName: string,
     editor: Editor,
   ) => {
-    setIsEditorHidden(false)
-    setIsLoading(true)
-    instance?.reset()
-
-    try {
-      await new Promise<void>((resolve, reject) => {
-        let stderr = ''
-        client?.extension.host?.cli.exec(
-          'daytona',
-          ['code', createdWorkspaceId, createdWorkspaceName, '--ide', editor],
-          {
-            stream: {
-              onOutput: (message: any) => {
-                if (message.stderr) {
-                  message.stderr = message.stderr.replaceAll('\n', '\r\n')
-                  instance?.write(message.stderr)
-                  stderr += message.stderr
-                }
-                if (message.stdout) {
-                  message.stdout = message.stdout.replaceAll('\n', '\r\n')
-                  instance?.write(message.stdout)
-                }
-              },
-              onClose: () => resolve(),
-              onError: (error: any) => {
-                if (!error) {
-                  resolve()
-                  return
-                }
-
-                client?.desktopUI.toast.error(
-                  `Error with opening editor. ERROR: ${JSON.stringify(
-                    error,
-                  )} ${stderr}`,
-                )
-                reject(error)
-              },
-            },
-          },
-        )
-      })
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
+    navigate('/logs', {
+      state: { createdWorkspaceId, createdWorkspaceName, editor },
+    })
   }
 
   useImperativeHandle(ref, () => ({
@@ -173,15 +126,11 @@ const WorkspaceList = forwardRef<any, Props>((props, ref) => {
               workspace={workspace}
               onDelete={() => setWorkspaceToDelete(workspace)}
               preferedEditor={preferedEditor}
-              isLoading={isLoading}
               openInEditor={openInEditor}
             />
           ))}
         </TableBody>
       </Table>
-      <Box mt={8}>
-        <Box ref={terminalRef} width={'100%'} hidden={isEditorHidden} />
-      </Box>
     </>
   )
 })

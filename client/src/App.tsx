@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { useXTerm } from 'react-xtermjs'
+import { FitAddon } from '@xterm/addon-fit'
 
 import StartScreen from './components/StartScreen'
 import CreateWorkspace from './components/CreateWorkspace'
@@ -9,6 +10,7 @@ import { useApiClient } from './providers/ApiClientProvider'
 import { useDaytonaConfig } from './providers/DaytonaConfigProvider'
 import { useDockerClient } from './providers/DockerClientProvider'
 import SwitchProfile from './components/shared/SwitchProfile'
+import Logs from './components/Logs'
 
 const router = createMemoryRouter([
   {
@@ -19,14 +21,26 @@ const router = createMemoryRouter([
     path: '/create',
     element: <CreateWorkspace />,
   },
+  {
+    path: '/logs',
+    element: <Logs />,
+  },
 ])
 
 export function App() {
   const { isServerRuning, workspaceApiClient } = useApiClient()
   const { daytonaConfig } = useDaytonaConfig()
+  const fitAddon = useRef(new FitAddon())
   const { instance, ref } = useXTerm()
   const [isTerminalHidden, setIsTerminalHidden] = useState(true)
   const client = useDockerClient()
+
+  useEffect(() => {
+    if (instance) {
+      instance.loadAddon(fitAddon.current)
+      fitAddon.current.fit()
+    }
+  }, [instance])
 
   const onStartServer = async () => {
     setIsTerminalHidden(false)

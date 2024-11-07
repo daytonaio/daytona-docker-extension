@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useXTerm } from 'react-xtermjs'
 import { AxiosResponse } from 'axios'
+import { FitAddon } from '@xterm/addon-fit'
 
 import Header from './shared/Header'
 import {
@@ -40,6 +41,7 @@ const CreateWorkspace = () => {
   const navigate = useNavigate()
   const client = useDockerClient()
   const { daytonaConfig } = useDaytonaConfig()
+  const fitAddon = useRef(new FitAddon())
   const { instance, ref } = useXTerm()
   const [isError, setIsError] = useState(false)
   const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(
@@ -55,8 +57,18 @@ const CreateWorkspace = () => {
     sampleApiClient,
   } = useApiClient()
   const [repos, setRepos] = useState<GitRepository[]>([])
+  const [gitProvidersForUrl, setGitProvidersForUrl] = useState<GitProvider[]>(
+    [],
+  )
   const [loadingRepos, setLoadingRepos] = useState(false)
   const listRef = useRef<any>()
+
+  useEffect(() => {
+    if (instance && activeStep === 1) {
+      instance.loadAddon(fitAddon.current)
+      fitAddon.current.fit()
+    }
+  }, [instance, activeStep])
 
   const {
     control,
@@ -67,12 +79,14 @@ const CreateWorkspace = () => {
   } = useForm({
     defaultValues: {
       repo: '',
+      providerId: '',
       editor: daytonaConfig?.defaultIde || Editor.Vscode,
       target: '',
     },
   })
 
   const selectedEditor = watch('editor')
+  const selectedRepo = watch('repo')
 
   useEffect(() => {
     if (gitProvidersApiClient) {
@@ -175,58 +189,76 @@ const CreateWorkspace = () => {
     }
   }, [createdWorkspaceId, activeStep, workspaceApiClient])
 
+  useEffect(() => {
+    if (selectedRepo) {
+      const fetchProviders = async () => {
+        const encodedUrl = encodeURIComponent(selectedRepo)
+        try {
+          const response = await gitProvidersApiClient?.listGitProvidersForUrl(
+            encodedUrl,
+          )
+          if (response && response.data) {
+            setGitProvidersForUrl(response.data)
+            if (response.data.length > 0) {
+              setValue('providerId', response.data[0].id)
+            }
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      fetchProviders()
+    }
+  }, [selectedRepo, setValue, gitProvidersApiClient])
+
   const onSubmit = async (data: any) => {
+    let options = ['create', data.repo, '-t', data.target, '--no-ide', '-y']
+
+    if (data.providerId) {
+      options = options.concat(['--git-provider-config', data.providerId])
+    }
     try {
       await new Promise<void>((resolve, reject) => {
-        const result = client?.extension.host?.cli.exec(
-          'daytona',
-          ['create', data.repo, '-t', data.target, '--no-ide'],
-          {
-            stream: {
-              onOutput: (message: any) => {
-                if (message.stdout) {
-                  const workspaceIdRegex = /ID\s+([a-f0-9]+)/
-                  const match = message.stdout.match(workspaceIdRegex)
+        const result = client?.extension.host?.cli.exec('daytona', options, {
+          stream: {
+            onOutput: (message: any) => {
+              if (message.stdout) {
+                const workspaceIdRegex = /ID\s+([a-f0-9]+)/
+                const match = message.stdout.match(workspaceIdRegex)
 
-                  if (match) {
-                    const workspaceId = match[1]
-                    setCreatedWorkspaceId(workspaceId)
-                  }
+                if (match) {
+                  const workspaceId = match[1]
+                  setCreatedWorkspaceId(workspaceId)
                 }
+              }
 
-                if (message.stderr) {
-                  instance?.write(message.stderr)
-                  reject(message.stderr)
-                }
+              if (message.stderr) {
+                instance?.write(message.stderr)
+                reject(message.stderr)
+              }
 
-                try {
-                  instance?.write(message.stdout)
-                } catch (error) {
-                  reject(error)
-                }
-              },
-              onClose: () => resolve(),
-              onError: (error: any) => reject(error),
+              try {
+                instance?.write(message.stdout)
+              } catch (error) {
+                reject(error)
+              }
             },
+            onClose: () => resolve(),
+            onError: (error: any) => reject(error),
           },
-        )
+        })
       })
-      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      setActiveStep(2)
     } catch (error) {
       setIsError(true)
     }
   }
 
   const handleNext = () => {
-    if (activeStep === 0) {
-      handleSubmit(onSubmit)()
-      if (isValid) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-      }
-    }
-
-    if (activeStep === 1) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    handleSubmit(onSubmit)()
+    if (isValid) {
+      setActiveStep(1)
     }
   }
 
@@ -265,7 +297,7 @@ const CreateWorkspace = () => {
         <Box width="100%">
           <Box px={4}>
             <Stepper activeStep={activeStep}>
-              {steps.map((label, index) => {
+              {steps.map((label) => {
                 const stepProps: { completed?: boolean } = {}
                 return (
                   <Step key={label} {...stepProps}>
@@ -330,6 +362,33 @@ const CreateWorkspace = () => {
                         )}
                       />
                     </Box>
+                    {gitProvidersForUrl.length > 1 && (
+                      <Box display="flex" flexDirection="column" gap={1}>
+                        <Typography variant="body1">
+                          Choose Git Provider
+                        </Typography>
+                        <Controller
+                          name="providerId"
+                          control={control}
+                          rules={{ required: 'This field is required' }}
+                          render={({ field, fieldState: { error } }) => (
+                            <FormControl error={!!error}>
+                              <Select {...field}>
+                                {gitProvidersForUrl.map((provider) => (
+                                  <MenuItem
+                                    key={provider.id}
+                                    value={provider.id}
+                                  >
+                                    {provider.alias}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                              <FormHelperText>{error?.message}</FormHelperText>
+                            </FormControl>
+                          )}
+                        />
+                      </Box>
+                    )}
                     <Box display="flex" flexDirection="column" gap={1}>
                       <Typography variant="body1">Choose IDE</Typography>
                       <Controller
