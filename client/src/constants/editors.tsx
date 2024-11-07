@@ -11,6 +11,7 @@ import PhpStormIcon from '../components/shared/icons/PhpStormIcon'
 import WebStormIcon from '../components/shared/icons/WebStormIcon'
 import RiderIcon from '../components/shared/icons/RiderIcon'
 import RubyMineIcon from '../components/shared/icons/RubyMineIcon'
+import ZedIcon from '../components/shared/icons/ZedIcon'
 
 export enum Editor {
   Vscode = 'vscode',
@@ -26,6 +27,7 @@ export enum Editor {
   WebStorm = 'webstorm',
   Rider = 'rider',
   RubyMine = 'rubymine',
+  Zed = 'zed',
 }
 
 export const EDITORS: Record<
@@ -96,5 +98,10 @@ export const EDITORS: Record<
     value: Editor.RubyMine,
     label: 'RubyMine',
     icon: <RubyMineIcon />,
+  },
+  [Editor.Zed]: {
+    value: Editor.Zed,
+    label: 'Zed',
+    icon: <ZedIcon />,
   },
 }
