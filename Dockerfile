@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
+FROM --platform=$BUILDPLATFORM node:18.16.0-alpine3.18 AS client-builder
 WORKDIR /app/client
 
 # cache packages in layer
@@ -15,17 +15,15 @@ RUN npm run build
 FROM alpine:3.20
 
 ARG DAYTONA_VERSION
-RUN apk update && apk add --no-cache curl openssh-client ncurses bash ttyd tini sudo bash-completion && \
-    (curl -sf -L https://download.daytona.io/daytona/install.sh | bash) && \
+
+RUN apk update && apk add --no-cache curl openssh-client bash && \
     echo "daytona:x:1000:1000:Daytona:/home/daytona:/bin/bash" >> /etc/passwd && \
     echo "daytona:x:1000:" >> /etc/group && \
     mkdir -p /home/daytona && chown 1000:1000 /home/daytona
 
 
-ARG BASE_URL=${DAYTONA_DOWNLOAD_URL:-"https://download.daytona.io/daytona"}
-
 COPY install.sh /install.sh
-RUN chmod +x /install.sh && BASE_URL=${BASE_URL} DAYTONA_VERSION=${DAYTONA_VERSION} /install.sh && rm /install.sh
+RUN chmod +x /install.sh && DAYTONA_VERSION=${DAYTONA_VERSION} /install.sh && rm /install.sh
 
 LABEL org.opencontainers.image.title="Daytona client tool"
 LABEL org.opencontainers.image.description="Docker Extension for using an embedded version of Daytona client/server tools."

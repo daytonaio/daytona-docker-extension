@@ -27,4 +27,4 @@ multiarch:
 	docker buildx create --name=buildx-multi-arch --driver=docker-container --driver-opt=network=host
 
 build:
-	docker buildx build --push --builder=buildx-multi-arch --platform=linux/amd64,linux/arm64 --build-arg VERSION=$(VERSION) --tag=$(TAGGED_IMAGE_NAME) .
+	docker buildx build --push --builder=buildx-multi-arch --platform=linux/amd64,linux/arm64 --build-arg DAYTONA_VERSION=${DAYTONA_VERSION} --tag=$(TAGGED_IMAGE_NAME) .
