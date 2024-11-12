@@ -22,7 +22,7 @@ interface IDaytonaConfig {
   id: string
   activeProfile: string
   defaultIde: string
-  profiles: IDaytonaConfigProfile[]
+  profiles?: IDaytonaConfigProfile[]
 }
 
 const DaytonaConfigContext = createContext<{

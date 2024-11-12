@@ -33,6 +33,7 @@ export function App() {
   const fitAddon = useRef(new FitAddon())
   const { instance, ref } = useXTerm()
   const [isTerminalHidden, setIsTerminalHidden] = useState(true)
+  const [startingServer, setStartingServer] = useState(false)
   const client = useDockerClient()
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export function App() {
 
   const onStartServer = async () => {
     setIsTerminalHidden(false)
+    setStartingServer(true)
     try {
       await new Promise<void>((resolve, reject) => {
         const result = client?.extension.host?.cli.exec(
@@ -85,7 +87,7 @@ export function App() {
         <RouterProvider router={router} />
       ) : (
         <>
-          {workspaceApiClient ? (
+          {workspaceApiClient || daytonaConfig?.activeProfile === '' ? (
             <Box
               display="flex"
               flexDirection="column"
@@ -94,21 +96,30 @@ export function App() {
               padding="48px 32px"
             >
               <Typography variant="h5">
-                Daytona server is not running
+                {startingServer
+                  ? 'Starting the Daytona Server...'
+                  : 'Daytona Server is not running'}
               </Typography>
-              {daytonaConfig?.activeProfile === 'default' && (
-                <Button
-                  variant="contained"
-                  onClick={onStartServer}
-                  size="large"
-                >
-                  Start Server
-                </Button>
-              )}
-              <Typography variant="h6" mt={4}>
-                You can switch to a different profile
-              </Typography>
-              <SwitchProfile />
+              {(daytonaConfig?.activeProfile === 'default' ||
+                !daytonaConfig?.activeProfile) &&
+                isTerminalHidden && (
+                  <Button
+                    variant="contained"
+                    onClick={onStartServer}
+                    size="large"
+                  >
+                    Start Server
+                  </Button>
+                )}
+              {daytonaConfig?.profiles &&
+                daytonaConfig?.profiles.length > 1 && (
+                  <>
+                    <Typography variant="h6" mt={4}>
+                      You can switch to a different profile
+                    </Typography>
+                    <SwitchProfile />
+                  </>
+                )}
             </Box>
           ) : (
             <Grid
@@ -134,7 +145,7 @@ export function App() {
       <Box
         ref={ref}
         width={'100%'}
-        hidden={isServerRuning || !workspaceApiClient || isTerminalHidden}
+        hidden={isServerRuning || isTerminalHidden}
       />
     </>
   )

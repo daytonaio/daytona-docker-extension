@@ -29,7 +29,7 @@ const SwitchProfile = ({ disabled }: { disabled?: boolean }) => {
   }
 
   const profiles = useMemo(() => {
-    return daytonaConfig?.profiles.filter(
+    return daytonaConfig?.profiles?.filter(
       (profile) => profile.name !== daytonaConfig?.activeProfile,
     )
   }, [daytonaConfig])

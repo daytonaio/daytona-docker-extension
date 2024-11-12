@@ -46,7 +46,7 @@ export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
 
   const activeProfileConfig = useMemo(() => {
     if (daytonaConfig) {
-      return daytonaConfig.profiles.find(
+      return daytonaConfig.profiles?.find(
         (p) => p.name === daytonaConfig.activeProfile,
       )
     }
