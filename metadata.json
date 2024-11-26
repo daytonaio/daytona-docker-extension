@@ -16,16 +16,25 @@
         "darwin": [
           {
             "path": "/darwin/daytona"
+          },
+          {
+            "path": "/darwin/get-config.sh"
           }
         ],
         "linux": [
           {
             "path": "/linux/daytona"
+          },
+          {
+            "path": "/linux/get-config.sh"
           }
         ],
         "windows": [
           {
             "path": "/windows/daytona.exe"
+          },
+          {
+            "path": "/windows/get-config.cmd"
           }
         ]
       }
