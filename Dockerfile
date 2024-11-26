@@ -25,6 +25,12 @@ RUN apk update && apk add --no-cache curl openssh-client bash && \
 COPY install.sh /install.sh
 RUN chmod +x /install.sh && DAYTONA_VERSION=${DAYTONA_VERSION} /install.sh && rm /install.sh
 
+COPY get-config.sh /darwin/get-config.sh
+COPY get-config.sh /linux/get-config.sh
+COPY get-config.sh /windows/get-config.cmd
+
+RUN chmod +x /darwin/get-config.sh && chmod +x /linux/get-config.sh && chmod +x /windows/get-config.cmd
+
 LABEL org.opencontainers.image.title="Daytona"
 LABEL org.opencontainers.image.description="Docker Extension for using Daytona."
 LABEL org.opencontainers.image.vendor="Daytona"

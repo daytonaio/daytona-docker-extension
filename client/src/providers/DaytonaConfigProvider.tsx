@@ -45,12 +45,12 @@ export const DaytonaConfigProvider = ({
 
   const loadDaytonaConfig = useCallback(async () => {
     try {
-      const result = await dockerClient?.extension.host?.cli.exec('daytona', [
-        'config',
-        '--format',
-        'json',
-        '-k',
-      ])
+      let binary = 'get-config.sh'
+      if (dockerClient?.host.platform === 'win32') {
+        binary = 'get-config.cmd'
+      }
+
+      const result = await dockerClient?.extension.host?.cli.exec(binary, [])
 
       const newConfig = result?.parseJsonObject()
 
