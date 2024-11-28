@@ -81,6 +81,26 @@ export function App() {
     }
   }
 
+  if (client?.host.platform === 'win32' && !isServerRuning) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={2}
+        padding="48px 32px"
+      >
+        <Typography variant="h5">
+          Starting the Server here is not supported on Windows.
+        </Typography>
+        <Typography variant="h6" mt={4}>
+          Please run `daytona serve` in a terminal and the extension will
+          connect automatically.
+        </Typography>
+      </Box>
+    )
+  }
+
   return (
     <>
       {isServerRuning ? (
