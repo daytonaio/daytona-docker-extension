@@ -81,7 +81,7 @@ export function App() {
     }
   }
 
-  if (client?.host.platform === 'wndows' && !isServerRuning) {
+  if (client?.host.platform === 'win32' && !isServerRuning) {
     return (
       <Box
         display="flex"
