@@ -27,7 +27,7 @@ RUN chmod +x /install.sh && DAYTONA_VERSION=${DAYTONA_VERSION} /install.sh && rm
 
 COPY get-config.sh /darwin/get-config.sh
 COPY get-config.sh /linux/get-config.sh
-COPY get-config.sh /windows/get-config.cmd
+COPY get-config.cmd /windows/get-config.cmd
 
 RUN chmod +x /darwin/get-config.sh && chmod +x /linux/get-config.sh && chmod +x /windows/get-config.cmd
 

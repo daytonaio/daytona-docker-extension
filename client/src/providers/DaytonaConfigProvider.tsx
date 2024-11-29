@@ -62,7 +62,7 @@ export const DaytonaConfigProvider = ({
           return prevConfig
         })
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
     }
   }, [])
