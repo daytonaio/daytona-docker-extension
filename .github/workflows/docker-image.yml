@@ -6,7 +6,7 @@ on:
       version:
         description: "Enter the version to release"
         required: true
-        default: '0.42.1'
+        default: '0.47.0'
 
 jobs:
   docker:
