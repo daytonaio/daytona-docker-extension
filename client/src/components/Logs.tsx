@@ -28,14 +28,7 @@ const Logs: FC = () => {
             let stderr = ''
             client?.extension.host?.cli.exec(
               'daytona',
-              [
-                'code',
-                state.createdWorkspaceId,
-                state.createdWorkspaceName,
-                '--ide',
-                state.editor,
-                '-y',
-              ],
+              ['code', state.createdWorkspaceId, '--ide', state.editor, '-y'],
               {
                 stream: {
                   onOutput: (message: any) => {
