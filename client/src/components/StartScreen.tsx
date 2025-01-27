@@ -33,7 +33,7 @@ const StartScreen = () => {
   const handleDelete = (workspace: WorkspaceDTO) => {
     if (workspaceApiClient) {
       workspaceApiClient
-        .removeWorkspace(workspace.id, true)
+        .deleteWorkspace(workspace.id, true)
         .then(() => {
           fetchWorkspaces()
         })

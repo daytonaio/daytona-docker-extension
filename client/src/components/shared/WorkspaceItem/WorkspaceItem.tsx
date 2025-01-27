@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC } from 'react'
 import {
   Box,
   Typography,
@@ -10,10 +10,11 @@ import {
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import LaunchIcon from '@mui/icons-material/Launch'
-import { WorkspaceDTO } from '../../../api-client'
+import { ModelsResourceStateName, WorkspaceDTO } from '../../../api-client'
 import { useDockerClient } from '../../../providers/DockerClientProvider'
 import OpenInEditorButton from './OpenInEditorButton'
 import { Editor } from '../../../constants/editors'
+import { mapResourceStateToStatus } from '../../../helpers/workspaceHelper'
 
 const WorkspaceItem: FC<{
   workspace: WorkspaceDTO
@@ -27,13 +28,9 @@ const WorkspaceItem: FC<{
 }> = ({ workspace, onDelete, preferedEditor, openInEditor }) => {
   const client = useDockerClient()
 
-  const isWorkspaceRunning = useMemo(() => {
-    return workspace.projects[0].state && workspace.projects[0].state.uptime > 0
-  }, [workspace])
-
   const openRepo = () => {
     // @ts-ignore
-    client?.openExternal(workspace.projects[0].repository.url)
+    client?.openExternal(workspace.repository.url)
   }
 
   return (
@@ -47,7 +44,9 @@ const WorkspaceItem: FC<{
           gap={1}
           alignItems="flex-start"
         >
-          <Typography variant="subtitle1">{workspace.name}</Typography>
+          <Typography variant="subtitle1">
+            {workspace.repository.name}
+          </Typography>
           <Link
             onClick={openRepo}
             color="secondary"
@@ -57,19 +56,19 @@ const WorkspaceItem: FC<{
               ':hover': { textDecoration: 'underline' },
             }}
           >
-            {workspace.projects[0].repository.url}
+            {workspace.repository.url}
             <LaunchIcon />
           </Link>
         </Box>
       </TableCell>
       <TableCell>
-        {isWorkspaceRunning ? (
-          <Chip label="Running" color="success" sx={{ padding: '14px' }} />
-        ) : (
-          <Chip label="Stopped" color="error" sx={{ padding: '14px' }} />
-        )}
+        <Chip
+          label={workspace.state.name}
+          color={mapResourceStateToStatus(workspace.state.name)}
+          sx={{ padding: '14px' }}
+        />
       </TableCell>
-      <TableCell>{workspace.projects[0].target}</TableCell>
+      <TableCell>{workspace.target.name}</TableCell>
       <TableCell>
         <Box
           display="flex"
@@ -77,7 +76,8 @@ const WorkspaceItem: FC<{
           justifyContent="flex-end"
           alignItems="center"
         >
-          {isWorkspaceRunning && (
+          {workspace.state.name ===
+            ModelsResourceStateName.ResourceStateNameStarted && (
             <OpenInEditorButton
               onSelect={(editor) =>
                 openInEditor(workspace.id, workspace.name, editor)
