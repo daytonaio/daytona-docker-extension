@@ -42,137 +42,28 @@ import {
 /**
  *
  * @export
- * @interface ApiKey
+ * @interface ApiKeyViewDTO
  */
-export interface ApiKey {
+export interface ApiKeyViewDTO {
+  /**
+   *
+   * @type {boolean}
+   * @memberof ApiKeyViewDTO
+   */
+  current: boolean
   /**
    *
    * @type {string}
-   * @memberof ApiKey
-   */
-  keyHash: string
-  /**
-   * Project or client name
-   * @type {string}
-   * @memberof ApiKey
+   * @memberof ApiKeyViewDTO
    */
   name: string
   /**
    *
-   * @type {ApikeyApiKeyType}
-   * @memberof ApiKey
+   * @type {ModelsApiKeyType}
+   * @memberof ApiKeyViewDTO
    */
-  type: ApikeyApiKeyType
+  type: ModelsApiKeyType
 }
-
-/**
- *
- * @export
- * @enum {string}
- */
-
-export const ApikeyApiKeyType = {
-  ApiKeyTypeClient: 'client',
-  ApiKeyTypeProject: 'project',
-  ApiKeyTypeWorkspace: 'workspace',
-} as const
-
-export type ApikeyApiKeyType =
-  (typeof ApikeyApiKeyType)[keyof typeof ApikeyApiKeyType]
-
-/**
- *
- * @export
- * @interface Build
- */
-export interface Build {
-  /**
-   *
-   * @type {BuildConfig}
-   * @memberof Build
-   */
-  buildConfig?: BuildConfig
-  /**
-   *
-   * @type {ContainerConfig}
-   * @memberof Build
-   */
-  containerConfig: ContainerConfig
-  /**
-   *
-   * @type {string}
-   * @memberof Build
-   */
-  createdAt: string
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof Build
-   */
-  envVars: { [key: string]: string }
-  /**
-   *
-   * @type {string}
-   * @memberof Build
-   */
-  id: string
-  /**
-   *
-   * @type {string}
-   * @memberof Build
-   */
-  image?: string
-  /**
-   *
-   * @type {string}
-   * @memberof Build
-   */
-  prebuildId: string
-  /**
-   *
-   * @type {GitRepository}
-   * @memberof Build
-   */
-  repository: GitRepository
-  /**
-   *
-   * @type {BuildBuildState}
-   * @memberof Build
-   */
-  state: BuildBuildState
-  /**
-   *
-   * @type {string}
-   * @memberof Build
-   */
-  updatedAt: string
-  /**
-   *
-   * @type {string}
-   * @memberof Build
-   */
-  user?: string
-}
-
-/**
- *
- * @export
- * @enum {string}
- */
-
-export const BuildBuildState = {
-  BuildStatePendingRun: 'pending-run',
-  BuildStateRunning: 'running',
-  BuildStateError: 'error',
-  BuildStateSuccess: 'success',
-  BuildStatePublished: 'published',
-  BuildStatePendingDelete: 'pending-delete',
-  BuildStatePendingForcedDelete: 'pending-forced-delete',
-  BuildStateDeleting: 'deleting',
-} as const
-
-export type BuildBuildState =
-  (typeof BuildBuildState)[keyof typeof BuildBuildState]
 
 /**
  *
@@ -192,6 +83,91 @@ export interface BuildConfig {
    * @memberof BuildConfig
    */
   devcontainer?: DevcontainerConfig
+}
+/**
+ *
+ * @export
+ * @interface BuildDTO
+ */
+export interface BuildDTO {
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof BuildDTO
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {ContainerConfig}
+   * @memberof BuildDTO
+   */
+  containerConfig: ContainerConfig
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  createdAt: string
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof BuildDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  id: string
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  image?: string
+  /**
+   *
+   * @type {Job}
+   * @memberof BuildDTO
+   */
+  lastJob?: Job
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  lastJobId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  prebuildId?: string
+  /**
+   *
+   * @type {GitRepository}
+   * @memberof BuildDTO
+   */
+  repository: GitRepository
+  /**
+   *
+   * @type {ResourceState}
+   * @memberof BuildDTO
+   */
+  state: ResourceState
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  updatedAt: string
+  /**
+   *
+   * @type {string}
+   * @memberof BuildDTO
+   */
+  user?: string
 }
 /**
  *
@@ -225,6 +201,118 @@ export const CloneTarget = {
 
 export type CloneTarget = (typeof CloneTarget)[keyof typeof CloneTarget]
 
+/**
+ *
+ * @export
+ * @interface Command
+ */
+export interface Command {
+  /**
+   *
+   * @type {string}
+   * @memberof Command
+   */
+  command: string
+  /**
+   *
+   * @type {number}
+   * @memberof Command
+   */
+  exitCode?: number
+  /**
+   *
+   * @type {string}
+   * @memberof Command
+   */
+  id: string
+}
+/**
+ *
+ * @export
+ * @interface CompletionContext
+ */
+export interface CompletionContext {
+  /**
+   *
+   * @type {string}
+   * @memberof CompletionContext
+   */
+  triggerCharacter?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CompletionContext
+   */
+  triggerKind: number
+}
+/**
+ *
+ * @export
+ * @interface CompletionItem
+ */
+export interface CompletionItem {
+  /**
+   *
+   * @type {string}
+   * @memberof CompletionItem
+   */
+  detail?: string
+  /**
+   *
+   * @type {object}
+   * @memberof CompletionItem
+   */
+  documentation?: object
+  /**
+   *
+   * @type {string}
+   * @memberof CompletionItem
+   */
+  filterText?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CompletionItem
+   */
+  insertText?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CompletionItem
+   */
+  kind?: number
+  /**
+   *
+   * @type {string}
+   * @memberof CompletionItem
+   */
+  label: string
+  /**
+   *
+   * @type {string}
+   * @memberof CompletionItem
+   */
+  sortText?: string
+}
+/**
+ *
+ * @export
+ * @interface CompletionList
+ */
+export interface CompletionList {
+  /**
+   *
+   * @type {boolean}
+   * @memberof CompletionList
+   */
+  isIncomplete: boolean
+  /**
+   *
+   * @type {Array<CompletionItem>}
+   * @memberof CompletionList
+   */
+  items: Array<CompletionItem>
+}
 /**
  *
  * @export
@@ -298,7 +386,7 @@ export interface CreateBuildDTO {
    * @type {string}
    * @memberof CreateBuildDTO
    */
-  projectConfigName: string
+  workspaceTemplateName: string
 }
 /**
  *
@@ -340,138 +428,115 @@ export interface CreatePrebuildDTO {
 /**
  *
  * @export
- * @interface CreateProjectConfigDTO
+ * @interface CreateRunnerDTO
  */
-export interface CreateProjectConfigDTO {
-  /**
-   *
-   * @type {BuildConfig}
-   * @memberof CreateProjectConfigDTO
-   */
-  buildConfig?: BuildConfig
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateProjectConfigDTO
-   */
-  envVars: { [key: string]: string }
+export interface CreateRunnerDTO {
   /**
    *
    * @type {string}
-   * @memberof CreateProjectConfigDTO
+   * @memberof CreateRunnerDTO
    */
-  gitProviderConfigId?: string
+  id: string
   /**
    *
    * @type {string}
-   * @memberof CreateProjectConfigDTO
+   * @memberof CreateRunnerDTO
    */
-  image?: string
+  name: string
+}
+/**
+ *
+ * @export
+ * @interface CreateRunnerResultDTO
+ */
+export interface CreateRunnerResultDTO {
   /**
    *
    * @type {string}
-   * @memberof CreateProjectConfigDTO
+   * @memberof CreateRunnerResultDTO
+   */
+  apiKey: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateRunnerResultDTO
+   */
+  id: string
+  /**
+   *
+   * @type {RunnerMetadata}
+   * @memberof CreateRunnerResultDTO
+   */
+  metadata?: RunnerMetadata
+  /**
+   *
+   * @type {string}
+   * @memberof CreateRunnerResultDTO
+   */
+  name: string
+}
+/**
+ *
+ * @export
+ * @interface CreateSessionRequest
+ */
+export interface CreateSessionRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateSessionRequest
+   */
+  sessionId: string
+}
+/**
+ *
+ * @export
+ * @interface CreateTargetConfigDTO
+ */
+export interface CreateTargetConfigDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateTargetConfigDTO
    */
   name: string
   /**
    *
    * @type {string}
-   * @memberof CreateProjectConfigDTO
-   */
-  repositoryUrl: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProjectConfigDTO
-   */
-  user?: string
-}
-/**
- *
- * @export
- * @interface CreateProjectDTO
- */
-export interface CreateProjectDTO {
-  /**
-   *
-   * @type {BuildConfig}
-   * @memberof CreateProjectDTO
-   */
-  buildConfig?: BuildConfig
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateProjectDTO
-   */
-  envVars: { [key: string]: string }
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProjectDTO
-   */
-  gitProviderConfigId?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProjectDTO
-   */
-  image?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProjectDTO
-   */
-  name: string
-  /**
-   *
-   * @type {CreateProjectSourceDTO}
-   * @memberof CreateProjectDTO
-   */
-  source: CreateProjectSourceDTO
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProjectDTO
-   */
-  user?: string
-}
-/**
- *
- * @export
- * @interface CreateProjectSourceDTO
- */
-export interface CreateProjectSourceDTO {
-  /**
-   *
-   * @type {GitRepository}
-   * @memberof CreateProjectSourceDTO
-   */
-  repository: GitRepository
-}
-/**
- *
- * @export
- * @interface CreateProviderTargetDTO
- */
-export interface CreateProviderTargetDTO {
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProviderTargetDTO
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateProviderTargetDTO
+   * @memberof CreateTargetConfigDTO
    */
   options: string
   /**
    *
-   * @type {ProviderProviderInfo}
-   * @memberof CreateProviderTargetDTO
+   * @type {ProviderInfo}
+   * @memberof CreateTargetConfigDTO
    */
-  providerInfo: ProviderProviderInfo
+  providerInfo: ProviderInfo
+}
+/**
+ *
+ * @export
+ * @interface CreateTargetDTO
+ */
+export interface CreateTargetDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateTargetDTO
+   */
+  id: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateTargetDTO
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateTargetDTO
+   */
+  targetConfigId: string
 }
 /**
  *
@@ -479,6 +544,24 @@ export interface CreateProviderTargetDTO {
  * @interface CreateWorkspaceDTO
  */
 export interface CreateWorkspaceDTO {
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof CreateWorkspaceDTO
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateWorkspaceDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceDTO
+   */
+  gitProviderConfigId?: string
   /**
    *
    * @type {string}
@@ -490,19 +573,99 @@ export interface CreateWorkspaceDTO {
    * @type {string}
    * @memberof CreateWorkspaceDTO
    */
-  name: string
+  image?: string
   /**
    *
-   * @type {Array<CreateProjectDTO>}
+   * @type {{ [key: string]: string; }}
    * @memberof CreateWorkspaceDTO
    */
-  projects: Array<CreateProjectDTO>
+  labels: { [key: string]: string }
   /**
    *
    * @type {string}
    * @memberof CreateWorkspaceDTO
    */
-  target: string
+  name: string
+  /**
+   *
+   * @type {CreateWorkspaceSourceDTO}
+   * @memberof CreateWorkspaceDTO
+   */
+  source: CreateWorkspaceSourceDTO
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceDTO
+   */
+  targetId: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceDTO
+   */
+  user?: string
+}
+/**
+ *
+ * @export
+ * @interface CreateWorkspaceSourceDTO
+ */
+export interface CreateWorkspaceSourceDTO {
+  /**
+   *
+   * @type {GitRepository}
+   * @memberof CreateWorkspaceSourceDTO
+   */
+  repository: GitRepository
+}
+/**
+ *
+ * @export
+ * @interface CreateWorkspaceTemplateDTO
+ */
+export interface CreateWorkspaceTemplateDTO {
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  gitProviderConfigId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  image?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  repositoryUrl: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWorkspaceTemplateDTO
+   */
+  user?: string
 }
 /**
  *
@@ -516,6 +679,63 @@ export interface DevcontainerConfig {
    * @memberof DevcontainerConfig
    */
   filePath: string
+}
+/**
+ *
+ * @export
+ * @interface EnvironmentVariable
+ */
+export interface EnvironmentVariable {
+  /**
+   *
+   * @type {string}
+   * @memberof EnvironmentVariable
+   */
+  key: string
+  /**
+   *
+   * @type {string}
+   * @memberof EnvironmentVariable
+   */
+  value: string
+}
+/**
+ *
+ * @export
+ * @interface ExecuteRequest
+ */
+export interface ExecuteRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ExecuteRequest
+   */
+  command: string
+  /**
+   * Timeout in seconds, defaults to 10 seconds
+   * @type {number}
+   * @memberof ExecuteRequest
+   */
+  timeout?: number
+}
+/**
+ *
+ * @export
+ * @interface ExecuteResponse
+ */
+export interface ExecuteResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof ExecuteResponse
+   */
+  code: number
+  /**
+   *
+   * @type {string}
+   * @memberof ExecuteResponse
+   */
+  result: string
 }
 /**
  *
@@ -541,6 +761,61 @@ export interface FRPSConfig {
    * @memberof FRPSConfig
    */
   protocol: string
+}
+/**
+ *
+ * @export
+ * @interface FileInfo
+ */
+export interface FileInfo {
+  /**
+   *
+   * @type {string}
+   * @memberof FileInfo
+   */
+  group: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof FileInfo
+   */
+  isDir: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof FileInfo
+   */
+  modTime: string
+  /**
+   *
+   * @type {string}
+   * @memberof FileInfo
+   */
+  mode: string
+  /**
+   *
+   * @type {string}
+   * @memberof FileInfo
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof FileInfo
+   */
+  owner: string
+  /**
+   *
+   * @type {string}
+   * @memberof FileInfo
+   */
+  permissions: string
+  /**
+   *
+   * @type {number}
+   * @memberof FileInfo
+   */
+  size: number
 }
 /**
  *
@@ -638,6 +913,25 @@ export interface GetRepositoryContext {
 /**
  *
  * @export
+ * @interface GitAddRequest
+ */
+export interface GitAddRequest {
+  /**
+   * files to add (use . for all files)
+   * @type {Array<string>}
+   * @memberof GitAddRequest
+   */
+  files: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof GitAddRequest
+   */
+  path: string
+}
+/**
+ *
+ * @export
  * @interface GitBranch
  */
 export interface GitBranch {
@@ -653,6 +947,149 @@ export interface GitBranch {
    * @memberof GitBranch
    */
   sha: string
+}
+/**
+ *
+ * @export
+ * @interface GitBranchRequest
+ */
+export interface GitBranchRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof GitBranchRequest
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitBranchRequest
+   */
+  path: string
+}
+/**
+ *
+ * @export
+ * @interface GitCloneRequest
+ */
+export interface GitCloneRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof GitCloneRequest
+   */
+  branch?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCloneRequest
+   */
+  commit_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCloneRequest
+   */
+  password?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCloneRequest
+   */
+  path: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCloneRequest
+   */
+  url: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCloneRequest
+   */
+  username?: string
+}
+/**
+ *
+ * @export
+ * @interface GitCommitInfo
+ */
+export interface GitCommitInfo {
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitInfo
+   */
+  author: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitInfo
+   */
+  email: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitInfo
+   */
+  hash: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitInfo
+   */
+  message: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitInfo
+   */
+  timestamp: string
+}
+/**
+ *
+ * @export
+ * @interface GitCommitRequest
+ */
+export interface GitCommitRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitRequest
+   */
+  author: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitRequest
+   */
+  email: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitRequest
+   */
+  message: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitRequest
+   */
+  path: string
+}
+/**
+ *
+ * @export
+ * @interface GitCommitResponse
+ */
+export interface GitCommitResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof GitCommitResponse
+   */
+  hash: string
 }
 /**
  *
@@ -777,6 +1214,31 @@ export interface GitPullRequest {
    * @memberof GitPullRequest
    */
   sourceRepoUrl: string
+}
+/**
+ *
+ * @export
+ * @interface GitRepoRequest
+ */
+export interface GitRepoRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof GitRepoRequest
+   */
+  password?: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitRepoRequest
+   */
+  path: string
+  /**
+   *
+   * @type {string}
+   * @memberof GitRepoRequest
+   */
+  username?: string
 }
 /**
  *
@@ -917,22 +1379,417 @@ export interface GitUser {
 /**
  *
  * @export
- * @interface InstallProviderRequest
+ * @interface Job
  */
-export interface InstallProviderRequest {
+export interface Job {
   /**
    *
-   * @type {{ [key: string]: string; }}
-   * @memberof InstallProviderRequest
+   * @type {ModelsJobAction}
+   * @memberof Job
    */
-  downloadUrls: { [key: string]: string }
+  action: ModelsJobAction
   /**
    *
    * @type {string}
-   * @memberof InstallProviderRequest
+   * @memberof Job
+   */
+  createdAt: string
+  /**
+   *
+   * @type {string}
+   * @memberof Job
+   */
+  error?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Job
+   */
+  id: string
+  /**
+   * JSON encoded metadata
+   * @type {string}
+   * @memberof Job
+   */
+  metadata?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Job
+   */
+  resourceId: string
+  /**
+   *
+   * @type {ResourceType}
+   * @memberof Job
+   */
+  resourceType: ResourceType
+  /**
+   *
+   * @type {string}
+   * @memberof Job
+   */
+  runnerId?: string
+  /**
+   *
+   * @type {JobState}
+   * @memberof Job
+   */
+  state: JobState
+  /**
+   *
+   * @type {string}
+   * @memberof Job
+   */
+  updatedAt: string
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const JobState = {
+  JobStatePending: 'pending',
+  JobStateRunning: 'running',
+  JobStateError: 'error',
+  JobStateSuccess: 'success',
+} as const
+
+export type JobState = (typeof JobState)[keyof typeof JobState]
+
+/**
+ *
+ * @export
+ * @interface ListBranchResponse
+ */
+export interface ListBranchResponse {
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ListBranchResponse
+   */
+  branches: Array<string>
+}
+/**
+ *
+ * @export
+ * @interface LogFileConfig
+ */
+export interface LogFileConfig {
+  /**
+   *
+   * @type {boolean}
+   * @memberof LogFileConfig
+   */
+  compress?: boolean
+  /**
+   *
+   * @type {boolean}
+   * @memberof LogFileConfig
+   */
+  localTime?: boolean
+  /**
+   *
+   * @type {number}
+   * @memberof LogFileConfig
+   */
+  maxAge: number
+  /**
+   *
+   * @type {number}
+   * @memberof LogFileConfig
+   */
+  maxBackups: number
+  /**
+   *
+   * @type {number}
+   * @memberof LogFileConfig
+   */
+  maxSize: number
+  /**
+   *
+   * @type {string}
+   * @memberof LogFileConfig
+   */
+  path: string
+}
+/**
+ *
+ * @export
+ * @interface LspCompletionParams
+ */
+export interface LspCompletionParams {
+  /**
+   *
+   * @type {CompletionContext}
+   * @memberof LspCompletionParams
+   */
+  context?: CompletionContext
+  /**
+   *
+   * @type {string}
+   * @memberof LspCompletionParams
+   */
+  languageId: string
+  /**
+   *
+   * @type {string}
+   * @memberof LspCompletionParams
+   */
+  pathToProject: string
+  /**
+   *
+   * @type {Position}
+   * @memberof LspCompletionParams
+   */
+  position: Position
+  /**
+   *
+   * @type {string}
+   * @memberof LspCompletionParams
+   */
+  uri: string
+}
+/**
+ *
+ * @export
+ * @interface LspDocumentRequest
+ */
+export interface LspDocumentRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof LspDocumentRequest
+   */
+  languageId: string
+  /**
+   *
+   * @type {string}
+   * @memberof LspDocumentRequest
+   */
+  pathToProject: string
+  /**
+   *
+   * @type {string}
+   * @memberof LspDocumentRequest
+   */
+  uri: string
+}
+/**
+ *
+ * @export
+ * @interface LspLocation
+ */
+export interface LspLocation {
+  /**
+   *
+   * @type {LspRange}
+   * @memberof LspLocation
+   */
+  range: LspRange
+  /**
+   *
+   * @type {string}
+   * @memberof LspLocation
+   */
+  uri: string
+}
+/**
+ *
+ * @export
+ * @interface LspPosition
+ */
+export interface LspPosition {
+  /**
+   *
+   * @type {number}
+   * @memberof LspPosition
+   */
+  character: number
+  /**
+   *
+   * @type {number}
+   * @memberof LspPosition
+   */
+  line: number
+}
+/**
+ *
+ * @export
+ * @interface LspRange
+ */
+export interface LspRange {
+  /**
+   *
+   * @type {LspPosition}
+   * @memberof LspRange
+   */
+  end: LspPosition
+  /**
+   *
+   * @type {LspPosition}
+   * @memberof LspRange
+   */
+  start: LspPosition
+}
+/**
+ *
+ * @export
+ * @interface LspServerRequest
+ */
+export interface LspServerRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof LspServerRequest
+   */
+  languageId: string
+  /**
+   *
+   * @type {string}
+   * @memberof LspServerRequest
+   */
+  pathToProject: string
+}
+/**
+ *
+ * @export
+ * @interface LspSymbol
+ */
+export interface LspSymbol {
+  /**
+   *
+   * @type {number}
+   * @memberof LspSymbol
+   */
+  kind: number
+  /**
+   *
+   * @type {LspLocation}
+   * @memberof LspSymbol
+   */
+  location: LspLocation
+  /**
+   *
+   * @type {string}
+   * @memberof LspSymbol
    */
   name: string
 }
+/**
+ *
+ * @export
+ * @interface Match
+ */
+export interface Match {
+  /**
+   *
+   * @type {string}
+   * @memberof Match
+   */
+  content: string
+  /**
+   *
+   * @type {string}
+   * @memberof Match
+   */
+  file: string
+  /**
+   *
+   * @type {number}
+   * @memberof Match
+   */
+  line: number
+}
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ModelsApiKeyType = {
+  ApiKeyTypeClient: 'client',
+  ApiKeyTypeWorkspace: 'workspace',
+  ApiKeyTypeTarget: 'target',
+  ApiKeyTypeRunner: 'runner',
+} as const
+
+export type ModelsApiKeyType =
+  (typeof ModelsApiKeyType)[keyof typeof ModelsApiKeyType]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ModelsJobAction = {
+  JobActionCreate: 'create',
+  JobActionStart: 'start',
+  JobActionStop: 'stop',
+  JobActionRestart: 'restart',
+  JobActionDelete: 'delete',
+  JobActionForceDelete: 'force-delete',
+  JobActionRun: 'run',
+  JobActionInstallProvider: 'install-provider',
+  JobActionUninstallProvider: 'uninstall-provider',
+  JobActionUpdateProvider: 'update-provider',
+} as const
+
+export type ModelsJobAction =
+  (typeof ModelsJobAction)[keyof typeof ModelsJobAction]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ModelsResourceStateName = {
+  ResourceStateNameUndefined: 'undefined',
+  ResourceStateNamePendingRun: 'pending-run',
+  ResourceStateNameRunning: 'running',
+  ResourceStateNameRunSuccessful: 'run-successful',
+  ResourceStateNamePendingCreate: 'pending-create',
+  ResourceStateNameCreating: 'creating',
+  ResourceStateNamePendingStart: 'pending-start',
+  ResourceStateNameStarting: 'starting',
+  ResourceStateNameStarted: 'started',
+  ResourceStateNamePendingStop: 'pending-stop',
+  ResourceStateNameStopping: 'stopping',
+  ResourceStateNameStopped: 'stopped',
+  ResourceStateNamePendingRestart: 'pending-restart',
+  ResourceStateNameError: 'error',
+  ResourceStateNameUnresponsive: 'unresponsive',
+  ResourceStateNamePendingDelete: 'pending-delete',
+  ResourceStateNamePendingForcedDelete: 'pending-forced-delete',
+  ResourceStateNameDeleting: 'deleting',
+  ResourceStateNameDeleted: 'deleted',
+} as const
+
+export type ModelsResourceStateName =
+  (typeof ModelsResourceStateName)[keyof typeof ModelsResourceStateName]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ModelsTargetConfigPropertyType = {
+  TargetConfigPropertyTypeString: 'string',
+  TargetConfigPropertyTypeOption: 'option',
+  TargetConfigPropertyTypeBoolean: 'boolean',
+  TargetConfigPropertyTypeInt: 'int',
+  TargetConfigPropertyTypeFloat: 'float',
+  TargetConfigPropertyTypeFilePath: 'file-path',
+} as const
+
+export type ModelsTargetConfigPropertyType =
+  (typeof ModelsTargetConfigPropertyType)[keyof typeof ModelsTargetConfigPropertyType]
+
 /**
  *
  * @export
@@ -945,6 +1802,25 @@ export interface NetworkKey {
    * @memberof NetworkKey
    */
   key: string
+}
+/**
+ *
+ * @export
+ * @interface Position
+ */
+export interface Position {
+  /**
+   *
+   * @type {number}
+   * @memberof Position
+   */
+  character: number
+  /**
+   *
+   * @type {number}
+   * @memberof Position
+   */
+  line: number
 }
 /**
  *
@@ -963,7 +1839,7 @@ export interface PrebuildConfig {
    * @type {number}
    * @memberof PrebuildConfig
    */
-  commitInterval: number
+  commitInterval?: number
   /**
    *
    * @type {string}
@@ -1009,12 +1885,6 @@ export interface PrebuildDTO {
   id: string
   /**
    *
-   * @type {string}
-   * @memberof PrebuildDTO
-   */
-  projectConfigName: string
-  /**
-   *
    * @type {number}
    * @memberof PrebuildDTO
    */
@@ -1025,358 +1895,142 @@ export interface PrebuildDTO {
    * @memberof PrebuildDTO
    */
   triggerFiles?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof PrebuildDTO
+   */
+  workspaceTemplateName: string
 }
 /**
  *
  * @export
- * @interface ProfileData
+ * @interface ProviderDTO
  */
-export interface ProfileData {
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof ProfileData
-   */
-  envVars: { [key: string]: string }
-}
-/**
- *
- * @export
- * @interface Project
- */
-export interface Project {
-  /**
-   *
-   * @type {BuildConfig}
-   * @memberof Project
-   */
-  buildConfig?: BuildConfig
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof Project
-   */
-  envVars: { [key: string]: string }
+export interface ProviderDTO {
   /**
    *
    * @type {string}
-   * @memberof Project
-   */
-  gitProviderConfigId?: string
-  /**
-   *
-   * @type {string}
-   * @memberof Project
-   */
-  image: string
-  /**
-   *
-   * @type {string}
-   * @memberof Project
-   */
-  name: string
-  /**
-   *
-   * @type {GitRepository}
-   * @memberof Project
-   */
-  repository: GitRepository
-  /**
-   *
-   * @type {ProjectState}
-   * @memberof Project
-   */
-  state?: ProjectState
-  /**
-   *
-   * @type {string}
-   * @memberof Project
-   */
-  target: string
-  /**
-   *
-   * @type {string}
-   * @memberof Project
-   */
-  user: string
-  /**
-   *
-   * @type {string}
-   * @memberof Project
-   */
-  workspaceId: string
-}
-/**
- *
- * @export
- * @interface ProjectConfig
- */
-export interface ProjectConfig {
-  /**
-   *
-   * @type {BuildConfig}
-   * @memberof ProjectConfig
-   */
-  buildConfig?: BuildConfig
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProjectConfig
-   */
-  default: boolean
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof ProjectConfig
-   */
-  envVars: { [key: string]: string }
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectConfig
-   */
-  gitProviderConfigId?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectConfig
-   */
-  image: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectConfig
-   */
-  name: string
-  /**
-   *
-   * @type {Array<PrebuildConfig>}
-   * @memberof ProjectConfig
-   */
-  prebuilds?: Array<PrebuildConfig>
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectConfig
-   */
-  repositoryUrl: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectConfig
-   */
-  user: string
-}
-/**
- *
- * @export
- * @interface ProjectInfo
- */
-export interface ProjectInfo {
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectInfo
-   */
-  created: string
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProjectInfo
-   */
-  isRunning: boolean
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectInfo
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectInfo
-   */
-  providerMetadata?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectInfo
-   */
-  workspaceId: string
-}
-/**
- *
- * @export
- * @interface ProjectState
- */
-export interface ProjectState {
-  /**
-   *
-   * @type {GitStatus}
-   * @memberof ProjectState
-   */
-  gitStatus: GitStatus
-  /**
-   *
-   * @type {string}
-   * @memberof ProjectState
-   */
-  updatedAt: string
-  /**
-   *
-   * @type {number}
-   * @memberof ProjectState
-   */
-  uptime: number
-}
-/**
- *
- * @export
- * @interface Provider
- */
-export interface Provider {
-  /**
-   *
-   * @type {string}
-   * @memberof Provider
+   * @memberof ProviderDTO
    */
   label?: string
   /**
    *
+   * @type {boolean}
+   * @memberof ProviderDTO
+   */
+  latest: boolean
+  /**
+   *
    * @type {string}
-   * @memberof Provider
+   * @memberof ProviderDTO
    */
   name: string
   /**
    *
    * @type {string}
-   * @memberof Provider
+   * @memberof ProviderDTO
    */
   version: string
 }
 /**
  *
  * @export
- * @interface ProviderProviderInfo
+ * @interface ProviderInfo
  */
-export interface ProviderProviderInfo {
+export interface ProviderInfo {
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProviderInfo
+   */
+  agentlessTarget?: boolean
   /**
    *
    * @type {string}
-   * @memberof ProviderProviderInfo
+   * @memberof ProviderInfo
    */
   label?: string
   /**
    *
    * @type {string}
-   * @memberof ProviderProviderInfo
+   * @memberof ProviderInfo
    */
   name: string
   /**
    *
    * @type {string}
-   * @memberof ProviderProviderInfo
+   * @memberof ProviderInfo
+   */
+  runnerId: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProviderInfo
+   */
+  runnerName: string
+  /**
+   *
+   * @type {{ [key: string]: TargetConfigProperty; }}
+   * @memberof ProviderInfo
+   */
+  targetConfigManifest: { [key: string]: TargetConfigProperty }
+  /**
+   *
+   * @type {string}
+   * @memberof ProviderInfo
    */
   version: string
 }
 /**
  *
  * @export
- * @interface ProviderProviderTargetProperty
+ * @interface ReplaceRequest
  */
-export interface ProviderProviderTargetProperty {
-  /**
-   * DefaultValue is converted into the appropriate type based on the Type If the property is a FilePath, the DefaultValue is a path to a directory
-   * @type {string}
-   * @memberof ProviderProviderTargetProperty
-   */
-  defaultValue?: string
-  /**
-   * Brief description of the property
-   * @type {string}
-   * @memberof ProviderProviderTargetProperty
-   */
-  description?: string
-  /**
-   * A regex string matched with the name of the target to determine if the property should be disabled If the regex matches the target name, the property will be disabled E.g. \"^local$\" will disable the property for the local target
-   * @type {string}
-   * @memberof ProviderProviderTargetProperty
-   */
-  disabledPredicate?: string
+export interface ReplaceRequest {
   /**
    *
-   * @type {boolean}
-   * @memberof ProviderProviderTargetProperty
-   */
-  inputMasked?: boolean
-  /**
-   * Options is only used if the Type is ProviderTargetPropertyTypeOption
    * @type {Array<string>}
-   * @memberof ProviderProviderTargetProperty
+   * @memberof ReplaceRequest
    */
-  options?: Array<string>
-  /**
-   * Suggestions is an optional list of auto-complete values to assist the user while filling the field
-   * @type {Array<string>}
-   * @memberof ProviderProviderTargetProperty
-   */
-  suggestions?: Array<string>
+  files: Array<string>
   /**
    *
-   * @type {ProviderProviderTargetPropertyType}
-   * @memberof ProviderProviderTargetProperty
+   * @type {string}
+   * @memberof ReplaceRequest
    */
-  type?: ProviderProviderTargetPropertyType
+  newValue: string
+  /**
+   *
+   * @type {string}
+   * @memberof ReplaceRequest
+   */
+  pattern: string
 }
-
 /**
  *
  * @export
- * @enum {string}
+ * @interface ReplaceResult
  */
-
-export const ProviderProviderTargetPropertyType = {
-  ProviderTargetPropertyTypeString: 'string',
-  ProviderTargetPropertyTypeOption: 'option',
-  ProviderTargetPropertyTypeBoolean: 'boolean',
-  ProviderTargetPropertyTypeInt: 'int',
-  ProviderTargetPropertyTypeFloat: 'float',
-  ProviderTargetPropertyTypeFilePath: 'file-path',
-} as const
-
-export type ProviderProviderTargetPropertyType =
-  (typeof ProviderProviderTargetPropertyType)[keyof typeof ProviderProviderTargetPropertyType]
-
-/**
- *
- * @export
- * @interface ProviderTarget
- */
-export interface ProviderTarget {
+export interface ReplaceResult {
+  /**
+   *
+   * @type {string}
+   * @memberof ReplaceResult
+   */
+  error?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ReplaceResult
+   */
+  file?: string
   /**
    *
    * @type {boolean}
-   * @memberof ProviderTarget
+   * @memberof ReplaceResult
    */
-  isDefault: boolean
-  /**
-   *
-   * @type {string}
-   * @memberof ProviderTarget
-   */
-  name: string
-  /**
-   * JSON encoded map of options
-   * @type {string}
-   * @memberof ProviderTarget
-   */
-  options: string
-  /**
-   *
-   * @type {ProviderProviderInfo}
-   * @memberof ProviderTarget
-   */
-  providerInfo: ProviderProviderInfo
+  success?: boolean
 }
 /**
  *
@@ -1390,6 +2044,115 @@ export interface RepositoryUrl {
    * @memberof RepositoryUrl
    */
   url: string
+}
+/**
+ *
+ * @export
+ * @interface ResourceState
+ */
+export interface ResourceState {
+  /**
+   *
+   * @type {string}
+   * @memberof ResourceState
+   */
+  error?: string
+  /**
+   *
+   * @type {ModelsResourceStateName}
+   * @memberof ResourceState
+   */
+  name: ModelsResourceStateName
+  /**
+   *
+   * @type {string}
+   * @memberof ResourceState
+   */
+  updatedAt: string
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ResourceType = {
+  ResourceTypeWorkspace: 'workspace',
+  ResourceTypeTarget: 'target',
+  ResourceTypeBuild: 'build',
+  ResourceTypeRunner: 'runner',
+} as const
+
+export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]
+
+/**
+ *
+ * @export
+ * @interface RunnerDTO
+ */
+export interface RunnerDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof RunnerDTO
+   */
+  id: string
+  /**
+   *
+   * @type {RunnerMetadata}
+   * @memberof RunnerDTO
+   */
+  metadata?: RunnerMetadata
+  /**
+   *
+   * @type {string}
+   * @memberof RunnerDTO
+   */
+  name: string
+  /**
+   *
+   * @type {ResourceState}
+   * @memberof RunnerDTO
+   */
+  state: ResourceState
+}
+/**
+ *
+ * @export
+ * @interface RunnerMetadata
+ */
+export interface RunnerMetadata {
+  /**
+   *
+   * @type {Array<ProviderInfo>}
+   * @memberof RunnerMetadata
+   */
+  providers: Array<ProviderInfo>
+  /**
+   *
+   * @type {string}
+   * @memberof RunnerMetadata
+   */
+  runnerId: string
+  /**
+   *
+   * @type {number}
+   * @memberof RunnerMetadata
+   */
+  runningJobs?: number
+  /**
+   *
+   * @type {string}
+   * @memberof RunnerMetadata
+   */
+  updatedAt: string
+  /**
+   *
+   * @type {number}
+   * @memberof RunnerMetadata
+   */
+  uptime: number
 }
 /**
  *
@@ -1415,6 +2178,19 @@ export interface Sample {
    * @memberof Sample
    */
   name: string
+}
+/**
+ *
+ * @export
+ * @interface SearchFilesResponse
+ */
+export interface SearchFilesResponse {
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof SearchFilesResponse
+   */
+  files: Array<string>
 }
 /**
  *
@@ -1457,13 +2233,13 @@ export interface ServerConfig {
    * @type {string}
    * @memberof ServerConfig
    */
-  defaultProjectImage: string
+  defaultWorkspaceImage: string
   /**
    *
    * @type {string}
    * @memberof ServerConfig
    */
-  defaultProjectUser: string
+  defaultWorkspaceUser: string
   /**
    *
    * @type {FRPSConfig}
@@ -1496,16 +2272,16 @@ export interface ServerConfig {
   localBuilderRegistryPort: number
   /**
    *
-   * @type {string}
+   * @type {boolean}
    * @memberof ServerConfig
    */
-  logFilePath: string
+  localRunnerDisabled?: boolean
   /**
    *
-   * @type {string}
+   * @type {LogFileConfig}
    * @memberof ServerConfig
    */
-  providersDir: string
+  logFile: LogFileConfig
   /**
    *
    * @type {string}
@@ -1524,6 +2300,69 @@ export interface ServerConfig {
    * @memberof ServerConfig
    */
   serverDownloadUrl: string
+}
+/**
+ *
+ * @export
+ * @interface Session
+ */
+export interface Session {
+  /**
+   *
+   * @type {Array<Command>}
+   * @memberof Session
+   */
+  commands: Array<Command>
+  /**
+   *
+   * @type {string}
+   * @memberof Session
+   */
+  sessionId: string
+}
+/**
+ *
+ * @export
+ * @interface SessionExecuteRequest
+ */
+export interface SessionExecuteRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof SessionExecuteRequest
+   */
+  async?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof SessionExecuteRequest
+   */
+  command: string
+}
+/**
+ *
+ * @export
+ * @interface SessionExecuteResponse
+ */
+export interface SessionExecuteResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof SessionExecuteResponse
+   */
+  cmdId?: string
+  /**
+   *
+   * @type {number}
+   * @memberof SessionExecuteResponse
+   */
+  exitCode?: number
+  /**
+   *
+   * @type {string}
+   * @memberof SessionExecuteResponse
+   */
+  output?: string
 }
 /**
  *
@@ -1584,25 +2423,6 @@ export interface SetGitProviderConfig {
 /**
  *
  * @export
- * @interface SetProjectState
- */
-export interface SetProjectState {
-  /**
-   *
-   * @type {GitStatus}
-   * @memberof SetProjectState
-   */
-  gitStatus?: GitStatus
-  /**
-   *
-   * @type {number}
-   * @memberof SetProjectState
-   */
-  uptime: number
-}
-/**
- *
- * @export
  * @enum {string}
  */
 
@@ -1635,9 +2455,400 @@ export type Status = (typeof Status)[keyof typeof Status]
 /**
  *
  * @export
+ * @interface Target
+ */
+export interface Target {
+  /**
+   *
+   * @type {boolean}
+   * @memberof Target
+   */
+  default: boolean
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof Target
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof Target
+   */
+  id: string
+  /**
+   *
+   * @type {Job}
+   * @memberof Target
+   */
+  lastJob?: Job
+  /**
+   *
+   * @type {string}
+   * @memberof Target
+   */
+  lastJobId?: string
+  /**
+   *
+   * @type {TargetMetadata}
+   * @memberof Target
+   */
+  metadata?: TargetMetadata
+  /**
+   *
+   * @type {string}
+   * @memberof Target
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof Target
+   */
+  providerMetadata?: string
+  /**
+   *
+   * @type {TargetConfig}
+   * @memberof Target
+   */
+  targetConfig: TargetConfig
+  /**
+   *
+   * @type {string}
+   * @memberof Target
+   */
+  targetConfigId: string
+  /**
+   *
+   * @type {Array<Workspace>}
+   * @memberof Target
+   */
+  workspaces: Array<Workspace>
+}
+/**
+ *
+ * @export
+ * @interface TargetConfig
+ */
+export interface TargetConfig {
+  /**
+   *
+   * @type {boolean}
+   * @memberof TargetConfig
+   */
+  deleted: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof TargetConfig
+   */
+  id: string
+  /**
+   *
+   * @type {string}
+   * @memberof TargetConfig
+   */
+  name: string
+  /**
+   * JSON encoded map of options
+   * @type {string}
+   * @memberof TargetConfig
+   */
+  options: string
+  /**
+   *
+   * @type {ProviderInfo}
+   * @memberof TargetConfig
+   */
+  providerInfo: ProviderInfo
+}
+/**
+ *
+ * @export
+ * @interface TargetConfigProperty
+ */
+export interface TargetConfigProperty {
+  /**
+   * DefaultValue is converted into the appropriate type based on the Type If the property is a FilePath, the DefaultValue is a path to a directory
+   * @type {string}
+   * @memberof TargetConfigProperty
+   */
+  defaultValue?: string
+  /**
+   * Brief description of the property
+   * @type {string}
+   * @memberof TargetConfigProperty
+   */
+  description?: string
+  /**
+   * A regex string matched with the name of the target config to determine if the property should be disabled If the regex matches the target config name, the property will be disabled E.g. \"^local$\" will disable the property for the local target
+   * @type {string}
+   * @memberof TargetConfigProperty
+   */
+  disabledPredicate?: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof TargetConfigProperty
+   */
+  inputMasked?: boolean
+  /**
+   * Options is only used if the Type is TargetConfigPropertyTypeOption
+   * @type {Array<string>}
+   * @memberof TargetConfigProperty
+   */
+  options?: Array<string>
+  /**
+   * Suggestions is an optional list of auto-complete values to assist the user while filling the field
+   * @type {Array<string>}
+   * @memberof TargetConfigProperty
+   */
+  suggestions?: Array<string>
+  /**
+   *
+   * @type {ModelsTargetConfigPropertyType}
+   * @memberof TargetConfigProperty
+   */
+  type?: ModelsTargetConfigPropertyType
+}
+
+/**
+ *
+ * @export
+ * @interface TargetDTO
+ */
+export interface TargetDTO {
+  /**
+   *
+   * @type {boolean}
+   * @memberof TargetDTO
+   */
+  default: boolean
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof TargetDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof TargetDTO
+   */
+  id: string
+  /**
+   *
+   * @type {Job}
+   * @memberof TargetDTO
+   */
+  lastJob?: Job
+  /**
+   *
+   * @type {string}
+   * @memberof TargetDTO
+   */
+  lastJobId?: string
+  /**
+   *
+   * @type {TargetMetadata}
+   * @memberof TargetDTO
+   */
+  metadata?: TargetMetadata
+  /**
+   *
+   * @type {string}
+   * @memberof TargetDTO
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof TargetDTO
+   */
+  providerMetadata?: string
+  /**
+   *
+   * @type {ResourceState}
+   * @memberof TargetDTO
+   */
+  state: ResourceState
+  /**
+   *
+   * @type {TargetConfig}
+   * @memberof TargetDTO
+   */
+  targetConfig: TargetConfig
+  /**
+   *
+   * @type {string}
+   * @memberof TargetDTO
+   */
+  targetConfigId: string
+  /**
+   *
+   * @type {Array<Workspace>}
+   * @memberof TargetDTO
+   */
+  workspaces: Array<Workspace>
+}
+/**
+ *
+ * @export
+ * @interface TargetMetadata
+ */
+export interface TargetMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof TargetMetadata
+   */
+  targetId: string
+  /**
+   *
+   * @type {string}
+   * @memberof TargetMetadata
+   */
+  updatedAt: string
+  /**
+   *
+   * @type {number}
+   * @memberof TargetMetadata
+   */
+  uptime: number
+}
+/**
+ *
+ * @export
+ * @interface UpdateJobState
+ */
+export interface UpdateJobState {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateJobState
+   */
+  errorMessage?: string
+  /**
+   *
+   * @type {JobState}
+   * @memberof UpdateJobState
+   */
+  state: JobState
+}
+
+/**
+ *
+ * @export
+ * @interface UpdateRunnerMetadataDTO
+ */
+export interface UpdateRunnerMetadataDTO {
+  /**
+   *
+   * @type {Array<ProviderInfo>}
+   * @memberof UpdateRunnerMetadataDTO
+   */
+  providers: Array<ProviderInfo>
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateRunnerMetadataDTO
+   */
+  runningJobs?: number
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateRunnerMetadataDTO
+   */
+  uptime: number
+}
+/**
+ *
+ * @export
+ * @interface UpdateTargetMetadataDTO
+ */
+export interface UpdateTargetMetadataDTO {
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateTargetMetadataDTO
+   */
+  uptime: number
+}
+/**
+ *
+ * @export
+ * @interface UpdateTargetProviderMetadataDTO
+ */
+export interface UpdateTargetProviderMetadataDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateTargetProviderMetadataDTO
+   */
+  metadata: string
+}
+/**
+ *
+ * @export
+ * @interface UpdateWorkspaceMetadataDTO
+ */
+export interface UpdateWorkspaceMetadataDTO {
+  /**
+   *
+   * @type {GitStatus}
+   * @memberof UpdateWorkspaceMetadataDTO
+   */
+  gitStatus?: GitStatus
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateWorkspaceMetadataDTO
+   */
+  uptime: number
+}
+/**
+ *
+ * @export
+ * @interface UpdateWorkspaceProviderMetadataDTO
+ */
+export interface UpdateWorkspaceProviderMetadataDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateWorkspaceProviderMetadataDTO
+   */
+  metadata: string
+}
+/**
+ *
+ * @export
  * @interface Workspace
  */
 export interface Workspace {
+  /**
+   *
+   * @type {string}
+   * @memberof Workspace
+   */
+  apiKey: string
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof Workspace
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof Workspace
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof Workspace
+   */
+  gitProviderConfigId?: string
   /**
    *
    * @type {string}
@@ -1649,19 +2860,67 @@ export interface Workspace {
    * @type {string}
    * @memberof Workspace
    */
-  name: string
+  image: string
   /**
    *
-   * @type {Array<Project>}
+   * @type {{ [key: string]: string; }}
    * @memberof Workspace
    */
-  projects: Array<Project>
+  labels: { [key: string]: string }
+  /**
+   *
+   * @type {Job}
+   * @memberof Workspace
+   */
+  lastJob?: Job
   /**
    *
    * @type {string}
    * @memberof Workspace
    */
-  target: string
+  lastJobId?: string
+  /**
+   *
+   * @type {WorkspaceMetadata}
+   * @memberof Workspace
+   */
+  metadata?: WorkspaceMetadata
+  /**
+   *
+   * @type {string}
+   * @memberof Workspace
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof Workspace
+   */
+  providerMetadata?: string
+  /**
+   *
+   * @type {GitRepository}
+   * @memberof Workspace
+   */
+  repository: GitRepository
+  /**
+   *
+   * @type {Target}
+   * @memberof Workspace
+   */
+  target: Target
+  /**
+   *
+   * @type {string}
+   * @memberof Workspace
+   */
+  targetId: string
+  /**
+   *
+   * @type {string}
+   * @memberof Workspace
+   */
+  user: string
 }
 /**
  *
@@ -1674,13 +2933,61 @@ export interface WorkspaceDTO {
    * @type {string}
    * @memberof WorkspaceDTO
    */
+  apiKey: string
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof WorkspaceDTO
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof WorkspaceDTO
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceDTO
+   */
+  gitProviderConfigId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceDTO
+   */
   id: string
   /**
    *
-   * @type {WorkspaceInfo}
+   * @type {string}
    * @memberof WorkspaceDTO
    */
-  info?: WorkspaceInfo
+  image: string
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof WorkspaceDTO
+   */
+  labels: { [key: string]: string }
+  /**
+   *
+   * @type {Job}
+   * @memberof WorkspaceDTO
+   */
+  lastJob?: Job
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceDTO
+   */
+  lastJobId?: string
+  /**
+   *
+   * @type {WorkspaceMetadata}
+   * @memberof WorkspaceDTO
+   */
+  metadata?: WorkspaceMetadata
   /**
    *
    * @type {string}
@@ -1689,41 +2996,151 @@ export interface WorkspaceDTO {
   name: string
   /**
    *
-   * @type {Array<Project>}
+   * @type {string}
    * @memberof WorkspaceDTO
    */
-  projects: Array<Project>
+  providerMetadata?: string
+  /**
+   *
+   * @type {GitRepository}
+   * @memberof WorkspaceDTO
+   */
+  repository: GitRepository
+  /**
+   *
+   * @type {ResourceState}
+   * @memberof WorkspaceDTO
+   */
+  state: ResourceState
+  /**
+   *
+   * @type {Target}
+   * @memberof WorkspaceDTO
+   */
+  target: Target
   /**
    *
    * @type {string}
    * @memberof WorkspaceDTO
    */
-  target: string
+  targetId: string
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceDTO
+   */
+  user: string
 }
 /**
  *
  * @export
- * @interface WorkspaceInfo
+ * @interface WorkspaceDirResponse
  */
-export interface WorkspaceInfo {
+export interface WorkspaceDirResponse {
   /**
    *
    * @type {string}
-   * @memberof WorkspaceInfo
+   * @memberof WorkspaceDirResponse
+   */
+  dir?: string
+}
+/**
+ *
+ * @export
+ * @interface WorkspaceMetadata
+ */
+export interface WorkspaceMetadata {
+  /**
+   *
+   * @type {GitStatus}
+   * @memberof WorkspaceMetadata
+   */
+  gitStatus?: GitStatus
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceMetadata
+   */
+  updatedAt: string
+  /**
+   *
+   * @type {number}
+   * @memberof WorkspaceMetadata
+   */
+  uptime: number
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceMetadata
+   */
+  workspaceId: string
+}
+/**
+ *
+ * @export
+ * @interface WorkspaceTemplate
+ */
+export interface WorkspaceTemplate {
+  /**
+   *
+   * @type {BuildConfig}
+   * @memberof WorkspaceTemplate
+   */
+  buildConfig?: BuildConfig
+  /**
+   *
+   * @type {boolean}
+   * @memberof WorkspaceTemplate
+   */
+  default: boolean
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof WorkspaceTemplate
+   */
+  envVars: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceTemplate
+   */
+  gitProviderConfigId?: string
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceTemplate
+   */
+  image: string
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof WorkspaceTemplate
+   */
+  labels: { [key: string]: string }
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceTemplate
    */
   name: string
   /**
    *
-   * @type {Array<ProjectInfo>}
-   * @memberof WorkspaceInfo
+   * @type {Array<PrebuildConfig>}
+   * @memberof WorkspaceTemplate
    */
-  projects: Array<ProjectInfo>
+  prebuilds?: Array<PrebuildConfig>
   /**
    *
    * @type {string}
-   * @memberof WorkspaceInfo
+   * @memberof WorkspaceTemplate
    */
-  providerMetadata?: string
+  repositoryUrl: string
+  /**
+   *
+   * @type {string}
+   * @memberof WorkspaceTemplate
+   */
+  user: string
 }
 
 /**
@@ -1735,18 +3152,18 @@ export const ApiKeyApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Generate an API key
-     * @summary Generate an API key
+     * Create an API key
+     * @summary Create an API key
      * @param {string} apiKeyName API key name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateApiKey: async (
+    createApiKey: async (
       apiKeyName: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'apiKeyName' is not null or undefined
-      assertParamExists('generateApiKey', 'apiKeyName', apiKeyName)
+      assertParamExists('createApiKey', 'apiKeyName', apiKeyName)
       const localVarPath = `/apikey/{apiKeyName}`.replace(
         `{${'apiKeyName'}}`,
         encodeURIComponent(String(apiKeyName)),
@@ -1760,6 +3177,59 @@ export const ApiKeyApiAxiosParamCreator = function (
 
       const localVarRequestOptions = {
         method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete API key
+     * @summary Delete API key
+     * @param {string} apiKeyName API key name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteApiKey: async (
+      apiKeyName: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'apiKeyName' is not null or undefined
+      assertParamExists('deleteApiKey', 'apiKeyName', apiKeyName)
+      const localVarPath = `/apikey/{apiKeyName}`.replace(
+        `{${'apiKeyName'}}`,
+        encodeURIComponent(String(apiKeyName)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
         ...baseOptions,
         ...options,
       }
@@ -1833,59 +3303,6 @@ export const ApiKeyApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
-    /**
-     * Revoke API key
-     * @summary Revoke API key
-     * @param {string} apiKeyName API key name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    revokeApiKey: async (
-      apiKeyName: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'apiKeyName' is not null or undefined
-      assertParamExists('revokeApiKey', 'apiKeyName', apiKeyName)
-      const localVarPath = `/apikey/{apiKeyName}`.replace(
-        `{${'apiKeyName'}}`,
-        encodeURIComponent(String(apiKeyName)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
   }
 }
 
@@ -1897,25 +3314,55 @@ export const ApiKeyApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ApiKeyApiAxiosParamCreator(configuration)
   return {
     /**
-     * Generate an API key
-     * @summary Generate an API key
+     * Create an API key
+     * @summary Create an API key
      * @param {string} apiKeyName API key name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async generateApiKey(
+    async createApiKey(
       apiKeyName: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.generateApiKey(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createApiKey(
         apiKeyName,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['ApiKeyApi.generateApiKey']?.[
+        operationServerMap['ApiKeyApi.createApiKey']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete API key
+     * @summary Delete API key
+     * @param {string} apiKeyName API key name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteApiKey(
+      apiKeyName: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteApiKey(
+        apiKeyName,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['ApiKeyApi.deleteApiKey']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -1935,43 +3382,16 @@ export const ApiKeyApiFp = function (configuration?: Configuration) {
     async listClientApiKeys(
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApiKey>>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ApiKeyViewDTO>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.listClientApiKeys(options)
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['ApiKeyApi.listClientApiKeys']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Revoke API key
-     * @summary Revoke API key
-     * @param {string} apiKeyName API key name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async revokeApiKey(
-      apiKeyName: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.revokeApiKey(
-        apiKeyName,
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ApiKeyApi.revokeApiKey']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -1997,18 +3417,33 @@ export const ApiKeyApiFactory = function (
   const localVarFp = ApiKeyApiFp(configuration)
   return {
     /**
-     * Generate an API key
-     * @summary Generate an API key
+     * Create an API key
+     * @summary Create an API key
      * @param {string} apiKeyName API key name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateApiKey(
+    createApiKey(
       apiKeyName: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<string> {
       return localVarFp
-        .generateApiKey(apiKeyName, options)
+        .createApiKey(apiKeyName, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete API key
+     * @summary Delete API key
+     * @param {string} apiKeyName API key name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteApiKey(
+      apiKeyName: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteApiKey(apiKeyName, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -2019,24 +3454,9 @@ export const ApiKeyApiFactory = function (
      */
     listClientApiKeys(
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<ApiKey>> {
+    ): AxiosPromise<Array<ApiKeyViewDTO>> {
       return localVarFp
         .listClientApiKeys(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Revoke API key
-     * @summary Revoke API key
-     * @param {string} apiKeyName API key name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    revokeApiKey(
-      apiKeyName: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .revokeApiKey(apiKeyName, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -2050,16 +3470,30 @@ export const ApiKeyApiFactory = function (
  */
 export class ApiKeyApi extends BaseAPI {
   /**
-   * Generate an API key
-   * @summary Generate an API key
+   * Create an API key
+   * @summary Create an API key
    * @param {string} apiKeyName API key name
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiKeyApi
    */
-  public generateApiKey(apiKeyName: string, options?: RawAxiosRequestConfig) {
+  public createApiKey(apiKeyName: string, options?: RawAxiosRequestConfig) {
     return ApiKeyApiFp(this.configuration)
-      .generateApiKey(apiKeyName, options)
+      .createApiKey(apiKeyName, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete API key
+   * @summary Delete API key
+   * @param {string} apiKeyName API key name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ApiKeyApi
+   */
+  public deleteApiKey(apiKeyName: string, options?: RawAxiosRequestConfig) {
+    return ApiKeyApiFp(this.configuration)
+      .deleteApiKey(apiKeyName, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -2073,20 +3507,6 @@ export class ApiKeyApi extends BaseAPI {
   public listClientApiKeys(options?: RawAxiosRequestConfig) {
     return ApiKeyApiFp(this.configuration)
       .listClientApiKeys(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Revoke API key
-   * @summary Revoke API key
-   * @param {string} apiKeyName API key name
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ApiKeyApi
-   */
-  public revokeApiKey(apiKeyName: string, options?: RawAxiosRequestConfig) {
-    return ApiKeyApiFp(this.configuration)
-      .revokeApiKey(apiKeyName, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -2327,18 +3747,18 @@ export const BuildApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get build data
-     * @summary Get build data
+     * Find build
+     * @summary Find build
      * @param {string} buildId Build ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBuild: async (
+    findBuild: async (
       buildId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'buildId' is not null or undefined
-      assertParamExists('getBuild', 'buildId', buildId)
+      assertParamExists('findBuild', 'buildId', buildId)
       const localVarPath = `/build/{buildId}`.replace(
         `{${'buildId'}}`,
         encodeURIComponent(String(buildId)),
@@ -2389,6 +3809,59 @@ export const BuildApiAxiosParamCreator = function (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/build`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List successful builds for Git repository
+     * @summary List successful builds for Git repository
+     * @param {string} repoUrl Repository URL
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listSuccessfulBuilds: async (
+      repoUrl: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'repoUrl' is not null or undefined
+      assertParamExists('listSuccessfulBuilds', 'repoUrl', repoUrl)
+      const localVarPath = `/build/successful/{repoUrl}`.replace(
+        `{${'repoUrl'}}`,
+        encodeURIComponent(String(repoUrl)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -2563,25 +4036,25 @@ export const BuildApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Get build data
-     * @summary Get build data
+     * Find build
+     * @summary Find build
      * @param {string} buildId Build ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getBuild(
+    async findBuild(
       buildId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Build>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<BuildDTO>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getBuild(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findBuild(
         buildId,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['BuildApi.getBuild']?.[localVarOperationServerIndex]
+        operationServerMap['BuildApi.findBuild']?.[localVarOperationServerIndex]
           ?.url
       return (axios, basePath) =>
         createRequestFunction(
@@ -2600,7 +4073,10 @@ export const BuildApiFp = function (configuration?: Configuration) {
     async listBuilds(
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Build>>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<BuildDTO>>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listBuilds(
         options,
@@ -2608,6 +4084,37 @@ export const BuildApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['BuildApi.listBuilds']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List successful builds for Git repository
+     * @summary List successful builds for Git repository
+     * @param {string} repoUrl Repository URL
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listSuccessfulBuilds(
+      repoUrl: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<BuildDTO>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listSuccessfulBuilds(repoUrl, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['BuildApi.listSuccessfulBuilds']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -2697,18 +4204,18 @@ export const BuildApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get build data
-     * @summary Get build data
+     * Find build
+     * @summary Find build
      * @param {string} buildId Build ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBuild(
+    findBuild(
       buildId: string,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Build> {
+    ): AxiosPromise<BuildDTO> {
       return localVarFp
-        .getBuild(buildId, options)
+        .findBuild(buildId, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -2717,9 +4224,24 @@ export const BuildApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listBuilds(options?: RawAxiosRequestConfig): AxiosPromise<Array<Build>> {
+    listBuilds(options?: RawAxiosRequestConfig): AxiosPromise<Array<BuildDTO>> {
       return localVarFp
         .listBuilds(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List successful builds for Git repository
+     * @summary List successful builds for Git repository
+     * @param {string} repoUrl Repository URL
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listSuccessfulBuilds(
+      repoUrl: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<BuildDTO>> {
+      return localVarFp
+        .listSuccessfulBuilds(repoUrl, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -2802,16 +4324,16 @@ export class BuildApi extends BaseAPI {
   }
 
   /**
-   * Get build data
-   * @summary Get build data
+   * Find build
+   * @summary Find build
    * @param {string} buildId Build ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof BuildApi
    */
-  public getBuild(buildId: string, options?: RawAxiosRequestConfig) {
+  public findBuild(buildId: string, options?: RawAxiosRequestConfig) {
     return BuildApiFp(this.configuration)
-      .getBuild(buildId, options)
+      .findBuild(buildId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -2827,6 +4349,23 @@ export class BuildApi extends BaseAPI {
       .listBuilds(options)
       .then((request) => request(this.axios, this.basePath))
   }
+
+  /**
+   * List successful builds for Git repository
+   * @summary List successful builds for Git repository
+   * @param {string} repoUrl Repository URL
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BuildApi
+   */
+  public listSuccessfulBuilds(
+    repoUrl: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return BuildApiFp(this.configuration)
+      .listSuccessfulBuilds(repoUrl, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
 }
 
 /**
@@ -2838,18 +4377,20 @@ export const ContainerRegistryApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Get container registry credentials
-     * @summary Get container registry credentials
-     * @param {string} server Container Registry server name
+     * Find container registry
+     * @summary Find container registry
+     * @param {string} server Container registry server
+     * @param {string} [workspaceId] Workspace ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getContainerRegistry: async (
+    findContainerRegistry: async (
       server: string,
+      workspaceId?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'server' is not null or undefined
-      assertParamExists('getContainerRegistry', 'server', server)
+      assertParamExists('findContainerRegistry', 'server', server)
       const localVarPath = `/container-registry/{server}`.replace(
         `{${'server'}}`,
         encodeURIComponent(String(server)),
@@ -2876,51 +4417,9 @@ export const ContainerRegistryApiAxiosParamCreator = function (
         configuration,
       )
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
+      if (workspaceId !== undefined) {
+        localVarQueryParameter['workspaceId'] = workspaceId
       }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * List container registries
-     * @summary List container registries
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listContainerRegistries: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/container-registry`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -2930,127 +4429,6 @@ export const ContainerRegistryApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Remove a container registry credentials
-     * @summary Remove a container registry credentials
-     * @param {string} server Container Registry server name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    removeContainerRegistry: async (
-      server: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'server' is not null or undefined
-      assertParamExists('removeContainerRegistry', 'server', server)
-      const localVarPath = `/container-registry/{server}`.replace(
-        `{${'server'}}`,
-        encodeURIComponent(String(server)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Set container registry credentials
-     * @summary Set container registry credentials
-     * @param {string} server Container Registry server name
-     * @param {ContainerRegistry} containerRegistry Container Registry credentials to set
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setContainerRegistry: async (
-      server: string,
-      containerRegistry: ContainerRegistry,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'server' is not null or undefined
-      assertParamExists('setContainerRegistry', 'server', server)
-      // verify required parameter 'containerRegistry' is not null or undefined
-      assertParamExists(
-        'setContainerRegistry',
-        'containerRegistry',
-        containerRegistry,
-      )
-      const localVarPath = `/container-registry/{server}`.replace(
-        `{${'server'}}`,
-        encodeURIComponent(String(server)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      localVarHeaderParameter['Content-Type'] = 'application/json'
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        containerRegistry,
-        localVarRequestOptions,
-        configuration,
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3069,14 +4447,16 @@ export const ContainerRegistryApiFp = function (configuration?: Configuration) {
     ContainerRegistryApiAxiosParamCreator(configuration)
   return {
     /**
-     * Get container registry credentials
-     * @summary Get container registry credentials
-     * @param {string} server Container Registry server name
+     * Find container registry
+     * @summary Find container registry
+     * @param {string} server Container registry server
+     * @param {string} [workspaceId] Workspace ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getContainerRegistry(
+    async findContainerRegistry(
       server: string,
+      workspaceId?: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -3085,101 +4465,14 @@ export const ContainerRegistryApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<ContainerRegistry>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getContainerRegistry(server, options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ContainerRegistryApi.getContainerRegistry']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * List container registries
-     * @summary List container registries
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listContainerRegistries(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<Array<ContainerRegistry>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.listContainerRegistries(options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ContainerRegistryApi.listContainerRegistries']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Remove a container registry credentials
-     * @summary Remove a container registry credentials
-     * @param {string} server Container Registry server name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async removeContainerRegistry(
-      server: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.removeContainerRegistry(server, options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ContainerRegistryApi.removeContainerRegistry']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Set container registry credentials
-     * @summary Set container registry credentials
-     * @param {string} server Container Registry server name
-     * @param {ContainerRegistry} containerRegistry Container Registry credentials to set
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async setContainerRegistry(
-      server: string,
-      containerRegistry: ContainerRegistry,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.setContainerRegistry(
+        await localVarAxiosParamCreator.findContainerRegistry(
           server,
-          containerRegistry,
+          workspaceId,
           options,
         )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['ContainerRegistryApi.setContainerRegistry']?.[
+        operationServerMap['ContainerRegistryApi.findContainerRegistry']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -3205,63 +4498,20 @@ export const ContainerRegistryApiFactory = function (
   const localVarFp = ContainerRegistryApiFp(configuration)
   return {
     /**
-     * Get container registry credentials
-     * @summary Get container registry credentials
-     * @param {string} server Container Registry server name
+     * Find container registry
+     * @summary Find container registry
+     * @param {string} server Container registry server
+     * @param {string} [workspaceId] Workspace ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getContainerRegistry(
+    findContainerRegistry(
       server: string,
+      workspaceId?: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<ContainerRegistry> {
       return localVarFp
-        .getContainerRegistry(server, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * List container registries
-     * @summary List container registries
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listContainerRegistries(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<ContainerRegistry>> {
-      return localVarFp
-        .listContainerRegistries(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Remove a container registry credentials
-     * @summary Remove a container registry credentials
-     * @param {string} server Container Registry server name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    removeContainerRegistry(
-      server: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .removeContainerRegistry(server, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Set container registry credentials
-     * @summary Set container registry credentials
-     * @param {string} server Container Registry server name
-     * @param {ContainerRegistry} containerRegistry Container Registry credentials to set
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setContainerRegistry(
-      server: string,
-      containerRegistry: ContainerRegistry,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .setContainerRegistry(server, containerRegistry, options)
+        .findContainerRegistry(server, workspaceId, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -3275,65 +4525,21 @@ export const ContainerRegistryApiFactory = function (
  */
 export class ContainerRegistryApi extends BaseAPI {
   /**
-   * Get container registry credentials
-   * @summary Get container registry credentials
-   * @param {string} server Container Registry server name
+   * Find container registry
+   * @summary Find container registry
+   * @param {string} server Container registry server
+   * @param {string} [workspaceId] Workspace ID or Name
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ContainerRegistryApi
    */
-  public getContainerRegistry(server: string, options?: RawAxiosRequestConfig) {
-    return ContainerRegistryApiFp(this.configuration)
-      .getContainerRegistry(server, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * List container registries
-   * @summary List container registries
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ContainerRegistryApi
-   */
-  public listContainerRegistries(options?: RawAxiosRequestConfig) {
-    return ContainerRegistryApiFp(this.configuration)
-      .listContainerRegistries(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Remove a container registry credentials
-   * @summary Remove a container registry credentials
-   * @param {string} server Container Registry server name
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ContainerRegistryApi
-   */
-  public removeContainerRegistry(
+  public findContainerRegistry(
     server: string,
+    workspaceId?: string,
     options?: RawAxiosRequestConfig,
   ) {
     return ContainerRegistryApiFp(this.configuration)
-      .removeContainerRegistry(server, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set container registry credentials
-   * @summary Set container registry credentials
-   * @param {string} server Container Registry server name
-   * @param {ContainerRegistry} containerRegistry Container Registry credentials to set
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ContainerRegistryApi
-   */
-  public setContainerRegistry(
-    server: string,
-    containerRegistry: ContainerRegistry,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ContainerRegistryApiFp(this.configuration)
-      .setContainerRegistry(server, containerRegistry, options)
+      .findContainerRegistry(server, workspaceId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -3484,6 +4690,387 @@ export class DefaultApi extends BaseAPI {
 }
 
 /**
+ * EnvVarApi - axios parameter creator
+ * @export
+ */
+export const EnvVarApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Delete environment variable
+     * @summary Delete environment variable
+     * @param {string} key Environment Variable Key
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteEnvironmentVariable: async (
+      key: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'key' is not null or undefined
+      assertParamExists('deleteEnvironmentVariable', 'key', key)
+      const localVarPath = `/env/{key}`.replace(
+        `{${'key'}}`,
+        encodeURIComponent(String(key)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List environment variables
+     * @summary List environment variables
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listEnvironmentVariables: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/env`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Save environment variable
+     * @summary Save environment variable
+     * @param {EnvironmentVariable} environmentVariable Environment Variable
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    saveEnvironmentVariable: async (
+      environmentVariable: EnvironmentVariable,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'environmentVariable' is not null or undefined
+      assertParamExists(
+        'saveEnvironmentVariable',
+        'environmentVariable',
+        environmentVariable,
+      )
+      const localVarPath = `/env`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        environmentVariable,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * EnvVarApi - functional programming interface
+ * @export
+ */
+export const EnvVarApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = EnvVarApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Delete environment variable
+     * @summary Delete environment variable
+     * @param {string} key Environment Variable Key
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteEnvironmentVariable(
+      key: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteEnvironmentVariable(key, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['EnvVarApi.deleteEnvironmentVariable']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List environment variables
+     * @summary List environment variables
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listEnvironmentVariables(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<EnvironmentVariable>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listEnvironmentVariables(options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['EnvVarApi.listEnvironmentVariables']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Save environment variable
+     * @summary Save environment variable
+     * @param {EnvironmentVariable} environmentVariable Environment Variable
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async saveEnvironmentVariable(
+      environmentVariable: EnvironmentVariable,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.saveEnvironmentVariable(
+          environmentVariable,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['EnvVarApi.saveEnvironmentVariable']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * EnvVarApi - factory interface
+ * @export
+ */
+export const EnvVarApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = EnvVarApiFp(configuration)
+  return {
+    /**
+     * Delete environment variable
+     * @summary Delete environment variable
+     * @param {string} key Environment Variable Key
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteEnvironmentVariable(
+      key: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteEnvironmentVariable(key, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List environment variables
+     * @summary List environment variables
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listEnvironmentVariables(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<EnvironmentVariable>> {
+      return localVarFp
+        .listEnvironmentVariables(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Save environment variable
+     * @summary Save environment variable
+     * @param {EnvironmentVariable} environmentVariable Environment Variable
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    saveEnvironmentVariable(
+      environmentVariable: EnvironmentVariable,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .saveEnvironmentVariable(environmentVariable, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * EnvVarApi - object-oriented interface
+ * @export
+ * @class EnvVarApi
+ * @extends {BaseAPI}
+ */
+export class EnvVarApi extends BaseAPI {
+  /**
+   * Delete environment variable
+   * @summary Delete environment variable
+   * @param {string} key Environment Variable Key
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof EnvVarApi
+   */
+  public deleteEnvironmentVariable(
+    key: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return EnvVarApiFp(this.configuration)
+      .deleteEnvironmentVariable(key, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List environment variables
+   * @summary List environment variables
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof EnvVarApi
+   */
+  public listEnvironmentVariables(options?: RawAxiosRequestConfig) {
+    return EnvVarApiFp(this.configuration)
+      .listEnvironmentVariables(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Save environment variable
+   * @summary Save environment variable
+   * @param {EnvironmentVariable} environmentVariable Environment Variable
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof EnvVarApi
+   */
+  public saveEnvironmentVariable(
+    environmentVariable: EnvironmentVariable,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return EnvVarApiFp(this.configuration)
+      .saveEnvironmentVariable(environmentVariable, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * GitProviderApi - axios parameter creator
  * @export
  */
@@ -3491,6 +5078,165 @@ export const GitProviderApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
+    /**
+     * Delete Git provider
+     * @summary Delete Git provider
+     * @param {string} gitProviderId Git provider
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteGitProvider: async (
+      gitProviderId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'gitProviderId' is not null or undefined
+      assertParamExists('deleteGitProvider', 'gitProviderId', gitProviderId)
+      const localVarPath = `/gitprovider/{gitProviderId}`.replace(
+        `{${'gitProviderId'}}`,
+        encodeURIComponent(String(gitProviderId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Find Git provider
+     * @summary Find Git provider
+     * @param {string} gitProviderId ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findGitProvider: async (
+      gitProviderId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'gitProviderId' is not null or undefined
+      assertParamExists('findGitProvider', 'gitProviderId', gitProviderId)
+      const localVarPath = `/gitprovider/{gitProviderId}`.replace(
+        `{${'gitProviderId'}}`,
+        encodeURIComponent(String(gitProviderId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Find Git provider ID
+     * @summary Find Git provider ID
+     * @param {string} url Url
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findGitProviderIdForUrl: async (
+      url: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'url' is not null or undefined
+      assertParamExists('findGitProviderIdForUrl', 'url', url)
+      const localVarPath = `/gitprovider/id-for-url/{url}`.replace(
+        `{${'url'}}`,
+        encodeURIComponent(String(url)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
     /**
      * Get Git context
      * @summary Get Git context
@@ -3542,112 +5288,6 @@ export const GitProviderApiAxiosParamCreator = function (
         localVarRequestOptions,
         configuration,
       )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get Git provider
-     * @summary Get Git provider
-     * @param {string} gitProviderId ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getGitProvider: async (
-      gitProviderId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'gitProviderId' is not null or undefined
-      assertParamExists('getGitProvider', 'gitProviderId', gitProviderId)
-      const localVarPath = `/gitprovider/{gitProviderId}`.replace(
-        `{${'gitProviderId'}}`,
-        encodeURIComponent(String(gitProviderId)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get Git provider ID
-     * @summary Get Git provider ID
-     * @param {string} url Url
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getGitProviderIdForUrl: async (
-      url: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'url' is not null or undefined
-      assertParamExists('getGitProviderIdForUrl', 'url', url)
-      const localVarPath = `/gitprovider/id-for-url/{url}`.replace(
-        `{${'url'}}`,
-        encodeURIComponent(String(url)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
       return {
         url: toPathString(localVarUrlObj),
@@ -4170,72 +5810,19 @@ export const GitProviderApiAxiosParamCreator = function (
       }
     },
     /**
-     * Remove Git provider
-     * @summary Remove Git provider
-     * @param {string} gitProviderId Git provider
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    removeGitProvider: async (
-      gitProviderId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'gitProviderId' is not null or undefined
-      assertParamExists('removeGitProvider', 'gitProviderId', gitProviderId)
-      const localVarPath = `/gitprovider/{gitProviderId}`.replace(
-        `{${'gitProviderId'}}`,
-        encodeURIComponent(String(gitProviderId)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Set Git provider
-     * @summary Set Git provider
+     * Save Git provider
+     * @summary Save Git provider
      * @param {SetGitProviderConfig} gitProviderConfig Git provider
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setGitProvider: async (
+    saveGitProvider: async (
       gitProviderConfig: SetGitProviderConfig,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'gitProviderConfig' is not null or undefined
       assertParamExists(
-        'setGitProvider',
+        'saveGitProvider',
         'gitProviderConfig',
         gitProviderConfig,
       )
@@ -4295,6 +5882,95 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
     GitProviderApiAxiosParamCreator(configuration)
   return {
     /**
+     * Delete Git provider
+     * @summary Delete Git provider
+     * @param {string} gitProviderId Git provider
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteGitProvider(
+      gitProviderId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteGitProvider(
+          gitProviderId,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['GitProviderApi.deleteGitProvider']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Find Git provider
+     * @summary Find Git provider
+     * @param {string} gitProviderId ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findGitProvider(
+      gitProviderId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GitProvider>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findGitProvider(
+        gitProviderId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['GitProviderApi.findGitProvider']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Find Git provider ID
+     * @summary Find Git provider ID
+     * @param {string} url Url
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findGitProviderIdForUrl(
+      url: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.findGitProviderIdForUrl(url, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['GitProviderApi.findGitProviderIdForUrl']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
      * Get Git context
      * @summary Get Git context
      * @param {GetRepositoryContext} repository Get repository context
@@ -4314,64 +5990,6 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['GitProviderApi.getGitContext']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Get Git provider
-     * @summary Get Git provider
-     * @param {string} gitProviderId ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getGitProvider(
-      gitProviderId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GitProvider>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getGitProvider(
-        gitProviderId,
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['GitProviderApi.getGitProvider']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Get Git provider ID
-     * @summary Get Git provider ID
-     * @param {string} url Url
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getGitProviderIdForUrl(
-      url: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getGitProviderIdForUrl(url, options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['GitProviderApi.getGitProviderIdForUrl']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -4675,56 +6293,25 @@ export const GitProviderApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Remove Git provider
-     * @summary Remove Git provider
-     * @param {string} gitProviderId Git provider
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async removeGitProvider(
-      gitProviderId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.removeGitProvider(
-          gitProviderId,
-          options,
-        )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['GitProviderApi.removeGitProvider']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Set Git provider
-     * @summary Set Git provider
+     * Save Git provider
+     * @summary Save Git provider
      * @param {SetGitProviderConfig} gitProviderConfig Git provider
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async setGitProvider(
+    async saveGitProvider(
       gitProviderConfig: SetGitProviderConfig,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setGitProvider(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.saveGitProvider(
         gitProviderConfig,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['GitProviderApi.setGitProvider']?.[
+        operationServerMap['GitProviderApi.saveGitProvider']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -4750,6 +6337,51 @@ export const GitProviderApiFactory = function (
   const localVarFp = GitProviderApiFp(configuration)
   return {
     /**
+     * Delete Git provider
+     * @summary Delete Git provider
+     * @param {string} gitProviderId Git provider
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteGitProvider(
+      gitProviderId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteGitProvider(gitProviderId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Find Git provider
+     * @summary Find Git provider
+     * @param {string} gitProviderId ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findGitProvider(
+      gitProviderId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GitProvider> {
+      return localVarFp
+        .findGitProvider(gitProviderId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Find Git provider ID
+     * @summary Find Git provider ID
+     * @param {string} url Url
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findGitProviderIdForUrl(
+      url: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<string> {
+      return localVarFp
+        .findGitProviderIdForUrl(url, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get Git context
      * @summary Get Git context
      * @param {GetRepositoryContext} repository Get repository context
@@ -4762,36 +6394,6 @@ export const GitProviderApiFactory = function (
     ): AxiosPromise<GitRepository> {
       return localVarFp
         .getGitContext(repository, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get Git provider
-     * @summary Get Git provider
-     * @param {string} gitProviderId ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getGitProvider(
-      gitProviderId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GitProvider> {
-      return localVarFp
-        .getGitProvider(gitProviderId, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get Git provider ID
-     * @summary Get Git provider ID
-     * @param {string} url Url
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getGitProviderIdForUrl(
-      url: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<string> {
-      return localVarFp
-        .getGitProviderIdForUrl(url, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -4953,33 +6555,18 @@ export const GitProviderApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Remove Git provider
-     * @summary Remove Git provider
-     * @param {string} gitProviderId Git provider
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    removeGitProvider(
-      gitProviderId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .removeGitProvider(gitProviderId, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Set Git provider
-     * @summary Set Git provider
+     * Save Git provider
+     * @summary Save Git provider
      * @param {SetGitProviderConfig} gitProviderConfig Git provider
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setGitProvider(
+    saveGitProvider(
       gitProviderConfig: SetGitProviderConfig,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .setGitProvider(gitProviderConfig, options)
+        .saveGitProvider(gitProviderConfig, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -4992,6 +6579,54 @@ export const GitProviderApiFactory = function (
  * @extends {BaseAPI}
  */
 export class GitProviderApi extends BaseAPI {
+  /**
+   * Delete Git provider
+   * @summary Delete Git provider
+   * @param {string} gitProviderId Git provider
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof GitProviderApi
+   */
+  public deleteGitProvider(
+    gitProviderId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return GitProviderApiFp(this.configuration)
+      .deleteGitProvider(gitProviderId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Find Git provider
+   * @summary Find Git provider
+   * @param {string} gitProviderId ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof GitProviderApi
+   */
+  public findGitProvider(
+    gitProviderId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return GitProviderApiFp(this.configuration)
+      .findGitProvider(gitProviderId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Find Git provider ID
+   * @summary Find Git provider ID
+   * @param {string} url Url
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof GitProviderApi
+   */
+  public findGitProviderIdForUrl(url: string, options?: RawAxiosRequestConfig) {
+    return GitProviderApiFp(this.configuration)
+      .findGitProviderIdForUrl(url, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * Get Git context
    * @summary Get Git context
@@ -5006,37 +6641,6 @@ export class GitProviderApi extends BaseAPI {
   ) {
     return GitProviderApiFp(this.configuration)
       .getGitContext(repository, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get Git provider
-   * @summary Get Git provider
-   * @param {string} gitProviderId ID
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof GitProviderApi
-   */
-  public getGitProvider(
-    gitProviderId: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return GitProviderApiFp(this.configuration)
-      .getGitProvider(gitProviderId, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get Git provider ID
-   * @summary Get Git provider ID
-   * @param {string} url Url
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof GitProviderApi
-   */
-  public getGitProviderIdForUrl(url: string, options?: RawAxiosRequestConfig) {
-    return GitProviderApiFp(this.configuration)
-      .getGitProviderIdForUrl(url, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -5207,36 +6811,214 @@ export class GitProviderApi extends BaseAPI {
   }
 
   /**
-   * Remove Git provider
-   * @summary Remove Git provider
-   * @param {string} gitProviderId Git provider
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof GitProviderApi
-   */
-  public removeGitProvider(
-    gitProviderId: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return GitProviderApiFp(this.configuration)
-      .removeGitProvider(gitProviderId, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set Git provider
-   * @summary Set Git provider
+   * Save Git provider
+   * @summary Save Git provider
    * @param {SetGitProviderConfig} gitProviderConfig Git provider
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof GitProviderApi
    */
-  public setGitProvider(
+  public saveGitProvider(
     gitProviderConfig: SetGitProviderConfig,
     options?: RawAxiosRequestConfig,
   ) {
     return GitProviderApiFp(this.configuration)
-      .setGitProvider(gitProviderConfig, options)
+      .saveGitProvider(gitProviderConfig, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * JobApi - axios parameter creator
+ * @export
+ */
+export const JobApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * List jobs
+     * @summary List jobs
+     * @param {Array<string>} [states] Job States
+     * @param {Array<string>} [actions] Job Actions
+     * @param {string} [resourceId] Resource ID
+     * @param {string} [resourceType] Resource Type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listJobs: async (
+      states?: Array<string>,
+      actions?: Array<string>,
+      resourceId?: string,
+      resourceType?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/job`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (states) {
+        localVarQueryParameter['states'] = states
+      }
+
+      if (actions) {
+        localVarQueryParameter['actions'] = actions
+      }
+
+      if (resourceId !== undefined) {
+        localVarQueryParameter['resourceId'] = resourceId
+      }
+
+      if (resourceType !== undefined) {
+        localVarQueryParameter['resourceType'] = resourceType
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * JobApi - functional programming interface
+ * @export
+ */
+export const JobApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = JobApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * List jobs
+     * @summary List jobs
+     * @param {Array<string>} [states] Job States
+     * @param {Array<string>} [actions] Job Actions
+     * @param {string} [resourceId] Resource ID
+     * @param {string} [resourceType] Resource Type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listJobs(
+      states?: Array<string>,
+      actions?: Array<string>,
+      resourceId?: string,
+      resourceType?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Job>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listJobs(
+        states,
+        actions,
+        resourceId,
+        resourceType,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['JobApi.listJobs']?.[localVarOperationServerIndex]
+          ?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * JobApi - factory interface
+ * @export
+ */
+export const JobApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = JobApiFp(configuration)
+  return {
+    /**
+     * List jobs
+     * @summary List jobs
+     * @param {Array<string>} [states] Job States
+     * @param {Array<string>} [actions] Job Actions
+     * @param {string} [resourceId] Resource ID
+     * @param {string} [resourceType] Resource Type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listJobs(
+      states?: Array<string>,
+      actions?: Array<string>,
+      resourceId?: string,
+      resourceType?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<Job>> {
+      return localVarFp
+        .listJobs(states, actions, resourceId, resourceType, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * JobApi - object-oriented interface
+ * @export
+ * @class JobApi
+ * @extends {BaseAPI}
+ */
+export class JobApi extends BaseAPI {
+  /**
+   * List jobs
+   * @summary List jobs
+   * @param {Array<string>} [states] Job States
+   * @param {Array<string>} [actions] Job Actions
+   * @param {string} [resourceId] Resource ID
+   * @param {string} [resourceType] Resource Type
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof JobApi
+   */
+  public listJobs(
+    states?: Array<string>,
+    actions?: Array<string>,
+    resourceId?: string,
+    resourceType?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return JobApiFp(this.configuration)
+      .listJobs(states, actions, resourceId, resourceType, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -5252,25 +7034,29 @@ export const PrebuildApiAxiosParamCreator = function (
     /**
      * Delete prebuild
      * @summary Delete prebuild
-     * @param {string} configName Project config name
+     * @param {string} templateName Workspace template name
      * @param {string} prebuildId Prebuild ID
      * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deletePrebuild: async (
-      configName: string,
+      templateName: string,
       prebuildId: string,
       force?: boolean,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
-      assertParamExists('deletePrebuild', 'configName', configName)
+      // verify required parameter 'templateName' is not null or undefined
+      assertParamExists('deletePrebuild', 'templateName', templateName)
       // verify required parameter 'prebuildId' is not null or undefined
       assertParamExists('deletePrebuild', 'prebuildId', prebuildId)
-      const localVarPath = `/project-config/{configName}/prebuild/{prebuildId}`
-        .replace(`{${'configName'}}`, encodeURIComponent(String(configName)))
-        .replace(`{${'prebuildId'}}`, encodeURIComponent(String(prebuildId)))
+      const localVarPath =
+        `/workspace-template/{templateName}/prebuild/{prebuildId}`
+          .replace(
+            `{${'templateName'}}`,
+            encodeURIComponent(String(templateName)),
+          )
+          .replace(`{${'prebuildId'}}`, encodeURIComponent(String(prebuildId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -5312,25 +7098,29 @@ export const PrebuildApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get prebuild
-     * @summary Get prebuild
-     * @param {string} configName Project config name
+     * Find prebuild
+     * @summary Find prebuild
+     * @param {string} templateName Workspace template name
      * @param {string} prebuildId Prebuild ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPrebuild: async (
-      configName: string,
+    findPrebuild: async (
+      templateName: string,
       prebuildId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
-      assertParamExists('getPrebuild', 'configName', configName)
+      // verify required parameter 'templateName' is not null or undefined
+      assertParamExists('findPrebuild', 'templateName', templateName)
       // verify required parameter 'prebuildId' is not null or undefined
-      assertParamExists('getPrebuild', 'prebuildId', prebuildId)
-      const localVarPath = `/project-config/{configName}/prebuild/{prebuildId}`
-        .replace(`{${'configName'}}`, encodeURIComponent(String(configName)))
-        .replace(`{${'prebuildId'}}`, encodeURIComponent(String(prebuildId)))
+      assertParamExists('findPrebuild', 'prebuildId', prebuildId)
+      const localVarPath =
+        `/workspace-template/{templateName}/prebuild/{prebuildId}`
+          .replace(
+            `{${'templateName'}}`,
+            encodeURIComponent(String(templateName)),
+          )
+          .replace(`{${'prebuildId'}}`, encodeURIComponent(String(prebuildId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -5376,7 +7166,7 @@ export const PrebuildApiAxiosParamCreator = function (
     listPrebuilds: async (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/project-config/prebuild`
+      const localVarPath = `/workspace-template/prebuild`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -5414,26 +7204,27 @@ export const PrebuildApiAxiosParamCreator = function (
       }
     },
     /**
-     * List prebuilds for project config
-     * @summary List prebuilds for project config
-     * @param {string} configName Config name
+     * List prebuilds for workspace template
+     * @summary List prebuilds for workspace template
+     * @param {string} templateName Template name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPrebuildsForProjectConfig: async (
-      configName: string,
+    listPrebuildsForWorkspaceTemplate: async (
+      templateName: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
+      // verify required parameter 'templateName' is not null or undefined
       assertParamExists(
-        'listPrebuildsForProjectConfig',
-        'configName',
-        configName,
+        'listPrebuildsForWorkspaceTemplate',
+        'templateName',
+        templateName,
       )
-      const localVarPath = `/project-config/{configName}/prebuild`.replace(
-        `{${'configName'}}`,
-        encodeURIComponent(String(configName)),
-      )
+      const localVarPath =
+        `/workspace-template/{templateName}/prebuild`.replace(
+          `{${'templateName'}}`,
+          encodeURIComponent(String(templateName)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -5473,17 +7264,17 @@ export const PrebuildApiAxiosParamCreator = function (
     /**
      * ProcessGitEvent
      * @summary ProcessGitEvent
-     * @param {object} workspace Webhook event
+     * @param {object} body Webhook event
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     processGitEvent: async (
-      workspace: object,
+      body: object,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'workspace' is not null or undefined
-      assertParamExists('processGitEvent', 'workspace', workspace)
-      const localVarPath = `/project-config/prebuild/process-git-event`
+      // verify required parameter 'body' is not null or undefined
+      assertParamExists('processGitEvent', 'body', body)
+      const localVarPath = `/workspace-template/prebuild/process-git-event`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -5517,7 +7308,7 @@ export const PrebuildApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        workspace,
+        body,
         localVarRequestOptions,
         configuration,
       )
@@ -5528,26 +7319,27 @@ export const PrebuildApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set prebuild
-     * @summary Set prebuild
-     * @param {string} configName Config name
+     * Save prebuild
+     * @summary Save prebuild
+     * @param {string} templateName Template name
      * @param {CreatePrebuildDTO} prebuild Prebuild
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setPrebuild: async (
-      configName: string,
+    savePrebuild: async (
+      templateName: string,
       prebuild: CreatePrebuildDTO,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
-      assertParamExists('setPrebuild', 'configName', configName)
+      // verify required parameter 'templateName' is not null or undefined
+      assertParamExists('savePrebuild', 'templateName', templateName)
       // verify required parameter 'prebuild' is not null or undefined
-      assertParamExists('setPrebuild', 'prebuild', prebuild)
-      const localVarPath = `/project-config/{configName}/prebuild`.replace(
-        `{${'configName'}}`,
-        encodeURIComponent(String(configName)),
-      )
+      assertParamExists('savePrebuild', 'prebuild', prebuild)
+      const localVarPath =
+        `/workspace-template/{templateName}/prebuild`.replace(
+          `{${'templateName'}}`,
+          encodeURIComponent(String(templateName)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -5604,14 +7396,14 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
     /**
      * Delete prebuild
      * @summary Delete prebuild
-     * @param {string} configName Project config name
+     * @param {string} templateName Workspace template name
      * @param {string} prebuildId Prebuild ID
      * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async deletePrebuild(
-      configName: string,
+      templateName: string,
       prebuildId: string,
       force?: boolean,
       options?: RawAxiosRequestConfig,
@@ -5619,7 +7411,7 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.deletePrebuild(
-        configName,
+        templateName,
         prebuildId,
         force,
         options,
@@ -5638,28 +7430,28 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Get prebuild
-     * @summary Get prebuild
-     * @param {string} configName Project config name
+     * Find prebuild
+     * @summary Find prebuild
+     * @param {string} templateName Workspace template name
      * @param {string} prebuildId Prebuild ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPrebuild(
-      configName: string,
+    async findPrebuild(
+      templateName: string,
       prebuildId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PrebuildDTO>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPrebuild(
-        configName,
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findPrebuild(
+        templateName,
         prebuildId,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['PrebuildApi.getPrebuild']?.[
+        operationServerMap['PrebuildApi.findPrebuild']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -5701,14 +7493,14 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * List prebuilds for project config
-     * @summary List prebuilds for project config
-     * @param {string} configName Config name
+     * List prebuilds for workspace template
+     * @summary List prebuilds for workspace template
+     * @param {string} templateName Template name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async listPrebuildsForProjectConfig(
-      configName: string,
+    async listPrebuildsForWorkspaceTemplate(
+      templateName: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -5717,13 +7509,13 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<Array<PrebuildDTO>>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.listPrebuildsForProjectConfig(
-          configName,
+        await localVarAxiosParamCreator.listPrebuildsForWorkspaceTemplate(
+          templateName,
           options,
         )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['PrebuildApi.listPrebuildsForProjectConfig']?.[
+        operationServerMap['PrebuildApi.listPrebuildsForWorkspaceTemplate']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -5737,18 +7529,18 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
     /**
      * ProcessGitEvent
      * @summary ProcessGitEvent
-     * @param {object} workspace Webhook event
+     * @param {object} body Webhook event
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async processGitEvent(
-      workspace: object,
+      body: object,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.processGitEvent(
-        workspace,
+        body,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -5765,28 +7557,28 @@ export const PrebuildApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Set prebuild
-     * @summary Set prebuild
-     * @param {string} configName Config name
+     * Save prebuild
+     * @summary Save prebuild
+     * @param {string} templateName Template name
      * @param {CreatePrebuildDTO} prebuild Prebuild
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async setPrebuild(
-      configName: string,
+    async savePrebuild(
+      templateName: string,
       prebuild: CreatePrebuildDTO,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setPrebuild(
-        configName,
+      const localVarAxiosArgs = await localVarAxiosParamCreator.savePrebuild(
+        templateName,
         prebuild,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['PrebuildApi.setPrebuild']?.[
+        operationServerMap['PrebuildApi.savePrebuild']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -5814,37 +7606,37 @@ export const PrebuildApiFactory = function (
     /**
      * Delete prebuild
      * @summary Delete prebuild
-     * @param {string} configName Project config name
+     * @param {string} templateName Workspace template name
      * @param {string} prebuildId Prebuild ID
      * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deletePrebuild(
-      configName: string,
+      templateName: string,
       prebuildId: string,
       force?: boolean,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .deletePrebuild(configName, prebuildId, force, options)
+        .deletePrebuild(templateName, prebuildId, force, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get prebuild
-     * @summary Get prebuild
-     * @param {string} configName Project config name
+     * Find prebuild
+     * @summary Find prebuild
+     * @param {string} templateName Workspace template name
      * @param {string} prebuildId Prebuild ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPrebuild(
-      configName: string,
+    findPrebuild(
+      templateName: string,
       prebuildId: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<PrebuildDTO> {
       return localVarFp
-        .getPrebuild(configName, prebuildId, options)
+        .findPrebuild(templateName, prebuildId, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -5861,50 +7653,50 @@ export const PrebuildApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * List prebuilds for project config
-     * @summary List prebuilds for project config
-     * @param {string} configName Config name
+     * List prebuilds for workspace template
+     * @summary List prebuilds for workspace template
+     * @param {string} templateName Template name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPrebuildsForProjectConfig(
-      configName: string,
+    listPrebuildsForWorkspaceTemplate(
+      templateName: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<PrebuildDTO>> {
       return localVarFp
-        .listPrebuildsForProjectConfig(configName, options)
+        .listPrebuildsForWorkspaceTemplate(templateName, options)
         .then((request) => request(axios, basePath))
     },
     /**
      * ProcessGitEvent
      * @summary ProcessGitEvent
-     * @param {object} workspace Webhook event
+     * @param {object} body Webhook event
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     processGitEvent(
-      workspace: object,
+      body: object,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .processGitEvent(workspace, options)
+        .processGitEvent(body, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set prebuild
-     * @summary Set prebuild
-     * @param {string} configName Config name
+     * Save prebuild
+     * @summary Save prebuild
+     * @param {string} templateName Template name
      * @param {CreatePrebuildDTO} prebuild Prebuild
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setPrebuild(
-      configName: string,
+    savePrebuild(
+      templateName: string,
       prebuild: CreatePrebuildDTO,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<string> {
       return localVarFp
-        .setPrebuild(configName, prebuild, options)
+        .savePrebuild(templateName, prebuild, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -5920,7 +7712,7 @@ export class PrebuildApi extends BaseAPI {
   /**
    * Delete prebuild
    * @summary Delete prebuild
-   * @param {string} configName Project config name
+   * @param {string} templateName Workspace template name
    * @param {string} prebuildId Prebuild ID
    * @param {boolean} [force] Force
    * @param {*} [options] Override http request option.
@@ -5928,32 +7720,32 @@ export class PrebuildApi extends BaseAPI {
    * @memberof PrebuildApi
    */
   public deletePrebuild(
-    configName: string,
+    templateName: string,
     prebuildId: string,
     force?: boolean,
     options?: RawAxiosRequestConfig,
   ) {
     return PrebuildApiFp(this.configuration)
-      .deletePrebuild(configName, prebuildId, force, options)
+      .deletePrebuild(templateName, prebuildId, force, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Get prebuild
-   * @summary Get prebuild
-   * @param {string} configName Project config name
+   * Find prebuild
+   * @summary Find prebuild
+   * @param {string} templateName Workspace template name
    * @param {string} prebuildId Prebuild ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PrebuildApi
    */
-  public getPrebuild(
-    configName: string,
+  public findPrebuild(
+    templateName: string,
     prebuildId: string,
     options?: RawAxiosRequestConfig,
   ) {
     return PrebuildApiFp(this.configuration)
-      .getPrebuild(configName, prebuildId, options)
+      .findPrebuild(templateName, prebuildId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -5971,1137 +7763,52 @@ export class PrebuildApi extends BaseAPI {
   }
 
   /**
-   * List prebuilds for project config
-   * @summary List prebuilds for project config
-   * @param {string} configName Config name
+   * List prebuilds for workspace template
+   * @summary List prebuilds for workspace template
+   * @param {string} templateName Template name
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PrebuildApi
    */
-  public listPrebuildsForProjectConfig(
-    configName: string,
+  public listPrebuildsForWorkspaceTemplate(
+    templateName: string,
     options?: RawAxiosRequestConfig,
   ) {
     return PrebuildApiFp(this.configuration)
-      .listPrebuildsForProjectConfig(configName, options)
+      .listPrebuildsForWorkspaceTemplate(templateName, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
    * ProcessGitEvent
    * @summary ProcessGitEvent
-   * @param {object} workspace Webhook event
+   * @param {object} body Webhook event
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PrebuildApi
    */
-  public processGitEvent(workspace: object, options?: RawAxiosRequestConfig) {
+  public processGitEvent(body: object, options?: RawAxiosRequestConfig) {
     return PrebuildApiFp(this.configuration)
-      .processGitEvent(workspace, options)
+      .processGitEvent(body, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Set prebuild
-   * @summary Set prebuild
-   * @param {string} configName Config name
+   * Save prebuild
+   * @summary Save prebuild
+   * @param {string} templateName Template name
    * @param {CreatePrebuildDTO} prebuild Prebuild
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PrebuildApi
    */
-  public setPrebuild(
-    configName: string,
+  public savePrebuild(
+    templateName: string,
     prebuild: CreatePrebuildDTO,
     options?: RawAxiosRequestConfig,
   ) {
     return PrebuildApiFp(this.configuration)
-      .setPrebuild(configName, prebuild, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-}
-
-/**
- * ProfileApi - axios parameter creator
- * @export
- */
-export const ProfileApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * Delete profile data
-     * @summary Delete profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    deleteProfileData: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/profile`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get profile data
-     * @summary Get profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProfileData: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/profile`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Set profile data
-     * @summary Set profile data
-     * @param {ProfileData} profileData Profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setProfileData: async (
-      profileData: ProfileData,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'profileData' is not null or undefined
-      assertParamExists('setProfileData', 'profileData', profileData)
-      const localVarPath = `/profile`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      localVarHeaderParameter['Content-Type'] = 'application/json'
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        profileData,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
-
-/**
- * ProfileApi - functional programming interface
- * @export
- */
-export const ProfileApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = ProfileApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * Delete profile data
-     * @summary Delete profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async deleteProfileData(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.deleteProfileData(options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProfileApi.deleteProfileData']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Get profile data
-     * @summary Get profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getProfileData(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProfileData>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getProfileData(
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProfileApi.getProfileData']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Set profile data
-     * @summary Set profile data
-     * @param {ProfileData} profileData Profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async setProfileData(
-      profileData: ProfileData,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setProfileData(
-        profileData,
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProfileApi.setProfileData']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-  }
-}
-
-/**
- * ProfileApi - factory interface
- * @export
- */
-export const ProfileApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = ProfileApiFp(configuration)
-  return {
-    /**
-     * Delete profile data
-     * @summary Delete profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    deleteProfileData(options?: RawAxiosRequestConfig): AxiosPromise<void> {
-      return localVarFp
-        .deleteProfileData(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get profile data
-     * @summary Get profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProfileData(options?: RawAxiosRequestConfig): AxiosPromise<ProfileData> {
-      return localVarFp
-        .getProfileData(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Set profile data
-     * @summary Set profile data
-     * @param {ProfileData} profileData Profile data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setProfileData(
-      profileData: ProfileData,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .setProfileData(profileData, options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
-
-/**
- * ProfileApi - object-oriented interface
- * @export
- * @class ProfileApi
- * @extends {BaseAPI}
- */
-export class ProfileApi extends BaseAPI {
-  /**
-   * Delete profile data
-   * @summary Delete profile data
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProfileApi
-   */
-  public deleteProfileData(options?: RawAxiosRequestConfig) {
-    return ProfileApiFp(this.configuration)
-      .deleteProfileData(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get profile data
-   * @summary Get profile data
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProfileApi
-   */
-  public getProfileData(options?: RawAxiosRequestConfig) {
-    return ProfileApiFp(this.configuration)
-      .getProfileData(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set profile data
-   * @summary Set profile data
-   * @param {ProfileData} profileData Profile data
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProfileApi
-   */
-  public setProfileData(
-    profileData: ProfileData,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProfileApiFp(this.configuration)
-      .setProfileData(profileData, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-}
-
-/**
- * ProjectConfigApi - axios parameter creator
- * @export
- */
-export const ProjectConfigApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * Delete project config data
-     * @summary Delete project config data
-     * @param {string} configName Config name
-     * @param {boolean} [force] Force
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    deleteProjectConfig: async (
-      configName: string,
-      force?: boolean,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
-      assertParamExists('deleteProjectConfig', 'configName', configName)
-      const localVarPath = `/project-config/{configName}`.replace(
-        `{${'configName'}}`,
-        encodeURIComponent(String(configName)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'DELETE',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      if (force !== undefined) {
-        localVarQueryParameter['force'] = force
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get project configs by git url
-     * @summary Get project configs by git url
-     * @param {string} gitUrl Git URL
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getDefaultProjectConfig: async (
-      gitUrl: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'gitUrl' is not null or undefined
-      assertParamExists('getDefaultProjectConfig', 'gitUrl', gitUrl)
-      const localVarPath = `/project-config/default/{gitUrl}`.replace(
-        `{${'gitUrl'}}`,
-        encodeURIComponent(String(gitUrl)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Get project config data
-     * @summary Get project config data
-     * @param {string} configName Config name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectConfig: async (
-      configName: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
-      assertParamExists('getProjectConfig', 'configName', configName)
-      const localVarPath = `/project-config/{configName}`.replace(
-        `{${'configName'}}`,
-        encodeURIComponent(String(configName)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * List project configs
-     * @summary List project configs
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listProjectConfigs: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/project-config`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Set project config to default
-     * @summary Set project config to default
-     * @param {string} configName Config name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setDefaultProjectConfig: async (
-      configName: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'configName' is not null or undefined
-      assertParamExists('setDefaultProjectConfig', 'configName', configName)
-      const localVarPath = `/project-config/{configName}/set-default`.replace(
-        `{${'configName'}}`,
-        encodeURIComponent(String(configName)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'PATCH',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Set project config data
-     * @summary Set project config data
-     * @param {CreateProjectConfigDTO} projectConfig Project config
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setProjectConfig: async (
-      projectConfig: CreateProjectConfigDTO,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'projectConfig' is not null or undefined
-      assertParamExists('setProjectConfig', 'projectConfig', projectConfig)
-      const localVarPath = `/project-config`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'PUT',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      localVarHeaderParameter['Content-Type'] = 'application/json'
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        projectConfig,
-        localVarRequestOptions,
-        configuration,
-      )
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
-
-/**
- * ProjectConfigApi - functional programming interface
- * @export
- */
-export const ProjectConfigApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    ProjectConfigApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * Delete project config data
-     * @summary Delete project config data
-     * @param {string} configName Config name
-     * @param {boolean} [force] Force
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async deleteProjectConfig(
-      configName: string,
-      force?: boolean,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.deleteProjectConfig(
-          configName,
-          force,
-          options,
-        )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProjectConfigApi.deleteProjectConfig']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Get project configs by git url
-     * @summary Get project configs by git url
-     * @param {string} gitUrl Git URL
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getDefaultProjectConfig(
-      gitUrl: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectConfig>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getDefaultProjectConfig(gitUrl, options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProjectConfigApi.getDefaultProjectConfig']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Get project config data
-     * @summary Get project config data
-     * @param {string} configName Config name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getProjectConfig(
-      configName: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectConfig>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getProjectConfig(configName, options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProjectConfigApi.getProjectConfig']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * List project configs
-     * @summary List project configs
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listProjectConfigs(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<Array<ProjectConfig>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.listProjectConfigs(options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProjectConfigApi.listProjectConfigs']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Set project config to default
-     * @summary Set project config to default
-     * @param {string} configName Config name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async setDefaultProjectConfig(
-      configName: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.setDefaultProjectConfig(
-          configName,
-          options,
-        )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProjectConfigApi.setDefaultProjectConfig']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Set project config data
-     * @summary Set project config data
-     * @param {CreateProjectConfigDTO} projectConfig Project config
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async setProjectConfig(
-      projectConfig: CreateProjectConfigDTO,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.setProjectConfig(projectConfig, options)
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['ProjectConfigApi.setProjectConfig']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-  }
-}
-
-/**
- * ProjectConfigApi - factory interface
- * @export
- */
-export const ProjectConfigApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = ProjectConfigApiFp(configuration)
-  return {
-    /**
-     * Delete project config data
-     * @summary Delete project config data
-     * @param {string} configName Config name
-     * @param {boolean} [force] Force
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    deleteProjectConfig(
-      configName: string,
-      force?: boolean,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .deleteProjectConfig(configName, force, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get project configs by git url
-     * @summary Get project configs by git url
-     * @param {string} gitUrl Git URL
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getDefaultProjectConfig(
-      gitUrl: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ProjectConfig> {
-      return localVarFp
-        .getDefaultProjectConfig(gitUrl, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Get project config data
-     * @summary Get project config data
-     * @param {string} configName Config name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectConfig(
-      configName: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ProjectConfig> {
-      return localVarFp
-        .getProjectConfig(configName, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * List project configs
-     * @summary List project configs
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listProjectConfigs(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<ProjectConfig>> {
-      return localVarFp
-        .listProjectConfigs(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Set project config to default
-     * @summary Set project config to default
-     * @param {string} configName Config name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setDefaultProjectConfig(
-      configName: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .setDefaultProjectConfig(configName, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Set project config data
-     * @summary Set project config data
-     * @param {CreateProjectConfigDTO} projectConfig Project config
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setProjectConfig(
-      projectConfig: CreateProjectConfigDTO,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .setProjectConfig(projectConfig, options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
-
-/**
- * ProjectConfigApi - object-oriented interface
- * @export
- * @class ProjectConfigApi
- * @extends {BaseAPI}
- */
-export class ProjectConfigApi extends BaseAPI {
-  /**
-   * Delete project config data
-   * @summary Delete project config data
-   * @param {string} configName Config name
-   * @param {boolean} [force] Force
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProjectConfigApi
-   */
-  public deleteProjectConfig(
-    configName: string,
-    force?: boolean,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProjectConfigApiFp(this.configuration)
-      .deleteProjectConfig(configName, force, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get project configs by git url
-   * @summary Get project configs by git url
-   * @param {string} gitUrl Git URL
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProjectConfigApi
-   */
-  public getDefaultProjectConfig(
-    gitUrl: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProjectConfigApiFp(this.configuration)
-      .getDefaultProjectConfig(gitUrl, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Get project config data
-   * @summary Get project config data
-   * @param {string} configName Config name
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProjectConfigApi
-   */
-  public getProjectConfig(configName: string, options?: RawAxiosRequestConfig) {
-    return ProjectConfigApiFp(this.configuration)
-      .getProjectConfig(configName, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * List project configs
-   * @summary List project configs
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProjectConfigApi
-   */
-  public listProjectConfigs(options?: RawAxiosRequestConfig) {
-    return ProjectConfigApiFp(this.configuration)
-      .listProjectConfigs(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set project config to default
-   * @summary Set project config to default
-   * @param {string} configName Config name
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProjectConfigApi
-   */
-  public setDefaultProjectConfig(
-    configName: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProjectConfigApiFp(this.configuration)
-      .setDefaultProjectConfig(configName, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set project config data
-   * @summary Set project config data
-   * @param {CreateProjectConfigDTO} projectConfig Project config
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProjectConfigApi
-   */
-  public setProjectConfig(
-    projectConfig: CreateProjectConfigDTO,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProjectConfigApiFp(this.configuration)
-      .setProjectConfig(projectConfig, options)
+      .savePrebuild(templateName, prebuild, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -7115,21 +7822,21 @@ export const ProviderApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Get provider target manifest
-     * @summary Get provider target manifest
-     * @param {string} provider Provider name
+     * Get runner providers
+     * @summary Get runner providers
+     * @param {string} runnerId Runner ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getTargetManifest: async (
-      provider: string,
+    getRunnerProviders: async (
+      runnerId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'provider' is not null or undefined
-      assertParamExists('getTargetManifest', 'provider', provider)
-      const localVarPath = `/provider/{provider}/target-manifest`.replace(
-        `{${'provider'}}`,
-        encodeURIComponent(String(provider)),
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('getRunnerProviders', 'runnerId', runnerId)
+      const localVarPath = `/runner/{runnerId}/provider`.replace(
+        `{${'runnerId'}}`,
+        encodeURIComponent(String(runnerId)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -7168,19 +7875,30 @@ export const ProviderApiAxiosParamCreator = function (
       }
     },
     /**
-     * Install a provider
-     * @summary Install a provider
-     * @param {InstallProviderRequest} provider Provider to install
+     * Install provider
+     * @summary Install provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
+     * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     installProvider: async (
-      provider: InstallProviderRequest,
+      runnerId: string,
+      providerName: string,
+      providerVersion?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'provider' is not null or undefined
-      assertParamExists('installProvider', 'provider', provider)
-      const localVarPath = `/provider/install`
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('installProvider', 'runnerId', runnerId)
+      // verify required parameter 'providerName' is not null or undefined
+      assertParamExists('installProvider', 'providerName', providerName)
+      const localVarPath = `/runner/{runnerId}/provider/{providerName}/install`
+        .replace(`{${'runnerId'}}`, encodeURIComponent(String(runnerId)))
+        .replace(
+          `{${'providerName'}}`,
+          encodeURIComponent(String(providerName)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -7203,7 +7921,9 @@ export const ProviderApiAxiosParamCreator = function (
         configuration,
       )
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
+      if (providerVersion !== undefined) {
+        localVarQueryParameter['providerVersion'] = providerVersion
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -7213,11 +7933,6 @@ export const ProviderApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        provider,
-        localVarRequestOptions,
-        configuration,
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -7227,13 +7942,65 @@ export const ProviderApiAxiosParamCreator = function (
     /**
      * List providers
      * @summary List providers
+     * @param {string} [runnerId] Runner ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listProviders: async (
+      runnerId?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/provider`
+      const localVarPath = `/runner/provider`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (runnerId !== undefined) {
+        localVarQueryParameter['runnerId'] = runnerId
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List providers available for installation
+     * @summary List providers available for installation
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listProvidersForInstall: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/runner/provider/for-install`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -7271,22 +8038,29 @@ export const ProviderApiAxiosParamCreator = function (
       }
     },
     /**
-     * Uninstall a provider
-     * @summary Uninstall a provider
-     * @param {string} provider Provider to uninstall
+     * Uninstall provider
+     * @summary Uninstall provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     uninstallProvider: async (
-      provider: string,
+      runnerId: string,
+      providerName: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'provider' is not null or undefined
-      assertParamExists('uninstallProvider', 'provider', provider)
-      const localVarPath = `/provider/{provider}/uninstall`.replace(
-        `{${'provider'}}`,
-        encodeURIComponent(String(provider)),
-      )
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('uninstallProvider', 'runnerId', runnerId)
+      // verify required parameter 'providerName' is not null or undefined
+      assertParamExists('uninstallProvider', 'providerName', providerName)
+      const localVarPath =
+        `/runner/{runnerId}/provider/{providerName}/uninstall`
+          .replace(`{${'runnerId'}}`, encodeURIComponent(String(runnerId)))
+          .replace(
+            `{${'providerName'}}`,
+            encodeURIComponent(String(providerName)),
+          )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -7308,6 +8082,71 @@ export const ProviderApiAxiosParamCreator = function (
         'Authorization',
         configuration,
       )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update provider
+     * @summary Update provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
+     * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateProvider: async (
+      runnerId: string,
+      providerName: string,
+      providerVersion?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('updateProvider', 'runnerId', runnerId)
+      // verify required parameter 'providerName' is not null or undefined
+      assertParamExists('updateProvider', 'providerName', providerName)
+      const localVarPath = `/runner/{runnerId}/provider/{providerName}/update`
+        .replace(`{${'runnerId'}}`, encodeURIComponent(String(runnerId)))
+        .replace(
+          `{${'providerName'}}`,
+          encodeURIComponent(String(providerName)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (providerVersion !== undefined) {
+        localVarQueryParameter['providerVersion'] = providerVersion
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -7334,26 +8173,26 @@ export const ProviderApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ProviderApiAxiosParamCreator(configuration)
   return {
     /**
-     * Get provider target manifest
-     * @summary Get provider target manifest
-     * @param {string} provider Provider name
+     * Get runner providers
+     * @summary Get runner providers
+     * @param {string} runnerId Runner ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getTargetManifest(
-      provider: string,
+    async getRunnerProviders(
+      runnerId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<{ [key: string]: ProviderProviderTargetProperty }>
+      ) => AxiosPromise<Array<ProviderInfo>>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getTargetManifest(provider, options)
+        await localVarAxiosParamCreator.getRunnerProviders(runnerId, options)
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['ProviderApi.getTargetManifest']?.[
+        operationServerMap['ProviderApi.getRunnerProviders']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -7365,20 +8204,26 @@ export const ProviderApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Install a provider
-     * @summary Install a provider
-     * @param {InstallProviderRequest} provider Provider to install
+     * Install provider
+     * @summary Install provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
+     * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async installProvider(
-      provider: InstallProviderRequest,
+      runnerId: string,
+      providerName: string,
+      providerVersion?: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.installProvider(
-        provider,
+        runnerId,
+        providerName,
+        providerVersion,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -7397,18 +8242,21 @@ export const ProviderApiFp = function (configuration?: Configuration) {
     /**
      * List providers
      * @summary List providers
+     * @param {string} [runnerId] Runner ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async listProviders(
+      runnerId?: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<Array<Provider>>
+      ) => AxiosPromise<Array<ProviderInfo>>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listProviders(
+        runnerId,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -7425,23 +8273,94 @@ export const ProviderApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Uninstall a provider
-     * @summary Uninstall a provider
-     * @param {string} provider Provider to uninstall
+     * List providers available for installation
+     * @summary List providers available for installation
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listProvidersForInstall(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ProviderDTO>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listProvidersForInstall(options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['ProviderApi.listProvidersForInstall']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Uninstall provider
+     * @summary Uninstall provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async uninstallProvider(
-      provider: string,
+      runnerId: string,
+      providerName: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.uninstallProvider(provider, options)
+        await localVarAxiosParamCreator.uninstallProvider(
+          runnerId,
+          providerName,
+          options,
+        )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['ProviderApi.uninstallProvider']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update provider
+     * @summary Update provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
+     * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateProvider(
+      runnerId: string,
+      providerName: string,
+      providerVersion?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateProvider(
+        runnerId,
+        providerName,
+        providerVersion,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['ProviderApi.updateProvider']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -7467,61 +8386,101 @@ export const ProviderApiFactory = function (
   const localVarFp = ProviderApiFp(configuration)
   return {
     /**
-     * Get provider target manifest
-     * @summary Get provider target manifest
-     * @param {string} provider Provider name
+     * Get runner providers
+     * @summary Get runner providers
+     * @param {string} runnerId Runner ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getTargetManifest(
-      provider: string,
+    getRunnerProviders(
+      runnerId: string,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<{ [key: string]: ProviderProviderTargetProperty }> {
+    ): AxiosPromise<Array<ProviderInfo>> {
       return localVarFp
-        .getTargetManifest(provider, options)
+        .getRunnerProviders(runnerId, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Install a provider
-     * @summary Install a provider
-     * @param {InstallProviderRequest} provider Provider to install
+     * Install provider
+     * @summary Install provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
+     * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     installProvider(
-      provider: InstallProviderRequest,
+      runnerId: string,
+      providerName: string,
+      providerVersion?: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .installProvider(provider, options)
+        .installProvider(runnerId, providerName, providerVersion, options)
         .then((request) => request(axios, basePath))
     },
     /**
      * List providers
      * @summary List providers
+     * @param {string} [runnerId] Runner ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listProviders(
+      runnerId?: string,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<Provider>> {
+    ): AxiosPromise<Array<ProviderInfo>> {
       return localVarFp
-        .listProviders(options)
+        .listProviders(runnerId, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Uninstall a provider
-     * @summary Uninstall a provider
-     * @param {string} provider Provider to uninstall
+     * List providers available for installation
+     * @summary List providers available for installation
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listProvidersForInstall(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<ProviderDTO>> {
+      return localVarFp
+        .listProvidersForInstall(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Uninstall provider
+     * @summary Uninstall provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     uninstallProvider(
-      provider: string,
+      runnerId: string,
+      providerName: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .uninstallProvider(provider, options)
+        .uninstallProvider(runnerId, providerName, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update provider
+     * @summary Update provider
+     * @param {string} runnerId Runner ID
+     * @param {string} providerName Provider name
+     * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateProvider(
+      runnerId: string,
+      providerName: string,
+      providerVersion?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateProvider(runnerId, providerName, providerVersion, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -7535,60 +8494,988 @@ export const ProviderApiFactory = function (
  */
 export class ProviderApi extends BaseAPI {
   /**
-   * Get provider target manifest
-   * @summary Get provider target manifest
-   * @param {string} provider Provider name
+   * Get runner providers
+   * @summary Get runner providers
+   * @param {string} runnerId Runner ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProviderApi
    */
-  public getTargetManifest(provider: string, options?: RawAxiosRequestConfig) {
+  public getRunnerProviders(runnerId: string, options?: RawAxiosRequestConfig) {
     return ProviderApiFp(this.configuration)
-      .getTargetManifest(provider, options)
+      .getRunnerProviders(runnerId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Install a provider
-   * @summary Install a provider
-   * @param {InstallProviderRequest} provider Provider to install
+   * Install provider
+   * @summary Install provider
+   * @param {string} runnerId Runner ID
+   * @param {string} providerName Provider name
+   * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProviderApi
    */
   public installProvider(
-    provider: InstallProviderRequest,
+    runnerId: string,
+    providerName: string,
+    providerVersion?: string,
     options?: RawAxiosRequestConfig,
   ) {
     return ProviderApiFp(this.configuration)
-      .installProvider(provider, options)
+      .installProvider(runnerId, providerName, providerVersion, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
    * List providers
    * @summary List providers
+   * @param {string} [runnerId] Runner ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProviderApi
    */
-  public listProviders(options?: RawAxiosRequestConfig) {
+  public listProviders(runnerId?: string, options?: RawAxiosRequestConfig) {
     return ProviderApiFp(this.configuration)
-      .listProviders(options)
+      .listProviders(runnerId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Uninstall a provider
-   * @summary Uninstall a provider
-   * @param {string} provider Provider to uninstall
+   * List providers available for installation
+   * @summary List providers available for installation
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ProviderApi
    */
-  public uninstallProvider(provider: string, options?: RawAxiosRequestConfig) {
+  public listProvidersForInstall(options?: RawAxiosRequestConfig) {
     return ProviderApiFp(this.configuration)
-      .uninstallProvider(provider, options)
+      .listProvidersForInstall(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Uninstall provider
+   * @summary Uninstall provider
+   * @param {string} runnerId Runner ID
+   * @param {string} providerName Provider name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProviderApi
+   */
+  public uninstallProvider(
+    runnerId: string,
+    providerName: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProviderApiFp(this.configuration)
+      .uninstallProvider(runnerId, providerName, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update provider
+   * @summary Update provider
+   * @param {string} runnerId Runner ID
+   * @param {string} providerName Provider name
+   * @param {string} [providerVersion] Provider version - defaults to \&#39;latest\&#39;
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProviderApi
+   */
+  public updateProvider(
+    runnerId: string,
+    providerName: string,
+    providerVersion?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProviderApiFp(this.configuration)
+      .updateProvider(runnerId, providerName, providerVersion, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * RunnerApi - axios parameter creator
+ * @export
+ */
+export const RunnerApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Create a runner
+     * @summary Create a runner
+     * @param {CreateRunnerDTO} runner Runner
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createRunner: async (
+      runner: CreateRunnerDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runner' is not null or undefined
+      assertParamExists('createRunner', 'runner', runner)
+      const localVarPath = `/runner`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        runner,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete runner
+     * @summary Delete runner
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteRunner: async (
+      runnerId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('deleteRunner', 'runnerId', runnerId)
+      const localVarPath = `/runner/{runnerId}`.replace(
+        `{${'runnerId'}}`,
+        encodeURIComponent(String(runnerId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Find a runner
+     * @summary Find a runner
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findRunner: async (
+      runnerId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('findRunner', 'runnerId', runnerId)
+      const localVarPath = `/runner/{runnerId}`.replace(
+        `{${'runnerId'}}`,
+        encodeURIComponent(String(runnerId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List runner jobs
+     * @summary List runner jobs
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listRunnerJobs: async (
+      runnerId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('listRunnerJobs', 'runnerId', runnerId)
+      const localVarPath = `/runner/{runnerId}/jobs`.replace(
+        `{${'runnerId'}}`,
+        encodeURIComponent(String(runnerId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List runners
+     * @summary List runners
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listRunners: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/runner`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update job state
+     * @summary Update job state
+     * @param {string} runnerId Runner ID
+     * @param {string} jobId Job ID
+     * @param {UpdateJobState} updateJobState Update job state
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateJobState: async (
+      runnerId: string,
+      jobId: string,
+      updateJobState: UpdateJobState,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('updateJobState', 'runnerId', runnerId)
+      // verify required parameter 'jobId' is not null or undefined
+      assertParamExists('updateJobState', 'jobId', jobId)
+      // verify required parameter 'updateJobState' is not null or undefined
+      assertParamExists('updateJobState', 'updateJobState', updateJobState)
+      const localVarPath = `/runner/{runnerId}/jobs/{jobId}/state`
+        .replace(`{${'runnerId'}}`, encodeURIComponent(String(runnerId)))
+        .replace(`{${'jobId'}}`, encodeURIComponent(String(jobId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        updateJobState,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update runner metadata
+     * @summary Update runner metadata
+     * @param {string} runnerId Runner ID
+     * @param {UpdateRunnerMetadataDTO} runnerMetadata Runner Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateRunnerMetadata: async (
+      runnerId: string,
+      runnerMetadata: UpdateRunnerMetadataDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'runnerId' is not null or undefined
+      assertParamExists('updateRunnerMetadata', 'runnerId', runnerId)
+      // verify required parameter 'runnerMetadata' is not null or undefined
+      assertParamExists(
+        'updateRunnerMetadata',
+        'runnerMetadata',
+        runnerMetadata,
+      )
+      const localVarPath = `/runner/{runnerId}/metadata`.replace(
+        `{${'runnerId'}}`,
+        encodeURIComponent(String(runnerId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        runnerMetadata,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * RunnerApi - functional programming interface
+ * @export
+ */
+export const RunnerApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = RunnerApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Create a runner
+     * @summary Create a runner
+     * @param {CreateRunnerDTO} runner Runner
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createRunner(
+      runner: CreateRunnerDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<CreateRunnerResultDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createRunner(
+        runner,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.createRunner']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete runner
+     * @summary Delete runner
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteRunner(
+      runnerId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRunner(
+        runnerId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.deleteRunner']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Find a runner
+     * @summary Find a runner
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findRunner(
+      runnerId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<RunnerDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findRunner(
+        runnerId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.findRunner']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List runner jobs
+     * @summary List runner jobs
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listRunnerJobs(
+      runnerId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Job>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listRunnerJobs(
+        runnerId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.listRunnerJobs']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List runners
+     * @summary List runners
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listRunners(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<RunnerDTO>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listRunners(
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.listRunners']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update job state
+     * @summary Update job state
+     * @param {string} runnerId Runner ID
+     * @param {string} jobId Job ID
+     * @param {UpdateJobState} updateJobState Update job state
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateJobState(
+      runnerId: string,
+      jobId: string,
+      updateJobState: UpdateJobState,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateJobState(
+        runnerId,
+        jobId,
+        updateJobState,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.updateJobState']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update runner metadata
+     * @summary Update runner metadata
+     * @param {string} runnerId Runner ID
+     * @param {UpdateRunnerMetadataDTO} runnerMetadata Runner Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateRunnerMetadata(
+      runnerId: string,
+      runnerMetadata: UpdateRunnerMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateRunnerMetadata(
+          runnerId,
+          runnerMetadata,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['RunnerApi.updateRunnerMetadata']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * RunnerApi - factory interface
+ * @export
+ */
+export const RunnerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = RunnerApiFp(configuration)
+  return {
+    /**
+     * Create a runner
+     * @summary Create a runner
+     * @param {CreateRunnerDTO} runner Runner
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createRunner(
+      runner: CreateRunnerDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CreateRunnerResultDTO> {
+      return localVarFp
+        .createRunner(runner, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete runner
+     * @summary Delete runner
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteRunner(
+      runnerId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteRunner(runnerId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Find a runner
+     * @summary Find a runner
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findRunner(
+      runnerId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<RunnerDTO> {
+      return localVarFp
+        .findRunner(runnerId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List runner jobs
+     * @summary List runner jobs
+     * @param {string} runnerId Runner ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listRunnerJobs(
+      runnerId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<Job>> {
+      return localVarFp
+        .listRunnerJobs(runnerId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List runners
+     * @summary List runners
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listRunners(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<RunnerDTO>> {
+      return localVarFp
+        .listRunners(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update job state
+     * @summary Update job state
+     * @param {string} runnerId Runner ID
+     * @param {string} jobId Job ID
+     * @param {UpdateJobState} updateJobState Update job state
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateJobState(
+      runnerId: string,
+      jobId: string,
+      updateJobState: UpdateJobState,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateJobState(runnerId, jobId, updateJobState, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update runner metadata
+     * @summary Update runner metadata
+     * @param {string} runnerId Runner ID
+     * @param {UpdateRunnerMetadataDTO} runnerMetadata Runner Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateRunnerMetadata(
+      runnerId: string,
+      runnerMetadata: UpdateRunnerMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateRunnerMetadata(runnerId, runnerMetadata, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * RunnerApi - object-oriented interface
+ * @export
+ * @class RunnerApi
+ * @extends {BaseAPI}
+ */
+export class RunnerApi extends BaseAPI {
+  /**
+   * Create a runner
+   * @summary Create a runner
+   * @param {CreateRunnerDTO} runner Runner
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public createRunner(
+    runner: CreateRunnerDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return RunnerApiFp(this.configuration)
+      .createRunner(runner, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete runner
+   * @summary Delete runner
+   * @param {string} runnerId Runner ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public deleteRunner(runnerId: string, options?: RawAxiosRequestConfig) {
+    return RunnerApiFp(this.configuration)
+      .deleteRunner(runnerId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Find a runner
+   * @summary Find a runner
+   * @param {string} runnerId Runner ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public findRunner(runnerId: string, options?: RawAxiosRequestConfig) {
+    return RunnerApiFp(this.configuration)
+      .findRunner(runnerId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List runner jobs
+   * @summary List runner jobs
+   * @param {string} runnerId Runner ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public listRunnerJobs(runnerId: string, options?: RawAxiosRequestConfig) {
+    return RunnerApiFp(this.configuration)
+      .listRunnerJobs(runnerId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List runners
+   * @summary List runners
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public listRunners(options?: RawAxiosRequestConfig) {
+    return RunnerApiFp(this.configuration)
+      .listRunners(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update job state
+   * @summary Update job state
+   * @param {string} runnerId Runner ID
+   * @param {string} jobId Job ID
+   * @param {UpdateJobState} updateJobState Update job state
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public updateJobState(
+    runnerId: string,
+    jobId: string,
+    updateJobState: UpdateJobState,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return RunnerApiFp(this.configuration)
+      .updateJobState(runnerId, jobId, updateJobState, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update runner metadata
+   * @summary Update runner metadata
+   * @param {string} runnerId Runner ID
+   * @param {UpdateRunnerMetadataDTO} runnerMetadata Runner Metadata
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RunnerApi
+   */
+  public updateRunnerMetadata(
+    runnerId: string,
+    runnerMetadata: UpdateRunnerMetadataDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return RunnerApiFp(this.configuration)
+      .updateRunnerMetadata(runnerId, runnerMetadata, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -7742,12 +9629,12 @@ export const ServerApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Generate a new authentication key
-     * @summary Generate a new authentication key
+     * Create a new authentication key
+     * @summary Create a new authentication key
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateNetworkKey: async (
+    createNetworkKey: async (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/server/network-key`
@@ -7834,18 +9721,64 @@ export const ServerApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set the server configuration
-     * @summary Set the server configuration
+     * Get server log files
+     * @summary Get server log files
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getServerLogFiles: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/server/logs`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Save the server configuration
+     * @summary Save the server configuration
      * @param {ServerConfig} config Server configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setConfig: async (
+    saveConfig: async (
       config: ServerConfig,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'config' is not null or undefined
-      assertParamExists('setConfig', 'config', config)
+      assertParamExists('saveConfig', 'config', config)
       const localVarPath = `/server/config`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -7855,7 +9788,7 @@ export const ServerApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: 'POST',
+        method: 'PUT',
         ...baseOptions,
         ...options,
       }
@@ -7901,21 +9834,21 @@ export const ServerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ServerApiAxiosParamCreator(configuration)
   return {
     /**
-     * Generate a new authentication key
-     * @summary Generate a new authentication key
+     * Create a new authentication key
+     * @summary Create a new authentication key
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async generateNetworkKey(
+    async createNetworkKey(
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<NetworkKey>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.generateNetworkKey(options)
+        await localVarAxiosParamCreator.createNetworkKey(options)
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['ServerApi.generateNetworkKey']?.[
+        operationServerMap['ServerApi.createNetworkKey']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -7954,25 +9887,51 @@ export const ServerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Set the server configuration
-     * @summary Set the server configuration
+     * Get server log files
+     * @summary Get server log files
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getServerLogFiles(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getServerLogFiles(options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['ServerApi.getServerLogFiles']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Save the server configuration
+     * @summary Save the server configuration
      * @param {ServerConfig} config Server configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async setConfig(
+    async saveConfig(
       config: ServerConfig,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ServerConfig>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setConfig(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.saveConfig(
         config,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['ServerApi.setConfig']?.[
+        operationServerMap['ServerApi.saveConfig']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -7998,16 +9957,16 @@ export const ServerApiFactory = function (
   const localVarFp = ServerApiFp(configuration)
   return {
     /**
-     * Generate a new authentication key
-     * @summary Generate a new authentication key
+     * Create a new authentication key
+     * @summary Create a new authentication key
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateNetworkKey(
+    createNetworkKey(
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<NetworkKey> {
       return localVarFp
-        .generateNetworkKey(options)
+        .createNetworkKey(options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -8022,18 +9981,31 @@ export const ServerApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set the server configuration
-     * @summary Set the server configuration
+     * Get server log files
+     * @summary Get server log files
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getServerLogFiles(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<string>> {
+      return localVarFp
+        .getServerLogFiles(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Save the server configuration
+     * @summary Save the server configuration
      * @param {ServerConfig} config Server configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setConfig(
+    saveConfig(
       config: ServerConfig,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<ServerConfig> {
       return localVarFp
-        .setConfig(config, options)
+        .saveConfig(config, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -8047,15 +10019,15 @@ export const ServerApiFactory = function (
  */
 export class ServerApi extends BaseAPI {
   /**
-   * Generate a new authentication key
-   * @summary Generate a new authentication key
+   * Create a new authentication key
+   * @summary Create a new authentication key
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ServerApi
    */
-  public generateNetworkKey(options?: RawAxiosRequestConfig) {
+  public createNetworkKey(options?: RawAxiosRequestConfig) {
     return ServerApiFp(this.configuration)
-      .generateNetworkKey(options)
+      .createNetworkKey(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -8073,16 +10045,29 @@ export class ServerApi extends BaseAPI {
   }
 
   /**
-   * Set the server configuration
-   * @summary Set the server configuration
+   * Get server log files
+   * @summary Get server log files
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ServerApi
+   */
+  public getServerLogFiles(options?: RawAxiosRequestConfig) {
+    return ServerApiFp(this.configuration)
+      .getServerLogFiles(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Save the server configuration
+   * @summary Save the server configuration
    * @param {ServerConfig} config Server configuration
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ServerApi
    */
-  public setConfig(config: ServerConfig, options?: RawAxiosRequestConfig) {
+  public saveConfig(config: ServerConfig, options?: RawAxiosRequestConfig) {
     return ServerApiFp(this.configuration)
-      .setConfig(config, options)
+      .saveConfig(config, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -8096,15 +10081,197 @@ export const TargetApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * List targets
-     * @summary List targets
+     * Create a target
+     * @summary Create a target
+     * @param {CreateTargetDTO} target Create target
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listTargets: async (
+    createTarget: async (
+      target: CreateTargetDTO,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'target' is not null or undefined
+      assertParamExists('createTarget', 'target', target)
       const localVarPath = `/target`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        target,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete target
+     * @summary Delete target
+     * @param {string} targetId Target ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteTarget: async (
+      targetId: string,
+      force?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('deleteTarget', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Find target
+     * @summary Find target
+     * @param {string} targetId Target ID or Name
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findTarget: async (
+      targetId: string,
+      showOptions?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('findTarget', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (showOptions !== undefined) {
+        localVarQueryParameter['showOptions'] = showOptions
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get target state
+     * @summary Get target state
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getTargetState: async (
+      targetId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('getTargetState', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}/state`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -8142,22 +10309,23 @@ export const TargetApiAxiosParamCreator = function (
       }
     },
     /**
-     * Remove a target
-     * @summary Remove a target
-     * @param {string} target Target name
+     * Handles successful creation of the target
+     * @summary Handles successful creation of the target
+     * @param {string} targetId Target ID or name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    removeTarget: async (
-      target: string,
+    handleSuccessfulCreation: async (
+      targetId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'target' is not null or undefined
-      assertParamExists('removeTarget', 'target', target)
-      const localVarPath = `/target/{target}`.replace(
-        `{${'target'}}`,
-        encodeURIComponent(String(target)),
-      )
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('handleSuccessfulCreation', 'targetId', targetId)
+      const localVarPath =
+        `/target/{targetId}/handle-successful-creation`.replace(
+          `{${'targetId'}}`,
+          encodeURIComponent(String(targetId)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -8166,7 +10334,7 @@ export const TargetApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: 'DELETE',
+        method: 'POST',
         ...baseOptions,
         ...options,
       }
@@ -8195,21 +10363,126 @@ export const TargetApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set target to default
-     * @summary Set target to default
-     * @param {string} target Target name
+     * List targets
+     * @summary List targets
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listTargets: async (
+      showOptions?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/target`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (showOptions !== undefined) {
+        localVarQueryParameter['showOptions'] = showOptions
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Restart target
+     * @summary Restart target
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    restartTarget: async (
+      targetId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('restartTarget', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}/restart`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Set target to be used by default
+     * @summary Set target to be used by default
+     * @param {string} targetId Target ID or name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     setDefaultTarget: async (
-      target: string,
+      targetId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'target' is not null or undefined
-      assertParamExists('setDefaultTarget', 'target', target)
-      const localVarPath = `/target/{target}/set-default`.replace(
-        `{${'target'}}`,
-        encodeURIComponent(String(target)),
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('setDefaultTarget', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}/set-default`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
       )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -8248,19 +10521,22 @@ export const TargetApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set a target
-     * @summary Set a target
-     * @param {CreateProviderTargetDTO} target Target to set
+     * Start target
+     * @summary Start target
+     * @param {string} targetId Target ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setTarget: async (
-      target: CreateProviderTargetDTO,
+    startTarget: async (
+      targetId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'target' is not null or undefined
-      assertParamExists('setTarget', 'target', target)
-      const localVarPath = `/target`
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('startTarget', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}/start`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -8269,7 +10545,121 @@ export const TargetApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: 'PUT',
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Stop target
+     * @summary Stop target
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    stopTarget: async (
+      targetId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('stopTarget', 'targetId', targetId)
+      const localVarPath = `/target/{targetId}/stop`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update target metadata
+     * @summary Update target metadata
+     * @param {string} targetId Target ID
+     * @param {UpdateTargetMetadataDTO} targetMetadata Target Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateTargetMetadata: async (
+      targetId: string,
+      targetMetadata: UpdateTargetMetadataDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('updateTargetMetadata', 'targetId', targetId)
+      // verify required parameter 'targetMetadata' is not null or undefined
+      assertParamExists(
+        'updateTargetMetadata',
+        'targetMetadata',
+        targetMetadata,
+      )
+      const localVarPath = `/target/{targetId}/metadata`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
         ...baseOptions,
         ...options,
       }
@@ -8294,7 +10684,71 @@ export const TargetApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        target,
+        targetMetadata,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update target provider metadata
+     * @summary Update target provider metadata
+     * @param {string} targetId Target ID
+     * @param {UpdateTargetProviderMetadataDTO} metadata Provider metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateTargetProviderMetadata: async (
+      targetId: string,
+      metadata: UpdateTargetProviderMetadataDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetId' is not null or undefined
+      assertParamExists('updateTargetProviderMetadata', 'targetId', targetId)
+      // verify required parameter 'metadata' is not null or undefined
+      assertParamExists('updateTargetProviderMetadata', 'metadata', metadata)
+      const localVarPath = `/target/{targetId}/provider-metadata`.replace(
+        `{${'targetId'}}`,
+        encodeURIComponent(String(targetId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        metadata,
         localVarRequestOptions,
         configuration,
       )
@@ -8315,20 +10769,180 @@ export const TargetApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = TargetApiAxiosParamCreator(configuration)
   return {
     /**
+     * Create a target
+     * @summary Create a target
+     * @param {CreateTargetDTO} target Create target
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createTarget(
+      target: CreateTargetDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Target>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createTarget(
+        target,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.createTarget']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete target
+     * @summary Delete target
+     * @param {string} targetId Target ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteTarget(
+      targetId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTarget(
+        targetId,
+        force,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.deleteTarget']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Find target
+     * @summary Find target
+     * @param {string} targetId Target ID or Name
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findTarget(
+      targetId: string,
+      showOptions?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TargetDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findTarget(
+        targetId,
+        showOptions,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.findTarget']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get target state
+     * @summary Get target state
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getTargetState(
+      targetId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResourceState>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getTargetState(
+        targetId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.getTargetState']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Handles successful creation of the target
+     * @summary Handles successful creation of the target
+     * @param {string} targetId Target ID or name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async handleSuccessfulCreation(
+      targetId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.handleSuccessfulCreation(
+          targetId,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.handleSuccessfulCreation']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
      * List targets
      * @summary List targets
+     * @param {boolean} [showOptions] Show target config options
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async listTargets(
+      showOptions?: boolean,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<Array<ProviderTarget>>
+      ) => AxiosPromise<Array<TargetDTO>>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listTargets(
+        showOptions,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -8345,25 +10959,25 @@ export const TargetApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Remove a target
-     * @summary Remove a target
-     * @param {string} target Target name
+     * Restart target
+     * @summary Restart target
+     * @param {string} targetId Target ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async removeTarget(
-      target: string,
+    async restartTarget(
+      targetId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.removeTarget(
-        target,
+      const localVarAxiosArgs = await localVarAxiosParamCreator.restartTarget(
+        targetId,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['TargetApi.removeTarget']?.[
+        operationServerMap['TargetApi.restartTarget']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -8375,20 +10989,20 @@ export const TargetApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Set target to default
-     * @summary Set target to default
-     * @param {string} target Target name
+     * Set target to be used by default
+     * @summary Set target to be used by default
+     * @param {string} targetId Target ID or name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async setDefaultTarget(
-      target: string,
+      targetId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.setDefaultTarget(target, options)
+        await localVarAxiosParamCreator.setDefaultTarget(targetId, options)
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['TargetApi.setDefaultTarget']?.[
@@ -8403,25 +11017,123 @@ export const TargetApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Set a target
-     * @summary Set a target
-     * @param {CreateProviderTargetDTO} target Target to set
+     * Start target
+     * @summary Start target
+     * @param {string} targetId Target ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async setTarget(
-      target: CreateProviderTargetDTO,
+    async startTarget(
+      targetId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setTarget(
-        target,
+      const localVarAxiosArgs = await localVarAxiosParamCreator.startTarget(
+        targetId,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['TargetApi.setTarget']?.[
+        operationServerMap['TargetApi.startTarget']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Stop target
+     * @summary Stop target
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async stopTarget(
+      targetId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.stopTarget(
+        targetId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.stopTarget']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update target metadata
+     * @summary Update target metadata
+     * @param {string} targetId Target ID
+     * @param {UpdateTargetMetadataDTO} targetMetadata Target Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateTargetMetadata(
+      targetId: string,
+      targetMetadata: UpdateTargetMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateTargetMetadata(
+          targetId,
+          targetMetadata,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.updateTargetMetadata']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update target provider metadata
+     * @summary Update target provider metadata
+     * @param {string} targetId Target ID
+     * @param {UpdateTargetProviderMetadataDTO} metadata Provider metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateTargetProviderMetadata(
+      targetId: string,
+      metadata: UpdateTargetProviderMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateTargetProviderMetadata(
+          targetId,
+          metadata,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetApi.updateTargetProviderMetadata']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -8447,61 +11159,191 @@ export const TargetApiFactory = function (
   const localVarFp = TargetApiFp(configuration)
   return {
     /**
+     * Create a target
+     * @summary Create a target
+     * @param {CreateTargetDTO} target Create target
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createTarget(
+      target: CreateTargetDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Target> {
+      return localVarFp
+        .createTarget(target, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete target
+     * @summary Delete target
+     * @param {string} targetId Target ID
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteTarget(
+      targetId: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteTarget(targetId, force, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Find target
+     * @summary Find target
+     * @param {string} targetId Target ID or Name
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findTarget(
+      targetId: string,
+      showOptions?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<TargetDTO> {
+      return localVarFp
+        .findTarget(targetId, showOptions, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get target state
+     * @summary Get target state
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getTargetState(
+      targetId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ResourceState> {
+      return localVarFp
+        .getTargetState(targetId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Handles successful creation of the target
+     * @summary Handles successful creation of the target
+     * @param {string} targetId Target ID or name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    handleSuccessfulCreation(
+      targetId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .handleSuccessfulCreation(targetId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * List targets
      * @summary List targets
+     * @param {boolean} [showOptions] Show target config options
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listTargets(
+      showOptions?: boolean,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<ProviderTarget>> {
+    ): AxiosPromise<Array<TargetDTO>> {
       return localVarFp
-        .listTargets(options)
+        .listTargets(showOptions, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Remove a target
-     * @summary Remove a target
-     * @param {string} target Target name
+     * Restart target
+     * @summary Restart target
+     * @param {string} targetId Target ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    removeTarget(
-      target: string,
+    restartTarget(
+      targetId: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .removeTarget(target, options)
+        .restartTarget(targetId, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set target to default
-     * @summary Set target to default
-     * @param {string} target Target name
+     * Set target to be used by default
+     * @summary Set target to be used by default
+     * @param {string} targetId Target ID or name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     setDefaultTarget(
-      target: string,
+      targetId: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .setDefaultTarget(target, options)
+        .setDefaultTarget(targetId, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set a target
-     * @summary Set a target
-     * @param {CreateProviderTargetDTO} target Target to set
+     * Start target
+     * @summary Start target
+     * @param {string} targetId Target ID or Name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setTarget(
-      target: CreateProviderTargetDTO,
+    startTarget(
+      targetId: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .setTarget(target, options)
+        .startTarget(targetId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Stop target
+     * @summary Stop target
+     * @param {string} targetId Target ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    stopTarget(
+      targetId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .stopTarget(targetId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update target metadata
+     * @summary Update target metadata
+     * @param {string} targetId Target ID
+     * @param {UpdateTargetMetadataDTO} targetMetadata Target Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateTargetMetadata(
+      targetId: string,
+      targetMetadata: UpdateTargetMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateTargetMetadata(targetId, targetMetadata, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update target provider metadata
+     * @summary Update target provider metadata
+     * @param {string} targetId Target ID
+     * @param {UpdateTargetProviderMetadataDTO} metadata Provider metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateTargetProviderMetadata(
+      targetId: string,
+      metadata: UpdateTargetProviderMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateTargetProviderMetadata(targetId, metadata, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -8515,60 +11357,598 @@ export const TargetApiFactory = function (
  */
 export class TargetApi extends BaseAPI {
   /**
-   * List targets
-   * @summary List targets
+   * Create a target
+   * @summary Create a target
+   * @param {CreateTargetDTO} target Create target
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TargetApi
    */
-  public listTargets(options?: RawAxiosRequestConfig) {
-    return TargetApiFp(this.configuration)
-      .listTargets(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Remove a target
-   * @summary Remove a target
-   * @param {string} target Target name
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TargetApi
-   */
-  public removeTarget(target: string, options?: RawAxiosRequestConfig) {
-    return TargetApiFp(this.configuration)
-      .removeTarget(target, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set target to default
-   * @summary Set target to default
-   * @param {string} target Target name
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TargetApi
-   */
-  public setDefaultTarget(target: string, options?: RawAxiosRequestConfig) {
-    return TargetApiFp(this.configuration)
-      .setDefaultTarget(target, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Set a target
-   * @summary Set a target
-   * @param {CreateProviderTargetDTO} target Target to set
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TargetApi
-   */
-  public setTarget(
-    target: CreateProviderTargetDTO,
+  public createTarget(
+    target: CreateTargetDTO,
     options?: RawAxiosRequestConfig,
   ) {
     return TargetApiFp(this.configuration)
-      .setTarget(target, options)
+      .createTarget(target, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete target
+   * @summary Delete target
+   * @param {string} targetId Target ID
+   * @param {boolean} [force] Force
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public deleteTarget(
+    targetId: string,
+    force?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetApiFp(this.configuration)
+      .deleteTarget(targetId, force, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Find target
+   * @summary Find target
+   * @param {string} targetId Target ID or Name
+   * @param {boolean} [showOptions] Show target config options
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public findTarget(
+    targetId: string,
+    showOptions?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetApiFp(this.configuration)
+      .findTarget(targetId, showOptions, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get target state
+   * @summary Get target state
+   * @param {string} targetId Target ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public getTargetState(targetId: string, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .getTargetState(targetId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Handles successful creation of the target
+   * @summary Handles successful creation of the target
+   * @param {string} targetId Target ID or name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public handleSuccessfulCreation(
+    targetId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetApiFp(this.configuration)
+      .handleSuccessfulCreation(targetId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List targets
+   * @summary List targets
+   * @param {boolean} [showOptions] Show target config options
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public listTargets(showOptions?: boolean, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .listTargets(showOptions, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Restart target
+   * @summary Restart target
+   * @param {string} targetId Target ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public restartTarget(targetId: string, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .restartTarget(targetId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set target to be used by default
+   * @summary Set target to be used by default
+   * @param {string} targetId Target ID or name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public setDefaultTarget(targetId: string, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .setDefaultTarget(targetId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Start target
+   * @summary Start target
+   * @param {string} targetId Target ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public startTarget(targetId: string, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .startTarget(targetId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Stop target
+   * @summary Stop target
+   * @param {string} targetId Target ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public stopTarget(targetId: string, options?: RawAxiosRequestConfig) {
+    return TargetApiFp(this.configuration)
+      .stopTarget(targetId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update target metadata
+   * @summary Update target metadata
+   * @param {string} targetId Target ID
+   * @param {UpdateTargetMetadataDTO} targetMetadata Target Metadata
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public updateTargetMetadata(
+    targetId: string,
+    targetMetadata: UpdateTargetMetadataDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetApiFp(this.configuration)
+      .updateTargetMetadata(targetId, targetMetadata, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update target provider metadata
+   * @summary Update target provider metadata
+   * @param {string} targetId Target ID
+   * @param {UpdateTargetProviderMetadataDTO} metadata Provider metadata
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetApi
+   */
+  public updateTargetProviderMetadata(
+    targetId: string,
+    metadata: UpdateTargetProviderMetadataDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetApiFp(this.configuration)
+      .updateTargetProviderMetadata(targetId, metadata, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * TargetConfigApi - axios parameter creator
+ * @export
+ */
+export const TargetConfigApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Create a target config
+     * @summary Create a target config
+     * @param {CreateTargetConfigDTO} targetConfig Target config to create
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createTargetConfig: async (
+      targetConfig: CreateTargetConfigDTO,
+      showOptions?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'targetConfig' is not null or undefined
+      assertParamExists('createTargetConfig', 'targetConfig', targetConfig)
+      const localVarPath = `/target-config`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (showOptions !== undefined) {
+        localVarQueryParameter['showOptions'] = showOptions
+      }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        targetConfig,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete a target config
+     * @summary Delete a target config
+     * @param {string} configId Target Config Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteTargetConfig: async (
+      configId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'configId' is not null or undefined
+      assertParamExists('deleteTargetConfig', 'configId', configId)
+      const localVarPath = `/target-config/{configId}`.replace(
+        `{${'configId'}}`,
+        encodeURIComponent(String(configId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List target configs
+     * @summary List target configs
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listTargetConfigs: async (
+      showOptions?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/target-config`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (showOptions !== undefined) {
+        localVarQueryParameter['showOptions'] = showOptions
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * TargetConfigApi - functional programming interface
+ * @export
+ */
+export const TargetConfigApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    TargetConfigApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Create a target config
+     * @summary Create a target config
+     * @param {CreateTargetConfigDTO} targetConfig Target config to create
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createTargetConfig(
+      targetConfig: CreateTargetConfigDTO,
+      showOptions?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TargetConfig>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.createTargetConfig(
+          targetConfig,
+          showOptions,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetConfigApi.createTargetConfig']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete a target config
+     * @summary Delete a target config
+     * @param {string} configId Target Config Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteTargetConfig(
+      configId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteTargetConfig(configId, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetConfigApi.deleteTargetConfig']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List target configs
+     * @summary List target configs
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listTargetConfigs(
+      showOptions?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<TargetConfig>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listTargetConfigs(showOptions, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TargetConfigApi.listTargetConfigs']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * TargetConfigApi - factory interface
+ * @export
+ */
+export const TargetConfigApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = TargetConfigApiFp(configuration)
+  return {
+    /**
+     * Create a target config
+     * @summary Create a target config
+     * @param {CreateTargetConfigDTO} targetConfig Target config to create
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createTargetConfig(
+      targetConfig: CreateTargetConfigDTO,
+      showOptions?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<TargetConfig> {
+      return localVarFp
+        .createTargetConfig(targetConfig, showOptions, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete a target config
+     * @summary Delete a target config
+     * @param {string} configId Target Config Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteTargetConfig(
+      configId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteTargetConfig(configId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List target configs
+     * @summary List target configs
+     * @param {boolean} [showOptions] Show target config options
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listTargetConfigs(
+      showOptions?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<TargetConfig>> {
+      return localVarFp
+        .listTargetConfigs(showOptions, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * TargetConfigApi - object-oriented interface
+ * @export
+ * @class TargetConfigApi
+ * @extends {BaseAPI}
+ */
+export class TargetConfigApi extends BaseAPI {
+  /**
+   * Create a target config
+   * @summary Create a target config
+   * @param {CreateTargetConfigDTO} targetConfig Target config to create
+   * @param {boolean} [showOptions] Show target config options
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetConfigApi
+   */
+  public createTargetConfig(
+    targetConfig: CreateTargetConfigDTO,
+    showOptions?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetConfigApiFp(this.configuration)
+      .createTargetConfig(targetConfig, showOptions, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete a target config
+   * @summary Delete a target config
+   * @param {string} configId Target Config Id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetConfigApi
+   */
+  public deleteTargetConfig(configId: string, options?: RawAxiosRequestConfig) {
+    return TargetConfigApiFp(this.configuration)
+      .deleteTargetConfig(configId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List target configs
+   * @summary List target configs
+   * @param {boolean} [showOptions] Show target config options
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TargetConfigApi
+   */
+  public listTargetConfigs(
+    showOptions?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return TargetConfigApiFp(this.configuration)
+      .listTargetConfigs(showOptions, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
@@ -8639,131 +12019,20 @@ export const WorkspaceApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get workspace info
-     * @summary Get workspace info
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {boolean} [verbose] Verbose
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getWorkspace: async (
-      workspaceId: string,
-      verbose?: boolean,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'workspaceId' is not null or undefined
-      assertParamExists('getWorkspace', 'workspaceId', workspaceId)
-      const localVarPath = `/workspace/{workspaceId}`.replace(
-        `{${'workspaceId'}}`,
-        encodeURIComponent(String(workspaceId)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      if (verbose !== undefined) {
-        localVarQueryParameter['verbose'] = verbose
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * List workspaces
-     * @summary List workspaces
-     * @param {boolean} [verbose] Verbose
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listWorkspaces: async (
-      verbose?: boolean,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/workspace`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      if (verbose !== undefined) {
-        localVarQueryParameter['verbose'] = verbose
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Remove workspace
-     * @summary Remove workspace
+     * Delete workspace
+     * @summary Delete workspace
      * @param {string} workspaceId Workspace ID
      * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    removeWorkspace: async (
+    deleteWorkspace: async (
       workspaceId: string,
       force?: boolean,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'workspaceId' is not null or undefined
-      assertParamExists('removeWorkspace', 'workspaceId', workspaceId)
+      assertParamExists('deleteWorkspace', 'workspaceId', workspaceId)
       const localVarPath = `/workspace/{workspaceId}`.replace(
         `{${'workspaceId'}}`,
         encodeURIComponent(String(workspaceId)),
@@ -8809,29 +12078,22 @@ export const WorkspaceApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set project state
-     * @summary Set project state
+     * Find workspace
+     * @summary Find workspace
      * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {SetProjectState} setState Set State
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setProjectState: async (
+    findWorkspace: async (
       workspaceId: string,
-      projectId: string,
-      setState: SetProjectState,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'workspaceId' is not null or undefined
-      assertParamExists('setProjectState', 'workspaceId', workspaceId)
-      // verify required parameter 'projectId' is not null or undefined
-      assertParamExists('setProjectState', 'projectId', projectId)
-      // verify required parameter 'setState' is not null or undefined
-      assertParamExists('setProjectState', 'setState', setState)
-      const localVarPath = `/workspace/{workspaceId}/{projectId}/state`
-        .replace(`{${'workspaceId'}}`, encodeURIComponent(String(workspaceId)))
-        .replace(`{${'projectId'}}`, encodeURIComponent(String(projectId)))
+      assertParamExists('findWorkspace', 'workspaceId', workspaceId)
+      const localVarPath = `/workspace/{workspaceId}`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -8840,7 +12102,7 @@ export const WorkspaceApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: 'POST',
+        method: 'GET',
         ...baseOptions,
         ...options,
       }
@@ -8854,7 +12116,58 @@ export const WorkspaceApiAxiosParamCreator = function (
         configuration,
       )
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get workspace state
+     * @summary Get workspace state
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getWorkspaceState: async (
+      workspaceId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('getWorkspaceState', 'workspaceId', workspaceId)
+      const localVarPath = `/workspace/{workspaceId}/state`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -8864,11 +12177,6 @@ export const WorkspaceApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        setState,
-        localVarRequestOptions,
-        configuration,
-      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -8876,25 +12184,74 @@ export const WorkspaceApiAxiosParamCreator = function (
       }
     },
     /**
-     * Start project
-     * @summary Start project
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
+     * List workspaces
+     * @summary List workspaces
+     * @param {string} [labels] JSON encoded labels
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    startProject: async (
+    listWorkspaces: async (
+      labels?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/workspace`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (labels !== undefined) {
+        localVarQueryParameter['labels'] = labels
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Restart workspace
+     * @summary Restart workspace
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    restartWorkspace: async (
       workspaceId: string,
-      projectId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'workspaceId' is not null or undefined
-      assertParamExists('startProject', 'workspaceId', workspaceId)
-      // verify required parameter 'projectId' is not null or undefined
-      assertParamExists('startProject', 'projectId', projectId)
-      const localVarPath = `/workspace/{workspaceId}/{projectId}/start`
-        .replace(`{${'workspaceId'}}`, encodeURIComponent(String(workspaceId)))
-        .replace(`{${'projectId'}}`, encodeURIComponent(String(projectId)))
+      assertParamExists('restartWorkspace', 'workspaceId', workspaceId)
+      const localVarPath = `/workspace/{workspaceId}/restart`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -8985,62 +12342,6 @@ export const WorkspaceApiAxiosParamCreator = function (
       }
     },
     /**
-     * Stop project
-     * @summary Stop project
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    stopProject: async (
-      workspaceId: string,
-      projectId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'workspaceId' is not null or undefined
-      assertParamExists('stopProject', 'workspaceId', workspaceId)
-      // verify required parameter 'projectId' is not null or undefined
-      assertParamExists('stopProject', 'projectId', projectId)
-      const localVarPath = `/workspace/{workspaceId}/{projectId}/stop`
-        .replace(`{${'workspaceId'}}`, encodeURIComponent(String(workspaceId)))
-        .replace(`{${'projectId'}}`, encodeURIComponent(String(projectId)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: 'POST',
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication Bearer required
-      await setApiKeyToObject(
-        localVarHeaderParameter,
-        'Authorization',
-        configuration,
-      )
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
      * Stop workspace
      * @summary Stop workspace
      * @param {string} workspaceId Workspace ID or Name
@@ -9093,6 +12394,206 @@ export const WorkspaceApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     * Update workspace labels
+     * @summary Update workspace labels
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {{ [key: string]: string; }} labels Labels
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateWorkspaceLabels: async (
+      workspaceId: string,
+      labels: { [key: string]: string },
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('updateWorkspaceLabels', 'workspaceId', workspaceId)
+      // verify required parameter 'labels' is not null or undefined
+      assertParamExists('updateWorkspaceLabels', 'labels', labels)
+      const localVarPath = `/workspace/{workspaceId}/labels`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        labels,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update workspace metadata
+     * @summary Update workspace metadata
+     * @param {string} workspaceId Workspace ID
+     * @param {UpdateWorkspaceMetadataDTO} workspaceMetadata Workspace Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateWorkspaceMetadata: async (
+      workspaceId: string,
+      workspaceMetadata: UpdateWorkspaceMetadataDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('updateWorkspaceMetadata', 'workspaceId', workspaceId)
+      // verify required parameter 'workspaceMetadata' is not null or undefined
+      assertParamExists(
+        'updateWorkspaceMetadata',
+        'workspaceMetadata',
+        workspaceMetadata,
+      )
+      const localVarPath = `/workspace/{workspaceId}/metadata`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        workspaceMetadata,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Update workspace provider metadata
+     * @summary Update workspace provider metadata
+     * @param {string} workspaceId Workspace ID
+     * @param {UpdateWorkspaceProviderMetadataDTO} metadata Provider metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateWorkspaceProviderMetadata: async (
+      workspaceId: string,
+      metadata: UpdateWorkspaceProviderMetadataDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists(
+        'updateWorkspaceProviderMetadata',
+        'workspaceId',
+        workspaceId,
+      )
+      // verify required parameter 'metadata' is not null or undefined
+      assertParamExists('updateWorkspaceProviderMetadata', 'metadata', metadata)
+      const localVarPath = `/workspace/{workspaceId}/provider-metadata`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        metadata,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -9114,7 +12615,7 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
       workspace: CreateWorkspaceDTO,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Workspace>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceDTO>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createWorkspace(
         workspace,
@@ -9134,28 +12635,86 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Get workspace info
-     * @summary Get workspace info
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {boolean} [verbose] Verbose
+     * Delete workspace
+     * @summary Delete workspace
+     * @param {string} workspaceId Workspace ID
+     * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getWorkspace(
+    async deleteWorkspace(
       workspaceId: string,
-      verbose?: boolean,
+      force?: boolean,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceDTO>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkspace(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteWorkspace(
         workspaceId,
-        verbose,
+        force,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['WorkspaceApi.getWorkspace']?.[
+        operationServerMap['WorkspaceApi.deleteWorkspace']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Find workspace
+     * @summary Find workspace
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findWorkspace(
+      workspaceId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findWorkspace(
+        workspaceId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceApi.findWorkspace']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get workspace state
+     * @summary Get workspace state
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getWorkspaceState(
+      workspaceId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResourceState>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getWorkspaceState(workspaceId, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceApi.getWorkspaceState']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -9169,12 +12728,12 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
     /**
      * List workspaces
      * @summary List workspaces
-     * @param {boolean} [verbose] Verbose
+     * @param {string} [labels] JSON encoded labels
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async listWorkspaces(
-      verbose?: boolean,
+      labels?: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -9183,7 +12742,7 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<Array<WorkspaceDTO>>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listWorkspaces(
-        verbose,
+        labels,
         options,
       )
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
@@ -9200,97 +12759,23 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Remove workspace
-     * @summary Remove workspace
-     * @param {string} workspaceId Workspace ID
-     * @param {boolean} [force] Force
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async removeWorkspace(
-      workspaceId: string,
-      force?: boolean,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.removeWorkspace(
-        workspaceId,
-        force,
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['WorkspaceApi.removeWorkspace']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Set project state
-     * @summary Set project state
+     * Restart workspace
+     * @summary Restart workspace
      * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {SetProjectState} setState Set State
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async setProjectState(
+    async restartWorkspace(
       workspaceId: string,
-      projectId: string,
-      setState: SetProjectState,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setProjectState(
-        workspaceId,
-        projectId,
-        setState,
-        options,
-      )
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.restartWorkspace(workspaceId, options)
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
-        operationServerMap['WorkspaceApi.setProjectState']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
-     * Start project
-     * @summary Start project
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async startProject(
-      workspaceId: string,
-      projectId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.startProject(
-        workspaceId,
-        projectId,
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['WorkspaceApi.startProject']?.[
+        operationServerMap['WorkspaceApi.restartWorkspace']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -9332,39 +12817,6 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
-     * Stop project
-     * @summary Stop project
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async stopProject(
-      workspaceId: string,
-      projectId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.stopProject(
-        workspaceId,
-        projectId,
-        options,
-      )
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
-      const localVarOperationServerBasePath =
-        operationServerMap['WorkspaceApi.stopProject']?.[
-          localVarOperationServerIndex
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath)
-    },
-    /**
      * Stop workspace
      * @summary Stop workspace
      * @param {string} workspaceId Workspace ID or Name
@@ -9384,6 +12836,108 @@ export const WorkspaceApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0
       const localVarOperationServerBasePath =
         operationServerMap['WorkspaceApi.stopWorkspace']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update workspace labels
+     * @summary Update workspace labels
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {{ [key: string]: string; }} labels Labels
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateWorkspaceLabels(
+      workspaceId: string,
+      labels: { [key: string]: string },
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateWorkspaceLabels(
+          workspaceId,
+          labels,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceApi.updateWorkspaceLabels']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update workspace metadata
+     * @summary Update workspace metadata
+     * @param {string} workspaceId Workspace ID
+     * @param {UpdateWorkspaceMetadataDTO} workspaceMetadata Workspace Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateWorkspaceMetadata(
+      workspaceId: string,
+      workspaceMetadata: UpdateWorkspaceMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateWorkspaceMetadata(
+          workspaceId,
+          workspaceMetadata,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceApi.updateWorkspaceMetadata']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Update workspace provider metadata
+     * @summary Update workspace provider metadata
+     * @param {string} workspaceId Workspace ID
+     * @param {UpdateWorkspaceProviderMetadataDTO} metadata Provider metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateWorkspaceProviderMetadata(
+      workspaceId: string,
+      metadata: UpdateWorkspaceProviderMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.updateWorkspaceProviderMetadata(
+          workspaceId,
+          metadata,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceApi.updateWorkspaceProviderMetadata']?.[
           localVarOperationServerIndex
         ]?.url
       return (axios, basePath) =>
@@ -9418,94 +12972,86 @@ export const WorkspaceApiFactory = function (
     createWorkspace(
       workspace: CreateWorkspaceDTO,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Workspace> {
+    ): AxiosPromise<WorkspaceDTO> {
       return localVarFp
         .createWorkspace(workspace, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get workspace info
-     * @summary Get workspace info
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {boolean} [verbose] Verbose
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getWorkspace(
-      workspaceId: string,
-      verbose?: boolean,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<WorkspaceDTO> {
-      return localVarFp
-        .getWorkspace(workspaceId, verbose, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * List workspaces
-     * @summary List workspaces
-     * @param {boolean} [verbose] Verbose
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listWorkspaces(
-      verbose?: boolean,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<WorkspaceDTO>> {
-      return localVarFp
-        .listWorkspaces(verbose, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Remove workspace
-     * @summary Remove workspace
+     * Delete workspace
+     * @summary Delete workspace
      * @param {string} workspaceId Workspace ID
      * @param {boolean} [force] Force
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    removeWorkspace(
+    deleteWorkspace(
       workspaceId: string,
       force?: boolean,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .removeWorkspace(workspaceId, force, options)
+        .deleteWorkspace(workspaceId, force, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set project state
-     * @summary Set project state
+     * Find workspace
+     * @summary Find workspace
      * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {SetProjectState} setState Set State
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setProjectState(
+    findWorkspace(
       workspaceId: string,
-      projectId: string,
-      setState: SetProjectState,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<WorkspaceDTO> {
       return localVarFp
-        .setProjectState(workspaceId, projectId, setState, options)
+        .findWorkspace(workspaceId, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * Start project
-     * @summary Start project
+     * Get workspace state
+     * @summary Get workspace state
      * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    startProject(
+    getWorkspaceState(
       workspaceId: string,
-      projectId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ResourceState> {
+      return localVarFp
+        .getWorkspaceState(workspaceId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List workspaces
+     * @summary List workspaces
+     * @param {string} [labels] JSON encoded labels
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listWorkspaces(
+      labels?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<WorkspaceDTO>> {
+      return localVarFp
+        .listWorkspaces(labels, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Restart workspace
+     * @summary Restart workspace
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    restartWorkspace(
+      workspaceId: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
-        .startProject(workspaceId, projectId, options)
+        .restartWorkspace(workspaceId, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -9524,23 +13070,6 @@ export const WorkspaceApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Stop project
-     * @summary Stop project
-     * @param {string} workspaceId Workspace ID or Name
-     * @param {string} projectId Project ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    stopProject(
-      workspaceId: string,
-      projectId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .stopProject(workspaceId, projectId, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
      * Stop workspace
      * @summary Stop workspace
      * @param {string} workspaceId Workspace ID or Name
@@ -9553,6 +13082,57 @@ export const WorkspaceApiFactory = function (
     ): AxiosPromise<void> {
       return localVarFp
         .stopWorkspace(workspaceId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update workspace labels
+     * @summary Update workspace labels
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {{ [key: string]: string; }} labels Labels
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateWorkspaceLabels(
+      workspaceId: string,
+      labels: { [key: string]: string },
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WorkspaceDTO> {
+      return localVarFp
+        .updateWorkspaceLabels(workspaceId, labels, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update workspace metadata
+     * @summary Update workspace metadata
+     * @param {string} workspaceId Workspace ID
+     * @param {UpdateWorkspaceMetadataDTO} workspaceMetadata Workspace Metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateWorkspaceMetadata(
+      workspaceId: string,
+      workspaceMetadata: UpdateWorkspaceMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateWorkspaceMetadata(workspaceId, workspaceMetadata, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Update workspace provider metadata
+     * @summary Update workspace provider metadata
+     * @param {string} workspaceId Workspace ID
+     * @param {UpdateWorkspaceProviderMetadataDTO} metadata Provider metadata
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateWorkspaceProviderMetadata(
+      workspaceId: string,
+      metadata: UpdateWorkspaceProviderMetadataDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateWorkspaceProviderMetadata(workspaceId, metadata, options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -9583,94 +13163,83 @@ export class WorkspaceApi extends BaseAPI {
   }
 
   /**
-   * Get workspace info
-   * @summary Get workspace info
-   * @param {string} workspaceId Workspace ID or Name
-   * @param {boolean} [verbose] Verbose
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WorkspaceApi
-   */
-  public getWorkspace(
-    workspaceId: string,
-    verbose?: boolean,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WorkspaceApiFp(this.configuration)
-      .getWorkspace(workspaceId, verbose, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * List workspaces
-   * @summary List workspaces
-   * @param {boolean} [verbose] Verbose
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WorkspaceApi
-   */
-  public listWorkspaces(verbose?: boolean, options?: RawAxiosRequestConfig) {
-    return WorkspaceApiFp(this.configuration)
-      .listWorkspaces(verbose, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Remove workspace
-   * @summary Remove workspace
+   * Delete workspace
+   * @summary Delete workspace
    * @param {string} workspaceId Workspace ID
    * @param {boolean} [force] Force
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WorkspaceApi
    */
-  public removeWorkspace(
+  public deleteWorkspace(
     workspaceId: string,
     force?: boolean,
     options?: RawAxiosRequestConfig,
   ) {
     return WorkspaceApiFp(this.configuration)
-      .removeWorkspace(workspaceId, force, options)
+      .deleteWorkspace(workspaceId, force, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Set project state
-   * @summary Set project state
+   * Find workspace
+   * @summary Find workspace
    * @param {string} workspaceId Workspace ID or Name
-   * @param {string} projectId Project ID
-   * @param {SetProjectState} setState Set State
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WorkspaceApi
    */
-  public setProjectState(
-    workspaceId: string,
-    projectId: string,
-    setState: SetProjectState,
-    options?: RawAxiosRequestConfig,
-  ) {
+  public findWorkspace(workspaceId: string, options?: RawAxiosRequestConfig) {
     return WorkspaceApiFp(this.configuration)
-      .setProjectState(workspaceId, projectId, setState, options)
+      .findWorkspace(workspaceId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * Start project
-   * @summary Start project
+   * Get workspace state
+   * @summary Get workspace state
    * @param {string} workspaceId Workspace ID or Name
-   * @param {string} projectId Project ID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WorkspaceApi
    */
-  public startProject(
+  public getWorkspaceState(
     workspaceId: string,
-    projectId: string,
     options?: RawAxiosRequestConfig,
   ) {
     return WorkspaceApiFp(this.configuration)
-      .startProject(workspaceId, projectId, options)
+      .getWorkspaceState(workspaceId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List workspaces
+   * @summary List workspaces
+   * @param {string} [labels] JSON encoded labels
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceApi
+   */
+  public listWorkspaces(labels?: string, options?: RawAxiosRequestConfig) {
+    return WorkspaceApiFp(this.configuration)
+      .listWorkspaces(labels, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Restart workspace
+   * @summary Restart workspace
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceApi
+   */
+  public restartWorkspace(
+    workspaceId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceApiFp(this.configuration)
+      .restartWorkspace(workspaceId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -9689,25 +13258,6 @@ export class WorkspaceApi extends BaseAPI {
   }
 
   /**
-   * Stop project
-   * @summary Stop project
-   * @param {string} workspaceId Workspace ID or Name
-   * @param {string} projectId Project ID
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WorkspaceApi
-   */
-  public stopProject(
-    workspaceId: string,
-    projectId: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WorkspaceApiFp(this.configuration)
-      .stopProject(workspaceId, projectId, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
    * Stop workspace
    * @summary Stop workspace
    * @param {string} workspaceId Workspace ID or Name
@@ -9718,6 +13268,5580 @@ export class WorkspaceApi extends BaseAPI {
   public stopWorkspace(workspaceId: string, options?: RawAxiosRequestConfig) {
     return WorkspaceApiFp(this.configuration)
       .stopWorkspace(workspaceId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update workspace labels
+   * @summary Update workspace labels
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {{ [key: string]: string; }} labels Labels
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceApi
+   */
+  public updateWorkspaceLabels(
+    workspaceId: string,
+    labels: { [key: string]: string },
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceApiFp(this.configuration)
+      .updateWorkspaceLabels(workspaceId, labels, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update workspace metadata
+   * @summary Update workspace metadata
+   * @param {string} workspaceId Workspace ID
+   * @param {UpdateWorkspaceMetadataDTO} workspaceMetadata Workspace Metadata
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceApi
+   */
+  public updateWorkspaceMetadata(
+    workspaceId: string,
+    workspaceMetadata: UpdateWorkspaceMetadataDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceApiFp(this.configuration)
+      .updateWorkspaceMetadata(workspaceId, workspaceMetadata, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update workspace provider metadata
+   * @summary Update workspace provider metadata
+   * @param {string} workspaceId Workspace ID
+   * @param {UpdateWorkspaceProviderMetadataDTO} metadata Provider metadata
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceApi
+   */
+  public updateWorkspaceProviderMetadata(
+    workspaceId: string,
+    metadata: UpdateWorkspaceProviderMetadataDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceApiFp(this.configuration)
+      .updateWorkspaceProviderMetadata(workspaceId, metadata, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * WorkspaceTemplateApi - axios parameter creator
+ * @export
+ */
+export const WorkspaceTemplateApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Delete workspace template data
+     * @summary Delete workspace template data
+     * @param {string} templateName Template name
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteWorkspaceTemplate: async (
+      templateName: string,
+      force?: boolean,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'templateName' is not null or undefined
+      assertParamExists('deleteWorkspaceTemplate', 'templateName', templateName)
+      const localVarPath = `/workspace-template/{templateName}`.replace(
+        `{${'templateName'}}`,
+        encodeURIComponent(String(templateName)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (force !== undefined) {
+        localVarQueryParameter['force'] = force
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Find a workspace template
+     * @summary Find a workspace template
+     * @param {string} templateName Template name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findWorkspaceTemplate: async (
+      templateName: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'templateName' is not null or undefined
+      assertParamExists('findWorkspaceTemplate', 'templateName', templateName)
+      const localVarPath = `/workspace-template/{templateName}`.replace(
+        `{${'templateName'}}`,
+        encodeURIComponent(String(templateName)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get default workspace templates by git url
+     * @summary Get default workspace templates by git url
+     * @param {string} gitUrl Git URL
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getDefaultWorkspaceTemplate: async (
+      gitUrl: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'gitUrl' is not null or undefined
+      assertParamExists('getDefaultWorkspaceTemplate', 'gitUrl', gitUrl)
+      const localVarPath = `/workspace-template/default/{gitUrl}`.replace(
+        `{${'gitUrl'}}`,
+        encodeURIComponent(String(gitUrl)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List workspace templates
+     * @summary List workspace templates
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listWorkspaceTemplates: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/workspace-template`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Set workspace template data
+     * @summary Set workspace template data
+     * @param {CreateWorkspaceTemplateDTO} workspaceTemplate Workspace template
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    saveWorkspaceTemplate: async (
+      workspaceTemplate: CreateWorkspaceTemplateDTO,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceTemplate' is not null or undefined
+      assertParamExists(
+        'saveWorkspaceTemplate',
+        'workspaceTemplate',
+        workspaceTemplate,
+      )
+      const localVarPath = `/workspace-template`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        workspaceTemplate,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Set workspace template to default
+     * @summary Set workspace template to default
+     * @param {string} templateName Template name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setDefaultWorkspaceTemplate: async (
+      templateName: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'templateName' is not null or undefined
+      assertParamExists(
+        'setDefaultWorkspaceTemplate',
+        'templateName',
+        templateName,
+      )
+      const localVarPath =
+        `/workspace-template/{templateName}/set-default`.replace(
+          `{${'templateName'}}`,
+          encodeURIComponent(String(templateName)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'PATCH',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * WorkspaceTemplateApi - functional programming interface
+ * @export
+ */
+export const WorkspaceTemplateApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    WorkspaceTemplateApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Delete workspace template data
+     * @summary Delete workspace template data
+     * @param {string} templateName Template name
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteWorkspaceTemplate(
+      templateName: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteWorkspaceTemplate(
+          templateName,
+          force,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceTemplateApi.deleteWorkspaceTemplate']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Find a workspace template
+     * @summary Find a workspace template
+     * @param {string} templateName Template name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findWorkspaceTemplate(
+      templateName: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<WorkspaceTemplate>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.findWorkspaceTemplate(
+          templateName,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceTemplateApi.findWorkspaceTemplate']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get default workspace templates by git url
+     * @summary Get default workspace templates by git url
+     * @param {string} gitUrl Git URL
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getDefaultWorkspaceTemplate(
+      gitUrl: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<WorkspaceTemplate>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getDefaultWorkspaceTemplate(
+          gitUrl,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'WorkspaceTemplateApi.getDefaultWorkspaceTemplate'
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List workspace templates
+     * @summary List workspace templates
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listWorkspaceTemplates(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<WorkspaceTemplate>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.listWorkspaceTemplates(options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceTemplateApi.listWorkspaceTemplates']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Set workspace template data
+     * @summary Set workspace template data
+     * @param {CreateWorkspaceTemplateDTO} workspaceTemplate Workspace template
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async saveWorkspaceTemplate(
+      workspaceTemplate: CreateWorkspaceTemplateDTO,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.saveWorkspaceTemplate(
+          workspaceTemplate,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceTemplateApi.saveWorkspaceTemplate']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Set workspace template to default
+     * @summary Set workspace template to default
+     * @param {string} templateName Template name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setDefaultWorkspaceTemplate(
+      templateName: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.setDefaultWorkspaceTemplate(
+          templateName,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'WorkspaceTemplateApi.setDefaultWorkspaceTemplate'
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * WorkspaceTemplateApi - factory interface
+ * @export
+ */
+export const WorkspaceTemplateApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = WorkspaceTemplateApiFp(configuration)
+  return {
+    /**
+     * Delete workspace template data
+     * @summary Delete workspace template data
+     * @param {string} templateName Template name
+     * @param {boolean} [force] Force
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteWorkspaceTemplate(
+      templateName: string,
+      force?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteWorkspaceTemplate(templateName, force, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Find a workspace template
+     * @summary Find a workspace template
+     * @param {string} templateName Template name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findWorkspaceTemplate(
+      templateName: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WorkspaceTemplate> {
+      return localVarFp
+        .findWorkspaceTemplate(templateName, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get default workspace templates by git url
+     * @summary Get default workspace templates by git url
+     * @param {string} gitUrl Git URL
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getDefaultWorkspaceTemplate(
+      gitUrl: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WorkspaceTemplate> {
+      return localVarFp
+        .getDefaultWorkspaceTemplate(gitUrl, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List workspace templates
+     * @summary List workspace templates
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listWorkspaceTemplates(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<WorkspaceTemplate>> {
+      return localVarFp
+        .listWorkspaceTemplates(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Set workspace template data
+     * @summary Set workspace template data
+     * @param {CreateWorkspaceTemplateDTO} workspaceTemplate Workspace template
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    saveWorkspaceTemplate(
+      workspaceTemplate: CreateWorkspaceTemplateDTO,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .saveWorkspaceTemplate(workspaceTemplate, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Set workspace template to default
+     * @summary Set workspace template to default
+     * @param {string} templateName Template name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setDefaultWorkspaceTemplate(
+      templateName: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .setDefaultWorkspaceTemplate(templateName, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * WorkspaceTemplateApi - object-oriented interface
+ * @export
+ * @class WorkspaceTemplateApi
+ * @extends {BaseAPI}
+ */
+export class WorkspaceTemplateApi extends BaseAPI {
+  /**
+   * Delete workspace template data
+   * @summary Delete workspace template data
+   * @param {string} templateName Template name
+   * @param {boolean} [force] Force
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceTemplateApi
+   */
+  public deleteWorkspaceTemplate(
+    templateName: string,
+    force?: boolean,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceTemplateApiFp(this.configuration)
+      .deleteWorkspaceTemplate(templateName, force, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Find a workspace template
+   * @summary Find a workspace template
+   * @param {string} templateName Template name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceTemplateApi
+   */
+  public findWorkspaceTemplate(
+    templateName: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceTemplateApiFp(this.configuration)
+      .findWorkspaceTemplate(templateName, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get default workspace templates by git url
+   * @summary Get default workspace templates by git url
+   * @param {string} gitUrl Git URL
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceTemplateApi
+   */
+  public getDefaultWorkspaceTemplate(
+    gitUrl: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceTemplateApiFp(this.configuration)
+      .getDefaultWorkspaceTemplate(gitUrl, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List workspace templates
+   * @summary List workspace templates
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceTemplateApi
+   */
+  public listWorkspaceTemplates(options?: RawAxiosRequestConfig) {
+    return WorkspaceTemplateApiFp(this.configuration)
+      .listWorkspaceTemplates(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set workspace template data
+   * @summary Set workspace template data
+   * @param {CreateWorkspaceTemplateDTO} workspaceTemplate Workspace template
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceTemplateApi
+   */
+  public saveWorkspaceTemplate(
+    workspaceTemplate: CreateWorkspaceTemplateDTO,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceTemplateApiFp(this.configuration)
+      .saveWorkspaceTemplate(workspaceTemplate, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set workspace template to default
+   * @summary Set workspace template to default
+   * @param {string} templateName Template name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceTemplateApi
+   */
+  public setDefaultWorkspaceTemplate(
+    templateName: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceTemplateApiFp(this.configuration)
+      .setDefaultWorkspaceTemplate(templateName, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * WorkspaceToolboxApi - axios parameter creator
+ * @export
+ */
+export const WorkspaceToolboxApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Create exec session inside workspace project
+     * @summary Create exec session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {CreateSessionRequest} params Create session request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSession: async (
+      workspaceId: string,
+      params: CreateSessionRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('createSession', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('createSession', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/process/session`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete a session inside workspace project
+     * @summary Delete session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteSession: async (
+      workspaceId: string,
+      sessionId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('deleteSession', 'workspaceId', workspaceId)
+      // verify required parameter 'sessionId' is not null or undefined
+      assertParamExists('deleteSession', 'sessionId', sessionId)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/process/session/{sessionId}`
+          .replace(
+            `{${'workspaceId'}}`,
+            encodeURIComponent(String(workspaceId)),
+          )
+          .replace(`{${'sessionId'}}`, encodeURIComponent(String(sessionId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Create folder inside a workspace
+     * @summary Create folder
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} mode Mode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsCreateFolder: async (
+      workspaceId: string,
+      path: string,
+      mode: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsCreateFolder', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsCreateFolder', 'path', path)
+      // verify required parameter 'mode' is not null or undefined
+      assertParamExists('fsCreateFolder', 'mode', mode)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/folder`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      if (mode !== undefined) {
+        localVarQueryParameter['mode'] = mode
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Delete file inside a workspace
+     * @summary Delete file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsDeleteFile: async (
+      workspaceId: string,
+      path: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsDeleteFile', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsDeleteFile', 'path', path)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/files`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Download file from a workspace
+     * @summary Download file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsDownloadFile: async (
+      workspaceId: string,
+      path: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsDownloadFile', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsDownloadFile', 'path', path)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/download`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Search for text/pattern inside a workspace files
+     * @summary Search for text/pattern in files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} pattern Pattern
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsFindInFiles: async (
+      workspaceId: string,
+      path: string,
+      pattern: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsFindInFiles', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsFindInFiles', 'path', path)
+      // verify required parameter 'pattern' is not null or undefined
+      assertParamExists('fsFindInFiles', 'pattern', pattern)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/find`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      if (pattern !== undefined) {
+        localVarQueryParameter['pattern'] = pattern
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get file info inside a workspace
+     * @summary Get file info
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsGetFileDetails: async (
+      workspaceId: string,
+      path: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsGetFileDetails', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsGetFileDetails', 'path', path)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/info`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List files inside a workspace
+     * @summary List files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} [path] Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsListFiles: async (
+      workspaceId: string,
+      path?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsListFiles', 'workspaceId', workspaceId)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/files`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Create folder inside a workspace
+     * @summary Create folder
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} source Source path
+     * @param {string} destination Destination path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsMoveFile: async (
+      workspaceId: string,
+      source: string,
+      destination: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsMoveFile', 'workspaceId', workspaceId)
+      // verify required parameter 'source' is not null or undefined
+      assertParamExists('fsMoveFile', 'source', source)
+      // verify required parameter 'destination' is not null or undefined
+      assertParamExists('fsMoveFile', 'destination', destination)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/move`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (source !== undefined) {
+        localVarQueryParameter['source'] = source
+      }
+
+      if (destination !== undefined) {
+        localVarQueryParameter['destination'] = destination
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Repleace text/pattern in mutilple files inside a workspace
+     * @summary Repleace text/pattern in files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {ReplaceRequest} replace ReplaceParams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsReplaceInFiles: async (
+      workspaceId: string,
+      replace: ReplaceRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsReplaceInFiles', 'workspaceId', workspaceId)
+      // verify required parameter 'replace' is not null or undefined
+      assertParamExists('fsReplaceInFiles', 'replace', replace)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/replace`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        replace,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Search for files inside a workspace
+     * @summary Search for files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} pattern Pattern
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsSearchFiles: async (
+      workspaceId: string,
+      path: string,
+      pattern: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsSearchFiles', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsSearchFiles', 'path', path)
+      // verify required parameter 'pattern' is not null or undefined
+      assertParamExists('fsSearchFiles', 'pattern', pattern)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/search`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      if (pattern !== undefined) {
+        localVarQueryParameter['pattern'] = pattern
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Set file owner/group/permissions inside a workspace
+     * @summary Set file owner/group/permissions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} [owner] Owner
+     * @param {string} [group] Group
+     * @param {string} [mode] Mode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsSetFilePermissions: async (
+      workspaceId: string,
+      path: string,
+      owner?: string,
+      group?: string,
+      mode?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsSetFilePermissions', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsSetFilePermissions', 'path', path)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/permissions`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      if (owner !== undefined) {
+        localVarQueryParameter['owner'] = owner
+      }
+
+      if (group !== undefined) {
+        localVarQueryParameter['group'] = group
+      }
+
+      if (mode !== undefined) {
+        localVarQueryParameter['mode'] = mode
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Upload file inside a workspace
+     * @summary Upload file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {File} file File
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsUploadFile: async (
+      workspaceId: string,
+      path: string,
+      file: File,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('fsUploadFile', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('fsUploadFile', 'path', path)
+      // verify required parameter 'file' is not null or undefined
+      assertParamExists('fsUploadFile', 'file', file)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/files/upload`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+      const localVarFormParams = new ((configuration &&
+        configuration.formDataCtor) ||
+        FormData)()
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      if (file !== undefined) {
+        localVarFormParams.append('file', file as any)
+      }
+
+      localVarHeaderParameter['Content-Type'] = 'multipart/form-data'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = localVarFormParams
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get logs of a command inside a session inside workspace project Connect with websocket to get a stream of the logs
+     * @summary Get session command logs
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {string} commandId Command ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSessionCommandLogs: async (
+      workspaceId: string,
+      sessionId: string,
+      commandId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('getSessionCommandLogs', 'workspaceId', workspaceId)
+      // verify required parameter 'sessionId' is not null or undefined
+      assertParamExists('getSessionCommandLogs', 'sessionId', sessionId)
+      // verify required parameter 'commandId' is not null or undefined
+      assertParamExists('getSessionCommandLogs', 'commandId', commandId)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/process/session/{sessionId}/command/{commandId}/logs`
+          .replace(
+            `{${'workspaceId'}}`,
+            encodeURIComponent(String(workspaceId)),
+          )
+          .replace(`{${'sessionId'}}`, encodeURIComponent(String(sessionId)))
+          .replace(`{${'commandId'}}`, encodeURIComponent(String(commandId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get workspace directory
+     * @summary Get workspace dir
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getWorkspaceDir: async (
+      workspaceId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('getWorkspaceDir', 'workspaceId', workspaceId)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/workspace-dir`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Add files to git commit
+     * @summary Add files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitAddRequest} params GitAddRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitAddFiles: async (
+      workspaceId: string,
+      params: GitAddRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitAddFiles', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('gitAddFiles', 'params', params)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/git/add`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get branch list from git repository inside a workspace
+     * @summary Get branch list
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitBranchList: async (
+      workspaceId: string,
+      path: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitBranchList', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('gitBranchList', 'path', path)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/git/branches`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Clone git repository inside a workspace
+     * @summary Clone git repository
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitCloneRequest} params GitCloneRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCloneRepository: async (
+      workspaceId: string,
+      params: GitCloneRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitCloneRepository', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('gitCloneRepository', 'params', params)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/git/clone`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Commit changes to git repository inside a workspace
+     * @summary Commit changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitCommitRequest} params GitCommitRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCommitChanges: async (
+      workspaceId: string,
+      params: GitCommitRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitCommitChanges', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('gitCommitChanges', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/git/commit`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get commit history from git repository inside a workspace
+     * @summary Get commit history
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCommitHistory: async (
+      workspaceId: string,
+      path: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitCommitHistory', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('gitCommitHistory', 'path', path)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/git/history`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Create branch on git repository inside a workspace
+     * @summary Create branch
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitBranchRequest} params GitBranchRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCreateBranch: async (
+      workspaceId: string,
+      params: GitBranchRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitCreateBranch', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('gitCreateBranch', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/git/branches`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Get status from git repository inside a workspace
+     * @summary Get git status
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitGitStatus: async (
+      workspaceId: string,
+      path: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitGitStatus', 'workspaceId', workspaceId)
+      // verify required parameter 'path' is not null or undefined
+      assertParamExists('gitGitStatus', 'path', path)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/git/status`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (path !== undefined) {
+        localVarQueryParameter['path'] = path
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Pull changes from remote to git repository inside a workspace
+     * @summary Pull changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitRepoRequest} params Git pull request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitPullChanges: async (
+      workspaceId: string,
+      params: GitRepoRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitPullChanges', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('gitPullChanges', 'params', params)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/git/pull`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Push changes to remote from git repository inside a workspace
+     * @summary Push changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitRepoRequest} params Git push request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitPushChanges: async (
+      workspaceId: string,
+      params: GitRepoRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('gitPushChanges', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('gitPushChanges', 'params', params)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/git/push`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * List sessions inside workspace project
+     * @summary List sessions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listSessions: async (
+      workspaceId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('listSessions', 'workspaceId', workspaceId)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/process/session`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * The Completion request is sent from the client to the server to compute completion items at a given cursor position.
+     * @summary Get Lsp Completions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspCompletionParams} params LspCompletionParams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspCompletions: async (
+      workspaceId: string,
+      params: LspCompletionParams,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspCompletions', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('lspCompletions', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/lsp/completions`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * The document close notification is sent from the client to the server when the document got closed in the client.
+     * @summary Call Lsp DidClose
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspDocumentRequest} params LspDocumentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspDidClose: async (
+      workspaceId: string,
+      params: LspDocumentRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspDidClose', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('lspDidClose', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/lsp/did-close`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * The document open notification is sent from the client to the server to signal newly opened text documents.
+     * @summary Call Lsp DidOpen
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspDocumentRequest} params LspDocumentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspDidOpen: async (
+      workspaceId: string,
+      params: LspDocumentRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspDidOpen', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('lspDidOpen', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/lsp/did-open`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * The document symbol request is sent from the client to the server.
+     * @summary Call Lsp DocumentSymbols
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} languageId Language ID
+     * @param {string} pathToProject Path to project
+     * @param {string} uri Document Uri
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspDocumentSymbols: async (
+      workspaceId: string,
+      languageId: string,
+      pathToProject: string,
+      uri: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspDocumentSymbols', 'workspaceId', workspaceId)
+      // verify required parameter 'languageId' is not null or undefined
+      assertParamExists('lspDocumentSymbols', 'languageId', languageId)
+      // verify required parameter 'pathToProject' is not null or undefined
+      assertParamExists('lspDocumentSymbols', 'pathToProject', pathToProject)
+      // verify required parameter 'uri' is not null or undefined
+      assertParamExists('lspDocumentSymbols', 'uri', uri)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/lsp/document-symbols`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (languageId !== undefined) {
+        localVarQueryParameter['languageId'] = languageId
+      }
+
+      if (pathToProject !== undefined) {
+        localVarQueryParameter['pathToProject'] = pathToProject
+      }
+
+      if (uri !== undefined) {
+        localVarQueryParameter['uri'] = uri
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Start Lsp server process inside a workspace
+     * @summary Start Lsp server
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspServerRequest} params LspServerRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspStart: async (
+      workspaceId: string,
+      params: LspServerRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspStart', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('lspStart', 'params', params)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/lsp/start`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Stop Lsp server process inside a workspace
+     * @summary Stop Lsp server
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspServerRequest} params LspServerRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspStop: async (
+      workspaceId: string,
+      params: LspServerRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspStop', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('lspStop', 'params', params)
+      const localVarPath = `/workspace/{workspaceId}/toolbox/lsp/stop`.replace(
+        `{${'workspaceId'}}`,
+        encodeURIComponent(String(workspaceId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * The workspace symbol request is sent from the client to the server to list project-wide symbols matching the query string.
+     * @summary Call Lsp WorkspaceSymbols
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} languageId Language ID
+     * @param {string} pathToProject Path to project
+     * @param {string} query Symbol Query
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspWorkspaceSymbols: async (
+      workspaceId: string,
+      languageId: string,
+      pathToProject: string,
+      query: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('lspWorkspaceSymbols', 'workspaceId', workspaceId)
+      // verify required parameter 'languageId' is not null or undefined
+      assertParamExists('lspWorkspaceSymbols', 'languageId', languageId)
+      // verify required parameter 'pathToProject' is not null or undefined
+      assertParamExists('lspWorkspaceSymbols', 'pathToProject', pathToProject)
+      // verify required parameter 'query' is not null or undefined
+      assertParamExists('lspWorkspaceSymbols', 'query', query)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/lsp/workspace-symbols`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      if (languageId !== undefined) {
+        localVarQueryParameter['languageId'] = languageId
+      }
+
+      if (pathToProject !== undefined) {
+        localVarQueryParameter['pathToProject'] = pathToProject
+      }
+
+      if (query !== undefined) {
+        localVarQueryParameter['query'] = query
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Execute command synchronously inside a workspace
+     * @summary Execute command
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {ExecuteRequest} params Execute command request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    processExecuteCommand: async (
+      workspaceId: string,
+      params: ExecuteRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('processExecuteCommand', 'workspaceId', workspaceId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('processExecuteCommand', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/process/execute`.replace(
+          `{${'workspaceId'}}`,
+          encodeURIComponent(String(workspaceId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Execute command inside a session inside workspace project
+     * @summary Execute command in session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {SessionExecuteRequest} params Execute command request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    sessionExecuteCommand: async (
+      workspaceId: string,
+      sessionId: string,
+      params: SessionExecuteRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'workspaceId' is not null or undefined
+      assertParamExists('sessionExecuteCommand', 'workspaceId', workspaceId)
+      // verify required parameter 'sessionId' is not null or undefined
+      assertParamExists('sessionExecuteCommand', 'sessionId', sessionId)
+      // verify required parameter 'params' is not null or undefined
+      assertParamExists('sessionExecuteCommand', 'params', params)
+      const localVarPath =
+        `/workspace/{workspaceId}/toolbox/process/session/{sessionId}/exec`
+          .replace(
+            `{${'workspaceId'}}`,
+            encodeURIComponent(String(workspaceId)),
+          )
+          .replace(`{${'sessionId'}}`, encodeURIComponent(String(sessionId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication Bearer required
+      await setApiKeyToObject(
+        localVarHeaderParameter,
+        'Authorization',
+        configuration,
+      )
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        params,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * WorkspaceToolboxApi - functional programming interface
+ * @export
+ */
+export const WorkspaceToolboxApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    WorkspaceToolboxApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Create exec session inside workspace project
+     * @summary Create exec session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {CreateSessionRequest} params Create session request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createSession(
+      workspaceId: string,
+      params: CreateSessionRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createSession(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.createSession']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete a session inside workspace project
+     * @summary Delete session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteSession(
+      workspaceId: string,
+      sessionId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSession(
+        workspaceId,
+        sessionId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.deleteSession']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Create folder inside a workspace
+     * @summary Create folder
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} mode Mode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsCreateFolder(
+      workspaceId: string,
+      path: string,
+      mode: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsCreateFolder(
+        workspaceId,
+        path,
+        mode,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsCreateFolder']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Delete file inside a workspace
+     * @summary Delete file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsDeleteFile(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsDeleteFile(
+        workspaceId,
+        path,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsDeleteFile']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Download file from a workspace
+     * @summary Download file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsDownloadFile(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsDownloadFile(
+        workspaceId,
+        path,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsDownloadFile']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Search for text/pattern inside a workspace files
+     * @summary Search for text/pattern in files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} pattern Pattern
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsFindInFiles(
+      workspaceId: string,
+      path: string,
+      pattern: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Match>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsFindInFiles(
+        workspaceId,
+        path,
+        pattern,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsFindInFiles']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get file info inside a workspace
+     * @summary Get file info
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsGetFileDetails(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileInfo>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fsGetFileDetails(
+          workspaceId,
+          path,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsGetFileDetails']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List files inside a workspace
+     * @summary List files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} [path] Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsListFiles(
+      workspaceId: string,
+      path?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<FileInfo>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsListFiles(
+        workspaceId,
+        path,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsListFiles']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Create folder inside a workspace
+     * @summary Create folder
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} source Source path
+     * @param {string} destination Destination path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsMoveFile(
+      workspaceId: string,
+      source: string,
+      destination: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsMoveFile(
+        workspaceId,
+        source,
+        destination,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsMoveFile']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Repleace text/pattern in mutilple files inside a workspace
+     * @summary Repleace text/pattern in files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {ReplaceRequest} replace ReplaceParams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsReplaceInFiles(
+      workspaceId: string,
+      replace: ReplaceRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ReplaceResult>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fsReplaceInFiles(
+          workspaceId,
+          replace,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsReplaceInFiles']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Search for files inside a workspace
+     * @summary Search for files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} pattern Pattern
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsSearchFiles(
+      workspaceId: string,
+      path: string,
+      pattern: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<SearchFilesResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsSearchFiles(
+        workspaceId,
+        path,
+        pattern,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsSearchFiles']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Set file owner/group/permissions inside a workspace
+     * @summary Set file owner/group/permissions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} [owner] Owner
+     * @param {string} [group] Group
+     * @param {string} [mode] Mode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsSetFilePermissions(
+      workspaceId: string,
+      path: string,
+      owner?: string,
+      group?: string,
+      mode?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.fsSetFilePermissions(
+          workspaceId,
+          path,
+          owner,
+          group,
+          mode,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsSetFilePermissions']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Upload file inside a workspace
+     * @summary Upload file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {File} file File
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async fsUploadFile(
+      workspaceId: string,
+      path: string,
+      file: File,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.fsUploadFile(
+        workspaceId,
+        path,
+        file,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.fsUploadFile']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get logs of a command inside a session inside workspace project Connect with websocket to get a stream of the logs
+     * @summary Get session command logs
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {string} commandId Command ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSessionCommandLogs(
+      workspaceId: string,
+      sessionId: string,
+      commandId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getSessionCommandLogs(
+          workspaceId,
+          sessionId,
+          commandId,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.getSessionCommandLogs']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get workspace directory
+     * @summary Get workspace dir
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getWorkspaceDir(
+      workspaceId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<WorkspaceDirResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkspaceDir(
+        workspaceId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.getWorkspaceDir']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Add files to git commit
+     * @summary Add files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitAddRequest} params GitAddRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitAddFiles(
+      workspaceId: string,
+      params: GitAddRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.gitAddFiles(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitAddFiles']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get branch list from git repository inside a workspace
+     * @summary Get branch list
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitBranchList(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ListBranchResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.gitBranchList(
+        workspaceId,
+        path,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitBranchList']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Clone git repository inside a workspace
+     * @summary Clone git repository
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitCloneRequest} params GitCloneRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitCloneRepository(
+      workspaceId: string,
+      params: GitCloneRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.gitCloneRepository(
+          workspaceId,
+          params,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitCloneRepository']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Commit changes to git repository inside a workspace
+     * @summary Commit changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitCommitRequest} params GitCommitRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitCommitChanges(
+      workspaceId: string,
+      params: GitCommitRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<GitCommitResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.gitCommitChanges(
+          workspaceId,
+          params,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitCommitChanges']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get commit history from git repository inside a workspace
+     * @summary Get commit history
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitCommitHistory(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<GitCommitInfo>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.gitCommitHistory(
+          workspaceId,
+          path,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitCommitHistory']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Create branch on git repository inside a workspace
+     * @summary Create branch
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitBranchRequest} params GitBranchRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitCreateBranch(
+      workspaceId: string,
+      params: GitBranchRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.gitCreateBranch(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitCreateBranch']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Get status from git repository inside a workspace
+     * @summary Get git status
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitGitStatus(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GitStatus>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.gitGitStatus(
+        workspaceId,
+        path,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitGitStatus']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Pull changes from remote to git repository inside a workspace
+     * @summary Pull changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitRepoRequest} params Git pull request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitPullChanges(
+      workspaceId: string,
+      params: GitRepoRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.gitPullChanges(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitPullChanges']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Push changes to remote from git repository inside a workspace
+     * @summary Push changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitRepoRequest} params Git push request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async gitPushChanges(
+      workspaceId: string,
+      params: GitRepoRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.gitPushChanges(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.gitPushChanges']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * List sessions inside workspace project
+     * @summary List sessions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listSessions(
+      workspaceId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Session>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listSessions(
+        workspaceId,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.listSessions']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * The Completion request is sent from the client to the server to compute completion items at a given cursor position.
+     * @summary Get Lsp Completions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspCompletionParams} params LspCompletionParams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspCompletions(
+      workspaceId: string,
+      params: LspCompletionParams,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompletionList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.lspCompletions(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspCompletions']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * The document close notification is sent from the client to the server when the document got closed in the client.
+     * @summary Call Lsp DidClose
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspDocumentRequest} params LspDocumentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspDidClose(
+      workspaceId: string,
+      params: LspDocumentRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.lspDidClose(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspDidClose']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * The document open notification is sent from the client to the server to signal newly opened text documents.
+     * @summary Call Lsp DidOpen
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspDocumentRequest} params LspDocumentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspDidOpen(
+      workspaceId: string,
+      params: LspDocumentRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.lspDidOpen(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspDidOpen']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * The document symbol request is sent from the client to the server.
+     * @summary Call Lsp DocumentSymbols
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} languageId Language ID
+     * @param {string} pathToProject Path to project
+     * @param {string} uri Document Uri
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspDocumentSymbols(
+      workspaceId: string,
+      languageId: string,
+      pathToProject: string,
+      uri: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<LspSymbol>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.lspDocumentSymbols(
+          workspaceId,
+          languageId,
+          pathToProject,
+          uri,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspDocumentSymbols']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Start Lsp server process inside a workspace
+     * @summary Start Lsp server
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspServerRequest} params LspServerRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspStart(
+      workspaceId: string,
+      params: LspServerRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.lspStart(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspStart']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Stop Lsp server process inside a workspace
+     * @summary Stop Lsp server
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspServerRequest} params LspServerRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspStop(
+      workspaceId: string,
+      params: LspServerRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.lspStop(
+        workspaceId,
+        params,
+        options,
+      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspStop']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * The workspace symbol request is sent from the client to the server to list project-wide symbols matching the query string.
+     * @summary Call Lsp WorkspaceSymbols
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} languageId Language ID
+     * @param {string} pathToProject Path to project
+     * @param {string} query Symbol Query
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async lspWorkspaceSymbols(
+      workspaceId: string,
+      languageId: string,
+      pathToProject: string,
+      query: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<LspSymbol>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.lspWorkspaceSymbols(
+          workspaceId,
+          languageId,
+          pathToProject,
+          query,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.lspWorkspaceSymbols']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Execute command synchronously inside a workspace
+     * @summary Execute command
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {ExecuteRequest} params Execute command request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async processExecuteCommand(
+      workspaceId: string,
+      params: ExecuteRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ExecuteResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.processExecuteCommand(
+          workspaceId,
+          params,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.processExecuteCommand']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Execute command inside a session inside workspace project
+     * @summary Execute command in session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {SessionExecuteRequest} params Execute command request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async sessionExecuteCommand(
+      workspaceId: string,
+      sessionId: string,
+      params: SessionExecuteRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<SessionExecuteResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.sessionExecuteCommand(
+          workspaceId,
+          sessionId,
+          params,
+          options,
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['WorkspaceToolboxApi.sessionExecuteCommand']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * WorkspaceToolboxApi - factory interface
+ * @export
+ */
+export const WorkspaceToolboxApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = WorkspaceToolboxApiFp(configuration)
+  return {
+    /**
+     * Create exec session inside workspace project
+     * @summary Create exec session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {CreateSessionRequest} params Create session request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSession(
+      workspaceId: string,
+      params: CreateSessionRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .createSession(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete a session inside workspace project
+     * @summary Delete session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteSession(
+      workspaceId: string,
+      sessionId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteSession(workspaceId, sessionId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Create folder inside a workspace
+     * @summary Create folder
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} mode Mode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsCreateFolder(
+      workspaceId: string,
+      path: string,
+      mode: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fsCreateFolder(workspaceId, path, mode, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Delete file inside a workspace
+     * @summary Delete file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsDeleteFile(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fsDeleteFile(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Download file from a workspace
+     * @summary Download file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsDownloadFile(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<File> {
+      return localVarFp
+        .fsDownloadFile(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Search for text/pattern inside a workspace files
+     * @summary Search for text/pattern in files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} pattern Pattern
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsFindInFiles(
+      workspaceId: string,
+      path: string,
+      pattern: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<Match>> {
+      return localVarFp
+        .fsFindInFiles(workspaceId, path, pattern, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get file info inside a workspace
+     * @summary Get file info
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsGetFileDetails(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<FileInfo> {
+      return localVarFp
+        .fsGetFileDetails(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List files inside a workspace
+     * @summary List files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} [path] Path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsListFiles(
+      workspaceId: string,
+      path?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<FileInfo>> {
+      return localVarFp
+        .fsListFiles(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Create folder inside a workspace
+     * @summary Create folder
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} source Source path
+     * @param {string} destination Destination path
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsMoveFile(
+      workspaceId: string,
+      source: string,
+      destination: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fsMoveFile(workspaceId, source, destination, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Repleace text/pattern in mutilple files inside a workspace
+     * @summary Repleace text/pattern in files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {ReplaceRequest} replace ReplaceParams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsReplaceInFiles(
+      workspaceId: string,
+      replace: ReplaceRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<ReplaceResult>> {
+      return localVarFp
+        .fsReplaceInFiles(workspaceId, replace, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Search for files inside a workspace
+     * @summary Search for files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} pattern Pattern
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsSearchFiles(
+      workspaceId: string,
+      path: string,
+      pattern: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SearchFilesResponse> {
+      return localVarFp
+        .fsSearchFiles(workspaceId, path, pattern, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Set file owner/group/permissions inside a workspace
+     * @summary Set file owner/group/permissions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {string} [owner] Owner
+     * @param {string} [group] Group
+     * @param {string} [mode] Mode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsSetFilePermissions(
+      workspaceId: string,
+      path: string,
+      owner?: string,
+      group?: string,
+      mode?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fsSetFilePermissions(workspaceId, path, owner, group, mode, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Upload file inside a workspace
+     * @summary Upload file
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path
+     * @param {File} file File
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    fsUploadFile(
+      workspaceId: string,
+      path: string,
+      file: File,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .fsUploadFile(workspaceId, path, file, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get logs of a command inside a session inside workspace project Connect with websocket to get a stream of the logs
+     * @summary Get session command logs
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {string} commandId Command ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSessionCommandLogs(
+      workspaceId: string,
+      sessionId: string,
+      commandId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<string> {
+      return localVarFp
+        .getSessionCommandLogs(workspaceId, sessionId, commandId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get workspace directory
+     * @summary Get workspace dir
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getWorkspaceDir(
+      workspaceId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<WorkspaceDirResponse> {
+      return localVarFp
+        .getWorkspaceDir(workspaceId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Add files to git commit
+     * @summary Add files
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitAddRequest} params GitAddRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitAddFiles(
+      workspaceId: string,
+      params: GitAddRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .gitAddFiles(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get branch list from git repository inside a workspace
+     * @summary Get branch list
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitBranchList(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListBranchResponse> {
+      return localVarFp
+        .gitBranchList(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Clone git repository inside a workspace
+     * @summary Clone git repository
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitCloneRequest} params GitCloneRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCloneRepository(
+      workspaceId: string,
+      params: GitCloneRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .gitCloneRepository(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Commit changes to git repository inside a workspace
+     * @summary Commit changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitCommitRequest} params GitCommitRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCommitChanges(
+      workspaceId: string,
+      params: GitCommitRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GitCommitResponse> {
+      return localVarFp
+        .gitCommitChanges(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get commit history from git repository inside a workspace
+     * @summary Get commit history
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCommitHistory(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<GitCommitInfo>> {
+      return localVarFp
+        .gitCommitHistory(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Create branch on git repository inside a workspace
+     * @summary Create branch
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitBranchRequest} params GitBranchRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitCreateBranch(
+      workspaceId: string,
+      params: GitBranchRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .gitCreateBranch(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Get status from git repository inside a workspace
+     * @summary Get git status
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} path Path to git repository
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitGitStatus(
+      workspaceId: string,
+      path: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GitStatus> {
+      return localVarFp
+        .gitGitStatus(workspaceId, path, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Pull changes from remote to git repository inside a workspace
+     * @summary Pull changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitRepoRequest} params Git pull request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitPullChanges(
+      workspaceId: string,
+      params: GitRepoRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .gitPullChanges(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Push changes to remote from git repository inside a workspace
+     * @summary Push changes
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {GitRepoRequest} params Git push request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    gitPushChanges(
+      workspaceId: string,
+      params: GitRepoRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .gitPushChanges(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * List sessions inside workspace project
+     * @summary List sessions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listSessions(
+      workspaceId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<Session>> {
+      return localVarFp
+        .listSessions(workspaceId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * The Completion request is sent from the client to the server to compute completion items at a given cursor position.
+     * @summary Get Lsp Completions
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspCompletionParams} params LspCompletionParams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspCompletions(
+      workspaceId: string,
+      params: LspCompletionParams,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CompletionList> {
+      return localVarFp
+        .lspCompletions(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * The document close notification is sent from the client to the server when the document got closed in the client.
+     * @summary Call Lsp DidClose
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspDocumentRequest} params LspDocumentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspDidClose(
+      workspaceId: string,
+      params: LspDocumentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .lspDidClose(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * The document open notification is sent from the client to the server to signal newly opened text documents.
+     * @summary Call Lsp DidOpen
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspDocumentRequest} params LspDocumentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspDidOpen(
+      workspaceId: string,
+      params: LspDocumentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .lspDidOpen(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * The document symbol request is sent from the client to the server.
+     * @summary Call Lsp DocumentSymbols
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} languageId Language ID
+     * @param {string} pathToProject Path to project
+     * @param {string} uri Document Uri
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspDocumentSymbols(
+      workspaceId: string,
+      languageId: string,
+      pathToProject: string,
+      uri: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<LspSymbol>> {
+      return localVarFp
+        .lspDocumentSymbols(
+          workspaceId,
+          languageId,
+          pathToProject,
+          uri,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Start Lsp server process inside a workspace
+     * @summary Start Lsp server
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspServerRequest} params LspServerRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspStart(
+      workspaceId: string,
+      params: LspServerRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .lspStart(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Stop Lsp server process inside a workspace
+     * @summary Stop Lsp server
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {LspServerRequest} params LspServerRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspStop(
+      workspaceId: string,
+      params: LspServerRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .lspStop(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * The workspace symbol request is sent from the client to the server to list project-wide symbols matching the query string.
+     * @summary Call Lsp WorkspaceSymbols
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} languageId Language ID
+     * @param {string} pathToProject Path to project
+     * @param {string} query Symbol Query
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    lspWorkspaceSymbols(
+      workspaceId: string,
+      languageId: string,
+      pathToProject: string,
+      query: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<LspSymbol>> {
+      return localVarFp
+        .lspWorkspaceSymbols(
+          workspaceId,
+          languageId,
+          pathToProject,
+          query,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Execute command synchronously inside a workspace
+     * @summary Execute command
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {ExecuteRequest} params Execute command request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    processExecuteCommand(
+      workspaceId: string,
+      params: ExecuteRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ExecuteResponse> {
+      return localVarFp
+        .processExecuteCommand(workspaceId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Execute command inside a session inside workspace project
+     * @summary Execute command in session
+     * @param {string} workspaceId Workspace ID or Name
+     * @param {string} sessionId Session ID
+     * @param {SessionExecuteRequest} params Execute command request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    sessionExecuteCommand(
+      workspaceId: string,
+      sessionId: string,
+      params: SessionExecuteRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SessionExecuteResponse> {
+      return localVarFp
+        .sessionExecuteCommand(workspaceId, sessionId, params, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * WorkspaceToolboxApi - object-oriented interface
+ * @export
+ * @class WorkspaceToolboxApi
+ * @extends {BaseAPI}
+ */
+export class WorkspaceToolboxApi extends BaseAPI {
+  /**
+   * Create exec session inside workspace project
+   * @summary Create exec session
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {CreateSessionRequest} params Create session request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public createSession(
+    workspaceId: string,
+    params: CreateSessionRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .createSession(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete a session inside workspace project
+   * @summary Delete session
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} sessionId Session ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public deleteSession(
+    workspaceId: string,
+    sessionId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .deleteSession(workspaceId, sessionId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Create folder inside a workspace
+   * @summary Create folder
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {string} mode Mode
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsCreateFolder(
+    workspaceId: string,
+    path: string,
+    mode: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsCreateFolder(workspaceId, path, mode, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Delete file inside a workspace
+   * @summary Delete file
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsDeleteFile(
+    workspaceId: string,
+    path: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsDeleteFile(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Download file from a workspace
+   * @summary Download file
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsDownloadFile(
+    workspaceId: string,
+    path: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsDownloadFile(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Search for text/pattern inside a workspace files
+   * @summary Search for text/pattern in files
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {string} pattern Pattern
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsFindInFiles(
+    workspaceId: string,
+    path: string,
+    pattern: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsFindInFiles(workspaceId, path, pattern, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get file info inside a workspace
+   * @summary Get file info
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsGetFileDetails(
+    workspaceId: string,
+    path: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsGetFileDetails(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List files inside a workspace
+   * @summary List files
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} [path] Path
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsListFiles(
+    workspaceId: string,
+    path?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsListFiles(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Create folder inside a workspace
+   * @summary Create folder
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} source Source path
+   * @param {string} destination Destination path
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsMoveFile(
+    workspaceId: string,
+    source: string,
+    destination: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsMoveFile(workspaceId, source, destination, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Repleace text/pattern in mutilple files inside a workspace
+   * @summary Repleace text/pattern in files
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {ReplaceRequest} replace ReplaceParams
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsReplaceInFiles(
+    workspaceId: string,
+    replace: ReplaceRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsReplaceInFiles(workspaceId, replace, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Search for files inside a workspace
+   * @summary Search for files
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {string} pattern Pattern
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsSearchFiles(
+    workspaceId: string,
+    path: string,
+    pattern: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsSearchFiles(workspaceId, path, pattern, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set file owner/group/permissions inside a workspace
+   * @summary Set file owner/group/permissions
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {string} [owner] Owner
+   * @param {string} [group] Group
+   * @param {string} [mode] Mode
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsSetFilePermissions(
+    workspaceId: string,
+    path: string,
+    owner?: string,
+    group?: string,
+    mode?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsSetFilePermissions(workspaceId, path, owner, group, mode, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Upload file inside a workspace
+   * @summary Upload file
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path
+   * @param {File} file File
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public fsUploadFile(
+    workspaceId: string,
+    path: string,
+    file: File,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .fsUploadFile(workspaceId, path, file, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get logs of a command inside a session inside workspace project Connect with websocket to get a stream of the logs
+   * @summary Get session command logs
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} sessionId Session ID
+   * @param {string} commandId Command ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public getSessionCommandLogs(
+    workspaceId: string,
+    sessionId: string,
+    commandId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .getSessionCommandLogs(workspaceId, sessionId, commandId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get workspace directory
+   * @summary Get workspace dir
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public getWorkspaceDir(workspaceId: string, options?: RawAxiosRequestConfig) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .getWorkspaceDir(workspaceId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Add files to git commit
+   * @summary Add files
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {GitAddRequest} params GitAddRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitAddFiles(
+    workspaceId: string,
+    params: GitAddRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitAddFiles(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get branch list from git repository inside a workspace
+   * @summary Get branch list
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path to git repository
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitBranchList(
+    workspaceId: string,
+    path: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitBranchList(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Clone git repository inside a workspace
+   * @summary Clone git repository
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {GitCloneRequest} params GitCloneRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitCloneRepository(
+    workspaceId: string,
+    params: GitCloneRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitCloneRepository(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Commit changes to git repository inside a workspace
+   * @summary Commit changes
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {GitCommitRequest} params GitCommitRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitCommitChanges(
+    workspaceId: string,
+    params: GitCommitRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitCommitChanges(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get commit history from git repository inside a workspace
+   * @summary Get commit history
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path to git repository
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitCommitHistory(
+    workspaceId: string,
+    path: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitCommitHistory(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Create branch on git repository inside a workspace
+   * @summary Create branch
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {GitBranchRequest} params GitBranchRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitCreateBranch(
+    workspaceId: string,
+    params: GitBranchRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitCreateBranch(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Get status from git repository inside a workspace
+   * @summary Get git status
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} path Path to git repository
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitGitStatus(
+    workspaceId: string,
+    path: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitGitStatus(workspaceId, path, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Pull changes from remote to git repository inside a workspace
+   * @summary Pull changes
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {GitRepoRequest} params Git pull request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitPullChanges(
+    workspaceId: string,
+    params: GitRepoRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitPullChanges(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Push changes to remote from git repository inside a workspace
+   * @summary Push changes
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {GitRepoRequest} params Git push request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public gitPushChanges(
+    workspaceId: string,
+    params: GitRepoRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .gitPushChanges(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * List sessions inside workspace project
+   * @summary List sessions
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public listSessions(workspaceId: string, options?: RawAxiosRequestConfig) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .listSessions(workspaceId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * The Completion request is sent from the client to the server to compute completion items at a given cursor position.
+   * @summary Get Lsp Completions
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {LspCompletionParams} params LspCompletionParams
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspCompletions(
+    workspaceId: string,
+    params: LspCompletionParams,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspCompletions(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * The document close notification is sent from the client to the server when the document got closed in the client.
+   * @summary Call Lsp DidClose
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {LspDocumentRequest} params LspDocumentRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspDidClose(
+    workspaceId: string,
+    params: LspDocumentRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspDidClose(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * The document open notification is sent from the client to the server to signal newly opened text documents.
+   * @summary Call Lsp DidOpen
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {LspDocumentRequest} params LspDocumentRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspDidOpen(
+    workspaceId: string,
+    params: LspDocumentRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspDidOpen(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * The document symbol request is sent from the client to the server.
+   * @summary Call Lsp DocumentSymbols
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} languageId Language ID
+   * @param {string} pathToProject Path to project
+   * @param {string} uri Document Uri
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspDocumentSymbols(
+    workspaceId: string,
+    languageId: string,
+    pathToProject: string,
+    uri: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspDocumentSymbols(workspaceId, languageId, pathToProject, uri, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Start Lsp server process inside a workspace
+   * @summary Start Lsp server
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {LspServerRequest} params LspServerRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspStart(
+    workspaceId: string,
+    params: LspServerRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspStart(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Stop Lsp server process inside a workspace
+   * @summary Stop Lsp server
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {LspServerRequest} params LspServerRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspStop(
+    workspaceId: string,
+    params: LspServerRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspStop(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * The workspace symbol request is sent from the client to the server to list project-wide symbols matching the query string.
+   * @summary Call Lsp WorkspaceSymbols
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} languageId Language ID
+   * @param {string} pathToProject Path to project
+   * @param {string} query Symbol Query
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public lspWorkspaceSymbols(
+    workspaceId: string,
+    languageId: string,
+    pathToProject: string,
+    query: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .lspWorkspaceSymbols(
+        workspaceId,
+        languageId,
+        pathToProject,
+        query,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Execute command synchronously inside a workspace
+   * @summary Execute command
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {ExecuteRequest} params Execute command request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public processExecuteCommand(
+    workspaceId: string,
+    params: ExecuteRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .processExecuteCommand(workspaceId, params, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Execute command inside a session inside workspace project
+   * @summary Execute command in session
+   * @param {string} workspaceId Workspace ID or Name
+   * @param {string} sessionId Session ID
+   * @param {SessionExecuteRequest} params Execute command request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WorkspaceToolboxApi
+   */
+  public sessionExecuteCommand(
+    workspaceId: string,
+    sessionId: string,
+    params: SessionExecuteRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WorkspaceToolboxApiFp(this.configuration)
+      .sessionExecuteCommand(workspaceId, sessionId, params, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

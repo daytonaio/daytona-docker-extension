@@ -24,8 +24,8 @@ import Header from './shared/Header'
 import {
   GitProvider,
   GitRepository,
-  ProviderTarget,
   Sample,
+  TargetDTO,
   WorkspaceDTO,
 } from '../api-client'
 import { useApiClient } from '../providers/ApiClientProvider'
@@ -48,7 +48,7 @@ const CreateWorkspace = () => {
     null,
   )
   const [workspace, setWorkspace] = useState<WorkspaceDTO | null>(null)
-  const [targets, setTargets] = useState<ProviderTarget[]>([])
+  const [targets, setTargets] = useState<TargetDTO[]>([])
   const [samples, setSamples] = useState<Sample[]>([])
   const {
     workspaceApiClient,
@@ -130,7 +130,7 @@ const CreateWorkspace = () => {
     if (targetApiClient) {
       targetApiClient
         .listTargets()
-        .then((response: AxiosResponse<ProviderTarget[], any>) => {
+        .then((response: AxiosResponse<TargetDTO[], any>) => {
           if (response.data.length > 0) {
             setTargets(response.data)
             setValue('target', response.data[0].name)
@@ -168,7 +168,7 @@ const CreateWorkspace = () => {
     if (createdWorkspaceId && activeStep === 2 && workspaceApiClient) {
       const fetchWorkspace = async () => {
         try {
-          const response = await workspaceApiClient.getWorkspace(
+          const response = await workspaceApiClient.findWorkspace(
             createdWorkspaceId,
           )
           setWorkspace(response.data)
@@ -280,7 +280,7 @@ const CreateWorkspace = () => {
   const handleDelete = () => {
     if (workspaceApiClient) {
       workspaceApiClient
-        .removeWorkspace(createdWorkspaceId as string, true)
+        .deleteWorkspace(createdWorkspaceId as string, true)
         .then(() => {
           navigate('/')
         })
