@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-for /f "delims=" %%i in ('where /r . daytona.exe') do set daytona_path=%%i
+for /f "delims=" %%i in ('where /r "%USERPROFILE%\AppData\Roaming\bin\daytona" daytona.exe') do set daytona_path=%%i
 
 if not defined daytona_path (
     echo Daytona executable not found
